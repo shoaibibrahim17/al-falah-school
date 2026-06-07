@@ -1,0 +1,40 @@
+---
+import { School, ArrowRight } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+---
+
+<section id="about" class="py-12 lg:py-24 bg-ivory">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+      <div aria-hidden="true">
+        <div class="aspect-[4/3] rounded-2xl bg-gradient-to-br from-deep-green/10 to-gold/10 border border-ivory-dark flex items-center justify-center">
+          <div class="text-center p-8">
+            <School class="w-16 h-16 text-deep-green/40 mx-auto mb-3" />
+            <p class="text-slate font-medium">{SCHOOL.about.imagePlaceholder}</p>
+            <p class="text-slate-light text-sm mt-1">{SCHOOL.location.full}</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-5 sm:mb-6 lg:mb-8">
+          <span class="text-gold">About</span> {SCHOOL.about.heading.split(" ").slice(1).join(" ")}
+        </h2>
+        <div class="space-y-4">
+          {SCHOOL.about.paragraphs.map((p) => (
+            <p class="text-slate leading-relaxed text-base sm:text-lg">{p}</p>
+          ))}
+        </div>
+        <div class="mt-8">
+          <a
+            href={SCHOOL.about.linkHref}
+            class="inline-flex items-center gap-2 text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-gold cursor-pointer"
+          >
+            <span>{SCHOOL.about.linkText}</span>
+            <ArrowRight class="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

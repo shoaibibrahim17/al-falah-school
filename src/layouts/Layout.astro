@@ -1,23 +1,65 @@
+---
+import "../styles/global.css";
+import { SCHOOL } from "../data/school";
+
+const { title } = Astro.props;
+const pageTitle = title ? `${title} | ${SCHOOL.shortName}` : `${SCHOOL.name} | ${SCHOOL.tagline}`;
+const canonicalUrl = SCHOOL.seo.canonicalUrl;
+const ogImage = `${canonicalUrl}${SCHOOL.seo.ogImage}`;
+
+const structuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "School",
+  name: SCHOOL.name,
+  description: SCHOOL.description,
+  url: canonicalUrl,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: SCHOOL.location.address,
+    addressLocality: SCHOOL.location.city,
+    addressRegion: SCHOOL.location.state,
+    addressCountry: "IN",
+  },
+  telephone: SCHOOL.contact.phone,
+  email: SCHOOL.contact.email,
+});
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={SCHOOL.description} />
+    <meta name="theme-color" content="#0D5E3E" />
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SCHOOL.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={SCHOOL.description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_IN" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={SCHOOL.description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Crimson+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>{pageTitle}</title>
+
+    <script type="application/ld+json" set:html={structuredData}></script>
+  </head>
+  <body class="bg-white text-charcoal">
+    <slot />
+    <script src="../scripts/animations.ts"></script>
+  </body>
+</html>

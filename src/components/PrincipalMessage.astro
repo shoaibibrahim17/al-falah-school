@@ -1,0 +1,26 @@
+---
+import { Quote, User } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+---
+
+<section class="py-12 lg:py-24 bg-white">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div data-animate="fade-up" class="text-center">
+      <Quote class="w-12 h-12 max-sm:w-8 max-sm:h-8 text-gold/30 mx-auto mb-4 sm:mb-6" aria-hidden="true" />
+      <blockquote class="text-lg sm:text-xl lg:text-2xl font-serif font-medium text-charcoal leading-relaxed mb-8 text-balance">
+        &ldquo;{SCHOOL.principal.message}&rdquo;
+      </blockquote>
+      <div class="flex items-center justify-center gap-4">
+        <div class="w-16 h-16 rounded-full bg-deep-green/10 flex items-center justify-center" aria-hidden="true">
+          <User class="w-8 h-8 text-deep-green" />
+        </div>
+        <div class="text-left">
+          <cite class="not-italic">
+            <div class="font-bold font-serif text-lg text-charcoal">{SCHOOL.principal.name}</div>
+            <div class="text-slate text-sm">{SCHOOL.principal.role}</div>
+          </cite>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

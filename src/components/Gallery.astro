@@ -1,0 +1,38 @@
+---
+import { Image } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+---
+
+<section id="gallery" class="py-12 lg:py-24 bg-ivory">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-16">
+      <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4">
+        Gallery
+      </h2>
+      <p class="text-slate text-base sm:text-lg leading-relaxed">
+        {SCHOOL.gallery.subtitle}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+      {SCHOOL.gallery.images.map((item, i) => (
+        <div
+          data-gallery-card
+          class="gallery-item relative aspect-[4/3] rounded-xl overflow-hidden bg-deep-green/5 border border-ivory-dark focus-visible:outline-gold cursor-pointer"
+          tabindex="0"
+          role="img"
+          aria-label={item.alt}
+        >
+          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center" aria-hidden="true">
+            <Image class="w-10 h-10 max-sm:w-8 max-sm:h-8 text-deep-green/30 mb-2" />
+            <p class="text-sm font-medium text-slate">{item.caption}</p>
+            <p class="text-xs text-slate-light mt-1">{item.alt}</p>
+          </div>
+          <div class="gallery-hover-overlay absolute inset-0 flex items-end p-4">
+            <span class="text-white text-sm font-medium">{item.caption}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

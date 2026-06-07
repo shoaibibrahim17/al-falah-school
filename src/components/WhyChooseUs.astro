@@ -1,0 +1,44 @@
+---
+import { BookOpen, Sparkles, Shield, Users, Monitor, Heart } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+
+const iconMap: Record<string, typeof BookOpen> = {
+  BookOpen, Sparkles, Shield, Users, Monitor, Heart,
+};
+---
+
+<section id="why-us" class="py-12 lg:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-16">
+      <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4">
+        Why <span class="text-deep-green">Choose</span> Us
+      </h2>
+      <p class="text-slate text-base sm:text-lg leading-relaxed">
+        {SCHOOL.whyChooseUs.subtitle}
+      </p>
+    </div>
+
+    <div data-stagger-group class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {SCHOOL.whyChooseUs.items.map((item, i) => {
+        const Icon = iconMap[item.icon] || BookOpen;
+        return (
+          <article
+            data-hover-card
+            class="card-highlight p-5 sm:p-6 lg:p-8 focus-visible:outline-gold"
+            tabindex="0"
+          >
+            <div class="icon-box mb-4 card-highlight-icon transition-colors duration-300">
+              <Icon class="w-6 h-6 text-deep-green transition-colors duration-300" />
+            </div>
+            <h3 class="text-lg font-bold font-serif text-charcoal mb-2 transition-colors duration-300">
+              {item.title}
+            </h3>
+            <p class="text-slate text-sm leading-relaxed transition-colors duration-300">
+              {item.description}
+            </p>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

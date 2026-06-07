@@ -1,0 +1,329 @@
+/* ============================================================
+   DESIGN SYSTEM: Al-Falah International School
+   Tokens, Base, Components, Utilities, Motion, Accessibility
+   ============================================================ */
+
+@import "tailwindcss";
+
+/* ── Color Palette ─────────────────────────────────────────── */
+@theme {
+  --color-deep-green: #0D5E3E;
+  --color-deep-green-light: #1A7A52;
+  --color-deep-green-dark: #09452D;
+  --color-ivory: #FDF8F0;
+  --color-ivory-dark: #F5EDE0;
+  --color-gold: #C99A3E;
+  --color-gold-light: #D4B06A;
+  --color-gold-dark: #A87D2E;
+  --color-slate: #475569;
+  --color-slate-light: #64748B;
+  --color-charcoal: #1E293B;
+  --color-white: #FFFFFF;
+
+  /* ── Typography Scale ────────────────────────────────────── */
+  --font-serif: "Crimson Pro", Georgia, "Times New Roman", serif;
+  --font-sans: "Atkinson Hyperlegible", system-ui, sans-serif;
+
+  --text-display: 3.5rem;
+  --text-heading-1: 2.75rem;
+  --text-heading-2: 2.25rem;
+  --text-heading-3: 1.5rem;
+  --text-heading-4: 1.25rem;
+  --text-body: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-caption: 0.75rem;
+
+}
+
+/* ── Base Layer ────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-charcoal);
+    background-color: var(--color-white);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-charcoal);
+  }
+
+  ::selection {
+    background-color: var(--color-deep-green);
+    color: var(--color-white);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ── Component: Button Styles ──────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--color-deep-green);
+  color: var(--color-white);
+  font-size: var(--text-body);
+  font-weight: 600;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(13, 94, 62, 0.25);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+}
+.btn-primary:hover {
+  background-color: var(--color-deep-green-light);
+  box-shadow: 0 6px 20px rgba(13, 94, 62, 0.3);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-deep-green) 30%, transparent);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--color-gold);
+  color: var(--color-charcoal);
+  font-size: var(--text-body);
+  font-weight: 600;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(201, 154, 62, 0.2);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-gold) 20%, transparent);
+}
+.btn-secondary:hover {
+  background-color: var(--color-gold-light);
+  box-shadow: 0 6px 20px rgba(201, 154, 62, 0.25);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-gold) 25%, transparent);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: var(--color-charcoal);
+  font-size: var(--text-body);
+  font-weight: 600;
+  border: 2px solid var(--color-ivory-dark);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+.btn-outline:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold-dark);
+}
+
+/* ── Component: Scroll-aware Navbar ─────────────────────────── */
+[data-navbar] > nav {
+  transition: background-color 300ms ease, box-shadow 300ms ease;
+}
+[data-navbar][data-scrolled] > nav {
+  background-color: rgb(255 255 255);
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.08);
+}
+
+/* ── Component: Gallery Item ──────────────────────────────────── */
+.gallery-hover-overlay {
+  background: linear-gradient(to top, rgba(13, 94, 62, 0.65), transparent);
+  opacity: 0;
+}
+
+/* ── Component: Admission Card ───────────────────────────────── */
+.admission-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-ivory-dark);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.06);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--color-charcoal) 6%, transparent);
+}
+@media (min-width: 640px) {
+  .admission-card {
+    padding: 2rem;
+  }
+}
+.admission-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-deep-green), var(--color-gold-light));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.admission-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 1rem;
+  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+  color: var(--color-charcoal);
+  font-size: var(--text-caption);
+  font-weight: 700;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.admission-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background-color: var(--color-deep-green);
+  color: var(--color-white);
+  font-weight: 600;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 14px rgba(13, 94, 62, 0.25);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+}
+.admission-card-cta:hover {
+  background-color: var(--color-deep-green-light);
+  box-shadow: 0 6px 20px rgba(13, 94, 62, 0.3);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-deep-green) 30%, transparent);
+}
+
+/* ── Component: Card Styles ────────────────────────────────── */
+.card {
+  background-color: var(--color-white);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-ivory-dark);
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+  cursor: pointer;
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--color-deep-green) 20%, transparent);
+  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.06);
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-charcoal) 6%, transparent);
+}
+
+.card-highlight {
+  background-color: var(--color-ivory);
+  border-radius: 0.75rem;
+  transition: background-color 300ms ease;
+  cursor: pointer;
+}
+.card-highlight:hover {
+  background-color: var(--color-deep-green);
+}
+.card-highlight:hover .card-highlight-icon {
+  background-color: color-mix(in srgb, var(--color-white) 20%, transparent);
+}
+.card-highlight:hover .card-highlight-icon svg {
+  color: var(--color-white);
+}
+.card-highlight:hover h3 {
+  color: var(--color-white);
+}
+.card-highlight:hover p {
+  color: color-mix(in srgb, var(--color-white) 80%, transparent);
+}
+
+.card-facility {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: var(--color-ivory);
+  border-radius: 0.75rem;
+  transition: background-color 300ms ease;
+  cursor: pointer;
+}
+.card-facility:hover {
+  background-color: color-mix(in srgb, var(--color-deep-green) 5%, transparent);
+}
+
+/* ── Component: Icon Container ─────────────────────────────── */
+.icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--color-deep-green) 10%, transparent);
+  flex-shrink: 0;
+}
+.icon-box svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-deep-green);
+}
+
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--color-deep-green) 10%, transparent);
+  flex-shrink: 0;
+}
+.icon-circle svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--color-deep-green);
+}
+
+/* ── Motion JS: Initial States ────────────────────────────── */
+/* Hidden until Motion animates them in */
+[data-animate="fade-up"],
+[data-stagger-group] > * {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+[data-animate="scale-in"] {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* ── Reduced Motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  [data-animate="fade-up"],
+  [data-animate="scale-in"],
+  [data-stagger-group] > * {
+    opacity: 1;
+    transform: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  .card:hover,
+  .card-highlight:hover,
+  .card-facility:hover {
+    transition: none;
+  }
+}
+
+/* ── Utility: Text balance ─────────────────────────────────── */
+.text-balance {
+  text-wrap: balance;
+}

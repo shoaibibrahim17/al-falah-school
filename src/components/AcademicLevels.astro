@@ -1,0 +1,40 @@
+---
+import { Baby, BookOpen, Library, GraduationCap } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+
+const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, GraduationCap };
+---
+
+<section id="academics" class="py-12 lg:py-24 bg-ivory">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-16">
+      <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4">
+        Academic <span class="text-gold">Levels</span>
+      </h2>
+      <p class="text-slate text-base sm:text-lg leading-relaxed">
+        {SCHOOL.academicLevels.subtitle}
+      </p>
+    </div>
+
+    <div data-stagger-group class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {SCHOOL.academicLevels.levels.map((level, i) => {
+        const Icon = iconMap[level.icon] || BookOpen;
+        return (
+          <article
+            data-hover-card
+            class="card p-5 sm:p-6 lg:p-8 focus-visible:outline-gold"
+            tabindex="0"
+          >
+            <div class="icon-circle mb-5">
+              <Icon class="w-7 h-7 text-deep-green" />
+            </div>
+            <h3 class="text-xl font-bold font-serif text-charcoal mb-1">{level.level}</h3>
+            {level.ages && <p class="text-sm text-gold font-semibold mb-3">{level.ages}</p>}
+            {level.grades && <p class="text-sm text-gold font-semibold mb-3">{level.grades}</p>}
+            <p class="text-slate text-sm leading-relaxed">{level.description}</p>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
