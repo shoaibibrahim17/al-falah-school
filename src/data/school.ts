@@ -9,7 +9,7 @@ export const SCHOOL = {
   /* ── SEO ── */
   seo: {
     canonicalUrl: "https://shoaibibrahim17.github.io/al-falah-school/",
-    ogImage: "https://shoaibibrahim17.github.io/al-falah-school/og-image.jpg",
+    ogImage: "/og-image.jpg",
   },
 
   /* ── Location ── */
