@@ -30,15 +30,15 @@ const iconMap: Record<string, typeof LayoutGrid> = { LayoutGrid, FlaskConical, L
         return (
           <article
             data-hover-card
-            class="card-facility focus-visible:outline-gold relative group"
+            class="card-facility card-sweep focus-visible:outline-gold relative group"
             tabindex="0"
           >
-            <div class="icon-box">
+            <div data-card-inner class="icon-box" style="--inner-delay: 0ms">
               <Icon class="w-6 h-6" />
             </div>
             <div class="flex-1">
-              <h3 class="font-bold font-serif text-charcoal mb-1 transition-colors duration-300 group-hover:text-deep-green">{item.title}</h3>
-              <p class="text-slate text-sm leading-relaxed">{item.description}</p>
+              <h3 data-card-inner class="font-bold font-serif text-charcoal mb-1 transition-colors duration-300 group-hover:text-deep-green" style="--inner-delay: 80ms">{item.title}</h3>
+              <p data-card-inner class="text-slate text-sm leading-relaxed" style="--inner-delay: 160ms">{item.description}</p>
             </div>
           </article>
         );

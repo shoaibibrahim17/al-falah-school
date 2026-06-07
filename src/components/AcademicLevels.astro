@@ -38,37 +38,37 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
           return (
             <article
               data-hover-card
-              class="relative group bg-white rounded-2xl p-6 lg:p-7 border border-ivory-dark focus-visible:outline-gold cursor-pointer overflow-hidden"
+              class="relative group bg-white rounded-2xl p-6 lg:p-7 border border-ivory-dark focus-visible:outline-gold cursor-pointer overflow-hidden card-sweep"
               tabindex="0"
             >
               <!-- Ghost number in corner -->
-              <span class="absolute top-3 right-4 text-[2.5rem] font-bold font-serif text-deep-green/[0.08] leading-none select-none transition-colors duration-300 group-hover:text-deep-green/15">
+              <span data-card-inner class="absolute top-3 right-4 text-[2.5rem] font-bold font-serif text-deep-green/[0.08] leading-none select-none transition-colors duration-500 group-hover:text-gold/30 group-hover:scale-110" style="--inner-delay: 0ms">
                 {stepNo}
               </span>
 
               <!-- Icon (in front of node dot) -->
-              <div class="relative inline-flex items-center justify-center mb-5">
+              <div data-card-inner class="relative inline-flex items-center justify-center mb-5" style="--inner-delay: 80ms">
                 <div class="absolute inset-0 -m-1 rounded-2xl bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md"></div>
-                <div class="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-deep-green to-deep-green-light flex items-center justify-center shadow-lg shadow-deep-green/25">
+                <div class="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-deep-green to-deep-green-light flex items-center justify-center shadow-lg shadow-deep-green/25 transition-transform duration-500 ease-out group-hover:rotate-[-6deg] group-hover:scale-110">
                   <Icon class="w-7 h-7 text-white" />
                 </div>
               </div>
 
-              <h3 class="text-xl font-bold font-serif text-charcoal mb-1.5">{level.level}</h3>
+              <h3 data-card-inner class="text-xl font-bold font-serif text-charcoal mb-1.5 transition-colors duration-300 group-hover:text-deep-green" style="--inner-delay: 160ms">{level.level}</h3>
               {level.ages && (
-                <span class="inline-flex items-center px-2.5 py-0.5 bg-gold/10 text-gold-dark text-xs font-semibold rounded-full mb-3 tracking-wide">
+                <span data-card-inner class="inline-flex items-center px-2.5 py-0.5 bg-gold/10 text-gold-dark text-xs font-semibold rounded-full mb-3 tracking-wide" style="--inner-delay: 220ms">
                   {level.ages}
                 </span>
               )}
               {level.grades && (
-                <span class="inline-flex items-center px-2.5 py-0.5 bg-gold/10 text-gold-dark text-xs font-semibold rounded-full mb-3 tracking-wide">
+                <span data-card-inner class="inline-flex items-center px-2.5 py-0.5 bg-gold/10 text-gold-dark text-xs font-semibold rounded-full mb-3 tracking-wide" style="--inner-delay: 220ms">
                   {level.grades}
                 </span>
               )}
-              <p class="text-slate text-sm leading-relaxed mt-1">{level.description}</p>
+              <p data-card-inner class="text-slate text-sm leading-relaxed mt-1" style="--inner-delay: 280ms">{level.description}</p>
 
               <!-- Bottom accent bar -->
-              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gold to-transparent scale-x-0 origin-center group-hover:scale-x-100 transition-transform duration-500 ease-out"></div>
             </article>
           );
         })}

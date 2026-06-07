@@ -591,6 +591,77 @@
   to { transform: rotate(360deg); }
 }
 
+/* ── Card inner-element cascade on reveal ──────────────────
+   When a card lives inside a [data-reveal-group], its children get
+   a soft sequenced reveal that runs after the card itself lands. */
+[data-reveal-group].is-visible [data-card-inner] {
+  animation: card-inner-up 0.7s var(--ease-ios-out) both;
+  animation-delay: calc(var(--order, 0) * 90ms + var(--inner-delay, 0ms) + 220ms);
+}
+
+@keyframes card-inner-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Card sweep highlight on hover (light cycle across the card) */
+.card-sweep {
+  position: relative;
+  isolation: isolate;
+}
+.card-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    color-mix(in srgb, var(--color-white) 35%, transparent) 50%,
+    transparent 70%
+  );
+  transform: translateX(-110%);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .card-sweep:hover::after {
+    transform: translateX(110%);
+    transition: transform 900ms var(--ease-ios-out);
+  }
+}
+
+/* Underline grow for inline link CTAs */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+}
+.link-arrow::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 400ms var(--ease-ios-out);
+}
+.link-arrow:hover::before {
+  transform: scaleX(1);
+}
+
 /* ── Desktop-only Hover Effects ──────────────────────────── */
 @media (hover: hover) and (pointer: fine) {
   [data-hover-card] {
@@ -684,6 +755,16 @@
   .gallery-item:hover .gallery-media,
   .gallery-item:active {
     transform: none;
+  }
+
+  [data-reveal-group].is-visible [data-card-inner] {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .card-sweep:hover::after {
+    transform: translateX(-110%);
   }
 }
 

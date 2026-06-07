@@ -54,7 +54,11 @@ const tileConfig = [
 
               <!-- Composed icon centerpiece -->
               <div class="absolute inset-0 flex items-center justify-center">
-                <div class={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${cfg.iconBg} flex items-center justify-center shadow-xl shadow-charcoal/30 backdrop-blur-sm`}>
+                <div
+                  data-card-inner
+                  class={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${cfg.iconBg} flex items-center justify-center shadow-xl shadow-charcoal/30 backdrop-blur-sm transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-rotate-3`}
+                  style="--inner-delay: 100ms"
+                >
                   <Icon class={`w-8 h-8 sm:w-10 sm:h-10 ${cfg.iconColor}`} />
                 </div>
               </div>
