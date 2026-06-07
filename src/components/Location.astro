@@ -1,76 +1,97 @@
 ---
-import { MapPin, Phone, Mail, Clock } from "lucide-astro";
+import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+
+const mapQuery = encodeURIComponent(
+  `${SCHOOL.location.address}, ${SCHOOL.location.state}, India`
+);
+const mapEmbedSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+const mapDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+const contactItems = [
+  { Icon: MapPin, label: SCHOOL.locationSection.addressLabel, value: SCHOOL.location.full, href: mapDirectionsHref, external: true },
+  { Icon: Phone, label: SCHOOL.locationSection.phoneLabel, value: SCHOOL.contact.phone, href: `tel:${SCHOOL.contact.phone}` },
+  { Icon: Mail, label: SCHOOL.locationSection.emailLabel, value: SCHOOL.contact.email, href: `mailto:${SCHOOL.contact.email}` },
+  { Icon: Clock, label: SCHOOL.locationSection.hoursLabel, value: SCHOOL.contact.hours, href: null },
+];
 ---
 
-<section id="contact" class="py-12 lg:py-24 bg-ivory">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-16">
-      <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4">
-        <span class="text-deep-green">Get in</span> Touch
+<section id="contact" class="relative py-16 lg:py-28 bg-ivory overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute -top-32 right-1/4 w-80 h-80 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
+    <div class="absolute -bottom-24 left-1/3 w-64 h-64 rounded-full bg-gold/[0.06] blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+      <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
+        Visit Us
+      </div>
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
+        <span class="text-gradient-green">Get in</span> Touch
       </h2>
-      <p class="text-slate text-base sm:text-lg leading-relaxed">
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.locationSection.subtitle}
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8 sm:gap-10 lg:gap-16">
-      <div class="space-y-6 sm:space-y-8">
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0 mt-1">
-            <MapPin class="w-5 h-5 text-deep-green" />
-          </div>
-          <div>
-            <h3 class="font-bold text-charcoal font-serif mb-1">{SCHOOL.locationSection.addressLabel}</h3>
-            <p class="text-slate">{SCHOOL.location.full}</p>
-          </div>
-        </div>
+    <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+      <!-- Contact list card -->
+      <div data-reveal="slide-left" class="bg-white rounded-3xl border border-ivory-dark p-6 sm:p-8 lg:p-10 shadow-lg shadow-charcoal/[0.04]">
+        <h3 class="text-sm font-bold text-deep-green uppercase tracking-wider mb-6">Contact Information</h3>
+        <ul class="space-y-5 sm:space-y-6">
+          {contactItems.map((item) => (
+            <li class="flex gap-4 items-start group">
+              <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-deep-green to-deep-green-light flex items-center justify-center shrink-0 mt-0.5 shadow-md shadow-deep-green/20 transition-transform duration-300 group-hover:scale-110">
+                <item.Icon class="w-5 h-5 text-white" />
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-[11px] font-semibold text-slate-light uppercase tracking-wider mb-0.5">{item.label}</p>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener noreferrer" : undefined}
+                    class="inline-flex items-center gap-1.5 text-charcoal font-medium hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-gold break-words"
+                  >
+                    <span>{item.value}</span>
+                    {item.external && <ExternalLink class="w-3.5 h-3.5 opacity-60" />}
+                  </a>
+                ) : (
+                  <p class="text-charcoal font-medium">{item.value}</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
 
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0 mt-1">
-            <Phone class="w-5 h-5 text-deep-green" />
-          </div>
-          <div>
-            <h3 class="font-bold text-charcoal font-serif mb-1">{SCHOOL.locationSection.phoneLabel}</h3>
-            <a href={`tel:${SCHOOL.contact.phone}`} class="text-slate hover:text-deep-green transition-colors no-underline focus-visible:outline-gold cursor-pointer">
-              {SCHOOL.contact.phone}
-            </a>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0 mt-1">
-            <Mail class="w-5 h-5 text-deep-green" />
-          </div>
-          <div>
-            <h3 class="font-bold text-charcoal font-serif mb-1">{SCHOOL.locationSection.emailLabel}</h3>
-            <a href={`mailto:${SCHOOL.contact.email}`} class="text-slate hover:text-deep-green transition-colors no-underline focus-visible:outline-gold cursor-pointer">
-              {SCHOOL.contact.email}
-            </a>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <div class="w-10 h-10 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0 mt-1">
-            <Clock class="w-5 h-5 text-deep-green" />
-          </div>
-          <div>
-            <h3 class="font-bold text-charcoal font-serif mb-1">{SCHOOL.locationSection.hoursLabel}</h3>
-            <p class="text-slate">{SCHOOL.contact.hours}</p>
-          </div>
+        <div class="mt-7 sm:mt-9 pt-6 sm:pt-7 border-t border-ivory-dark">
+          <a
+            href={mapDirectionsHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary no-underline w-full sm:w-auto"
+            data-cta
+          >
+            <MapPin class="w-5 h-5" />
+            Get Directions
+          </a>
         </div>
       </div>
 
-      <div aria-hidden="true">
-        <div class="aspect-[16/9] rounded-xl bg-deep-green/5 border border-ivory-dark flex items-center justify-center p-8">
-          <div class="text-center">
-            <MapPin class="w-12 h-12 text-deep-green/30 mx-auto mb-3" />
-            <p class="text-slate font-medium">{SCHOOL.location.address}</p>
-            <p class="text-slate-light text-sm mt-1">Near {SCHOOL.location.landmark}</p>
-            <p class="text-xs text-slate-light mt-4">
-              {SCHOOL.locationSection.mapPlaceholder}
-            </p>
-          </div>
+      <!-- Map frame -->
+      <div data-reveal="slide-right" class="relative">
+        <div class="relative rounded-3xl overflow-hidden border border-ivory-dark shadow-lg shadow-charcoal/[0.06] h-full min-h-[320px] sm:min-h-[400px] bg-deep-green/5">
+          <iframe
+            src={mapEmbedSrc}
+            title={`Map showing ${SCHOOL.location.full}`}
+            class="absolute inset-0 w-full h-full"
+            style="border: 0;"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
         </div>
       </div>
     </div>

@@ -38,6 +38,7 @@ export const SCHOOL = {
   hero: {
     badge: "Admissions Open for 2026–27",
     headline: "A Strong Foundation for Every Child's Future",
+    highlightPhrase: "Strong Foundation",
     subtitle: "A focused learning environment in Bhuktapur, Adilabad, centred on academic growth, values, and student well-being.",
     cta: "Enquire About Admissions",
     ctaLink: "#contact",
@@ -160,7 +161,13 @@ export const SCHOOL = {
   /* ── Footer ── */
   footer: {
     description: "Al-Falah International School is committed to helping every student build confidence, strong values, and a love for learning.",
-    quickLinks: ["About Us", "Academics", "Admissions", "Gallery", "Contact"],
+    quickLinks: [
+      { label: "About", href: "#about" },
+      { label: "Academics", href: "#academics" },
+      { label: "Facilities", href: "#facilities" },
+      { label: "Gallery", href: "#gallery" },
+      { label: "Contact", href: "#contact" },
+    ],
     socialLinks: {
       facebook: "#",
       instagram: "#",

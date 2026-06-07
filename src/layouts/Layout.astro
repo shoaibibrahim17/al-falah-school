@@ -5,7 +5,7 @@ import { SCHOOL } from "../data/school";
 const { title } = Astro.props;
 const pageTitle = title ? `${title} | ${SCHOOL.shortName}` : `${SCHOOL.name} | ${SCHOOL.tagline}`;
 const canonicalUrl = SCHOOL.seo.canonicalUrl;
-const ogImage = `${canonicalUrl}${SCHOOL.seo.ogImage}`;
+const ogImage = `${canonicalUrl.replace(/\/$/, "")}${SCHOOL.seo.ogImage}`;
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -60,6 +60,19 @@ const structuredData = JSON.stringify({
   </head>
   <body class="bg-white text-charcoal">
     <slot />
-    <script src="../scripts/animations.ts"></script>
+
+    <button
+      type="button"
+      class="fab-scroll-top"
+      aria-label="Scroll to top"
+      data-scroll-top
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m18 15-6-6-6 6"/>
+      </svg>
+    </button>
+
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/motion-enhance.ts"></script>
   </body>
 </html>

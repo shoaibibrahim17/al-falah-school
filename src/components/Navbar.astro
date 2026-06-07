@@ -7,7 +7,7 @@ import { SCHOOL } from "../data/school";
   <div class="h-1 bg-gradient-to-r from-deep-green via-gold to-deep-green"></div>
   <nav class="bg-white/95 backdrop-blur-md border-b border-ivory-dark" aria-label="Main navigation">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 lg:h-20">
+      <div class="nav-inner flex items-center justify-between h-16 lg:h-20">
         <a href="#" class="flex items-center gap-2 no-underline focus-visible:outline-gold" aria-label="{SCHOOL.name} home">
           <div class="w-9 h-9 rounded-lg bg-deep-green flex items-center justify-center text-white font-bold font-serif text-lg leading-none">
             {SCHOOL.initials}
@@ -23,7 +23,7 @@ import { SCHOOL } from "../data/school";
         {SCHOOL.nav.links.map((link) => (
           <a
             href={link.href}
-            class="text-sm font-medium text-slate hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-gold"
+            class="nav-link text-sm font-medium text-slate hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-gold"
           >
             {link.label}
           </a>

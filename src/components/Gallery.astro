@@ -1,38 +1,79 @@
 ---
-import { Image } from "lucide-astro";
+import { MapPin, ScrollText, Library, Trophy, Music, FlaskConical } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+
+/* Bento tile config — gradient palette + icon per topic, all decorative.
+   Tiles laid out on a 4-col × 3-row grid on lg+. Falls back to 2-col on sm,
+   single column on mobile. */
+const tileConfig = [
+  { gradient: "from-deep-green via-deep-green-dark to-charcoal", iconBg: "bg-white", iconColor: "text-deep-green", Icon: MapPin, span: "lg:col-span-2 lg:row-span-2", aspect: "aspect-[4/5] lg:aspect-auto" },
+  { gradient: "from-gold via-gold-light to-ivory-dark", iconBg: "bg-white/90", iconColor: "text-gold-dark", Icon: ScrollText, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
+  { gradient: "from-deep-green-light via-deep-green to-deep-green-dark", iconBg: "bg-gold", iconColor: "text-white", Icon: Library, span: "", aspect: "aspect-square" },
+  { gradient: "from-gold-dark via-gold to-gold-light", iconBg: "bg-white", iconColor: "text-gold-dark", Icon: Trophy, span: "", aspect: "aspect-square" },
+  { gradient: "from-deep-green-dark via-deep-green to-deep-green-light", iconBg: "bg-gold-light", iconColor: "text-charcoal", Icon: Music, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
+  { gradient: "from-slate via-charcoal to-deep-green-dark", iconBg: "bg-gold", iconColor: "text-white", Icon: FlaskConical, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
+];
 ---
 
-<section id="gallery" class="py-12 lg:py-24 bg-ivory">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-16">
-      <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4">
-        Gallery
+<section id="gallery" class="relative py-16 lg:py-28 bg-white overflow-hidden">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+      <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
+        Campus Life
+      </div>
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
+        Glimpses of <span class="text-gradient-green">Al-Falah</span>
       </h2>
-      <p class="text-slate text-base sm:text-lg leading-relaxed">
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.gallery.subtitle}
       </p>
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-      {SCHOOL.gallery.images.map((item, i) => (
-        <div
-          data-gallery-card
-          class="gallery-item relative aspect-[4/3] rounded-xl overflow-hidden bg-deep-green/5 border border-ivory-dark focus-visible:outline-gold cursor-pointer"
-          tabindex="0"
-          role="img"
-          aria-label={item.alt}
-        >
-          <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center" aria-hidden="true">
-            <Image class="w-10 h-10 max-sm:w-8 max-sm:h-8 text-deep-green/30 mb-2" />
-            <p class="text-sm font-medium text-slate">{item.caption}</p>
-            <p class="text-xs text-slate-light mt-1">{item.alt}</p>
+    <div data-reveal-group class="grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-3 auto-rows-fr gap-3 sm:gap-4 lg:gap-5">
+      {SCHOOL.gallery.images.map((item, i) => {
+        const cfg = tileConfig[i] ?? tileConfig[0];
+        const Icon = cfg.Icon;
+        return (
+          <div
+            data-gallery-card
+            class={`gallery-item relative ${cfg.aspect} ${cfg.span} rounded-2xl overflow-hidden border border-ivory-dark focus-visible:outline-gold cursor-pointer group`}
+            tabindex="0"
+            role="img"
+            aria-label={item.alt}
+          >
+            <!-- Gradient backdrop (Ken Burns target) -->
+            <div class={`gallery-media bg-gradient-to-br ${cfg.gradient}`}>
+              <!-- Texture overlays -->
+              <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:18px_18px] opacity-50"></div>
+              <div class="absolute inset-0 bg-gradient-to-tr from-charcoal/30 via-transparent to-white/10"></div>
+
+              <!-- Ambient glow -->
+              <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl"></div>
+              <div class="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-black/20 blur-3xl"></div>
+
+              <!-- Composed icon centerpiece -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${cfg.iconBg} flex items-center justify-center shadow-xl shadow-charcoal/30 backdrop-blur-sm`}>
+                  <Icon class={`w-8 h-8 sm:w-10 sm:h-10 ${cfg.iconColor}`} />
+                </div>
+              </div>
+            </div>
+
+            <!-- Always-visible caption strip -->
+            <div class="absolute bottom-0 inset-x-0 p-4 sm:p-5 bg-gradient-to-t from-charcoal/85 via-charcoal/40 to-transparent pointer-events-none">
+              <p class="text-white text-sm sm:text-base font-semibold tracking-tight">{item.caption}</p>
+              <p class="text-white/70 text-xs mt-0.5">{item.alt}</p>
+            </div>
+
+            <!-- Hover scrim -->
+            <div class="gallery-hover-overlay absolute inset-0"></div>
           </div>
-          <div class="gallery-hover-overlay absolute inset-0 flex items-end p-4">
-            <span class="text-white text-sm font-medium">{item.caption}</span>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
+
+    <!-- Footnote: real photos coming soon -->
+    <p class="text-center text-slate-light text-xs mt-8 italic">Photos of our campus and activities will be added soon.</p>
   </div>
 </section>

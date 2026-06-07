@@ -7,27 +7,38 @@ const iconMap: Record<string, typeof BookOpen> = {
 };
 ---
 
-<section id="why-us" class="py-12 lg:py-24 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-16">
-      <h2 data-animate="fade-up" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4">
-        Why <span class="text-deep-green">Choose</span> Us
+<section id="why-us" class="relative py-16 lg:py-28 bg-white overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-0 right-1/4 w-64 h-64 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+      <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+        <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
+        Why Al-Falah
+      </div>
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
+        Why <span class="text-gradient-green">Choose</span> Us
       </h2>
-      <p class="text-slate text-base sm:text-lg leading-relaxed">
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.whyChooseUs.subtitle}
       </p>
     </div>
 
-    <div data-stagger-group class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-      {SCHOOL.whyChooseUs.items.map((item, i) => {
+    <div data-reveal-group class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+      {SCHOOL.whyChooseUs.items.map((item) => {
         const Icon = iconMap[item.icon] || BookOpen;
         return (
           <article
             data-hover-card
-            class="card-highlight p-5 sm:p-6 lg:p-8 focus-visible:outline-gold"
+            class="card-highlight relative p-6 lg:p-7 focus-visible:outline-gold overflow-hidden"
             tabindex="0"
           >
-            <div class="icon-box mb-4 card-highlight-icon transition-colors duration-300">
+            <!-- Corner gold accent -->
+            <span class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-gold/15 to-transparent rounded-bl-3xl pointer-events-none" aria-hidden="true"></span>
+
+            <div class="icon-box mb-5 card-highlight-icon transition-colors duration-300">
               <Icon class="w-6 h-6 text-deep-green transition-colors duration-300" />
             </div>
             <h3 class="text-lg font-bold font-serif text-charcoal mb-2 transition-colors duration-300">
