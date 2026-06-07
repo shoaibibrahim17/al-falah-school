@@ -5,7 +5,8 @@ import { SCHOOL } from "../data/school";
 const { title } = Astro.props;
 const pageTitle = title ? `${title} | ${SCHOOL.shortName}` : `${SCHOOL.name} | ${SCHOOL.tagline}`;
 const canonicalUrl = SCHOOL.seo.canonicalUrl;
-const ogImage = `${canonicalUrl.replace(/\/$/, "")}${SCHOOL.seo.ogImage}`;
+const ogImageRelative = SCHOOL.seo.ogImage.replace(/^\//, "");
+const ogImage = `${canonicalUrl}${ogImageRelative}`;
 
 const structuredData = JSON.stringify({
   "@context": "https://schema.org",
@@ -20,8 +21,13 @@ const structuredData = JSON.stringify({
     addressRegion: SCHOOL.location.state,
     addressCountry: "IN",
   },
-  telephone: SCHOOL.contact.phone,
-  email: SCHOOL.contact.email,
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: SCHOOL.location.coordinates.lat,
+    longitude: SCHOOL.location.coordinates.lng,
+  },
+  ...(SCHOOL.contact.phone ? { telephone: SCHOOL.contact.phone } : {}),
+  ...(SCHOOL.contact.email ? { email: SCHOOL.contact.email } : {}),
 });
 ---
 

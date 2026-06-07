@@ -1,6 +1,6 @@
 export const SCHOOL = {
   /* ── Core ── */
-  name: "Al-Falah International School",
+  name: "Al-Falah High School",
   shortName: "Al-Falah",
   initials: "AF",
   tagline: "Strong Foundations for Lifelong Learning",
@@ -9,16 +9,16 @@ export const SCHOOL = {
   /* ── SEO ── */
   seo: {
     canonicalUrl: "https://shoaibibrahim17.github.io/al-falah-school/",
-    ogImage: "/og-image.jpg",
+    ogImage: "og-image.jpg",
   },
 
-  /* ── Location ── */
+  /* ── Location ── (verified from Google Maps + JustDial listings) */
   location: {
-    address: "Bhuktapur, Adilabad",
+    address: "Shanti Nagar, Adilabad",
     city: "Adilabad",
     state: "Telangana",
-    landmark: "Phule Chowk",
-    full: "Bhuktapur, Adilabad, Telangana — Near Phule Chowk",
+    full: "Shanti Nagar, Adilabad, Telangana",
+    coordinates: { lat: 19.6690535, lng: 78.5415095 },
   },
 
   /* ── Navigation ── */
@@ -39,7 +39,7 @@ export const SCHOOL = {
     badge: "Admissions Open for 2026–27",
     headline: "A Strong Foundation for Every Child's Future",
     highlightPhrase: "Strong Foundation",
-    subtitle: "A focused learning environment in Bhuktapur, Adilabad, centred on academic growth, values, and student well-being.",
+    subtitle: "A focused learning environment in Shanti Nagar, Adilabad, centred on academic growth, values, and student well-being.",
     cta: "Enquire About Admissions",
     ctaLink: "#contact",
     secondaryCta: "Explore Our School",
@@ -59,7 +59,7 @@ export const SCHOOL = {
   trustBadges: [
     { label: "Primary to Secondary" },
     { label: "State Board" },
-    { label: "Bhuktapur, Adilabad" },
+    { label: "Shanti Nagar, Adilabad" },
     { label: "Admissions Enquiry Open" },
   ],
 
@@ -68,8 +68,8 @@ export const SCHOOL = {
     heading: "About Al-Falah",
     imagePlaceholder: "Our School Campus",
     paragraphs: [
-      "Al-Falah International School was founded with a vision to provide accessible, quality education to families in the Adilabad region. We focus on building strong academic foundations while nurturing values that help students grow into responsible individuals.",
-      "Our campus in Bhuktapur, near Phule Chowk, offers a safe and supportive environment where students from Pre-Primary through Secondary receive personal attention in every class.",
+      "Al-Falah High School was founded with a vision to provide accessible, quality education to families in the Adilabad region. We focus on building strong academic foundations while nurturing values that help students grow into responsible individuals.",
+      "Our campus in Shanti Nagar, Adilabad, offers a safe and supportive environment where students from Pre-Primary through Secondary receive personal attention in every class.",
     ],
     linkText: "Know more about us",
     linkHref: "#contact",
@@ -133,19 +133,10 @@ export const SCHOOL = {
     ctaLink: "#contact",
   },
 
-  /* ── Principal Message ── */
-  principal: {
-    name: "Mrs. Aisha Khan",
-    role: "Principal",
-    message: "At Al-Falah, we believe every child has the ability to learn and grow when given the right environment and support. Our focus is on building strong academic foundations while nurturing values that stay with students for life. I invite families to visit our campus and see how we can partner together in your child's educational journey.",
-    image: null,
-  },
-
-  /* ── Contact Details ── */
+  /* ── Contact Details ── (phone/email pending; placeholders only) */
   contact: {
-    phone: "+91 XXXXXXXXXX",
-    email: "info@alfalahschool.edu.in",
-    hours: "Mon–Sat: 8:00 AM – 2:00 PM",
+    phone: "",
+    email: "",
   },
 
   /* ── Location / Contact Section ── */
@@ -154,13 +145,11 @@ export const SCHOOL = {
     addressLabel: "Address",
     phoneLabel: "Phone",
     emailLabel: "Email",
-    hoursLabel: "Office Hours",
-    mapPlaceholder: "Map placeholder — embed Google Maps in production",
   },
 
   /* ── Footer ── */
   footer: {
-    description: "Al-Falah International School is committed to helping every student build confidence, strong values, and a love for learning.",
+    description: "Al-Falah High School is committed to helping every student build confidence, strong values, and a love for learning.",
     quickLinks: [
       { label: "About", href: "#about" },
       { label: "Academics", href: "#academics" },
@@ -173,6 +162,6 @@ export const SCHOOL = {
       instagram: "#",
       youtube: "#",
     },
-    copyright: `© ${new Date().getFullYear()} Al-Falah International School. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} Al-Falah High School. All rights reserved.`,
   },
 };

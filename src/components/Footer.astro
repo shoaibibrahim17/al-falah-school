@@ -24,7 +24,7 @@ import { SCHOOL } from "../data/school";
           </div>
           <div>
             <span class="block text-lg font-bold font-serif text-white leading-tight">{SCHOOL.shortName}</span>
-            <span class="block text-[10px] text-gold font-medium tracking-[0.18em] uppercase leading-tight mt-0.5">International School</span>
+            <span class="block text-[10px] text-gold font-medium tracking-[0.18em] uppercase leading-tight mt-0.5">High School</span>
           </div>
         </div>
         <p class="text-white/70 text-sm sm:text-base leading-relaxed max-w-md">
@@ -37,14 +37,18 @@ import { SCHOOL } from "../data/school";
             <MapPin class="w-4 h-4 mt-0.5 text-gold shrink-0" />
             <span>{SCHOOL.location.full}</span>
           </div>
-          <a href={`mailto:${SCHOOL.contact.email}`} class="flex items-center gap-2.5 text-white/70 hover:text-gold text-sm no-underline transition-colors duration-200 focus-visible:outline-gold">
-            <Mail class="w-4 h-4 text-gold shrink-0" />
-            <span>{SCHOOL.contact.email}</span>
-          </a>
-          <a href={`tel:${SCHOOL.contact.phone}`} class="flex items-center gap-2.5 text-white/70 hover:text-gold text-sm no-underline transition-colors duration-200 focus-visible:outline-gold">
-            <Phone class="w-4 h-4 text-gold shrink-0" />
-            <span>{SCHOOL.contact.phone}</span>
-          </a>
+          {SCHOOL.contact.email && (
+            <a href={`mailto:${SCHOOL.contact.email}`} class="flex items-center gap-2.5 text-white/70 hover:text-gold text-sm no-underline transition-colors duration-200 focus-visible:outline-gold">
+              <Mail class="w-4 h-4 text-gold shrink-0" />
+              <span>{SCHOOL.contact.email}</span>
+            </a>
+          )}
+          {SCHOOL.contact.phone && (
+            <a href={`tel:${SCHOOL.contact.phone}`} class="flex items-center gap-2.5 text-white/70 hover:text-gold text-sm no-underline transition-colors duration-200 focus-visible:outline-gold">
+              <Phone class="w-4 h-4 text-gold shrink-0" />
+              <span>{SCHOOL.contact.phone}</span>
+            </a>
+          )}
         </div>
       </div>
 
@@ -92,9 +96,6 @@ import { SCHOOL } from "../data/school";
             <Youtube class="w-4 h-4" />
           </a>
         </div>
-        <p class="text-white/50 text-xs mt-6 leading-relaxed">
-          {SCHOOL.contact.hours}
-        </p>
       </div>
     </div>
 

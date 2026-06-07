@@ -1,19 +1,28 @@
 ---
-import { MapPin, Phone, Mail, Clock, ExternalLink } from "lucide-astro";
+import { MapPin, Phone, Mail, ExternalLink } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 
-const mapQuery = encodeURIComponent(
-  `${SCHOOL.location.address}, ${SCHOOL.location.state}, India`
-);
-const mapEmbedSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
-const mapDirectionsHref = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+const { lat, lng } = SCHOOL.location.coordinates;
+const mapEmbedSrc = `https://www.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
+const mapDirectionsHref = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
 
-const contactItems = [
+type ContactItem = {
+  Icon: typeof MapPin;
+  label: string;
+  value: string;
+  href: string | null;
+  external?: boolean;
+};
+
+const contactItems: ContactItem[] = [
   { Icon: MapPin, label: SCHOOL.locationSection.addressLabel, value: SCHOOL.location.full, href: mapDirectionsHref, external: true },
-  { Icon: Phone, label: SCHOOL.locationSection.phoneLabel, value: SCHOOL.contact.phone, href: `tel:${SCHOOL.contact.phone}` },
-  { Icon: Mail, label: SCHOOL.locationSection.emailLabel, value: SCHOOL.contact.email, href: `mailto:${SCHOOL.contact.email}` },
-  { Icon: Clock, label: SCHOOL.locationSection.hoursLabel, value: SCHOOL.contact.hours, href: null },
 ];
+if (SCHOOL.contact.phone) {
+  contactItems.push({ Icon: Phone, label: SCHOOL.locationSection.phoneLabel, value: SCHOOL.contact.phone, href: `tel:${SCHOOL.contact.phone}` });
+}
+if (SCHOOL.contact.email) {
+  contactItems.push({ Icon: Mail, label: SCHOOL.locationSection.emailLabel, value: SCHOOL.contact.email, href: `mailto:${SCHOOL.contact.email}` });
+}
 ---
 
 <section id="contact" class="relative py-16 lg:py-28 bg-ivory overflow-hidden">
