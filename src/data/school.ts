@@ -125,6 +125,65 @@ export const SCHOOL = {
     ],
   },
 
+  /* ── Latest School Updates Section ── */
+  updates: {
+    eyebrow: "Latest School Updates",
+    heading: "What's Happening at Al-Falah",
+    subtitle: "A glance at admissions, school life, and parent communication. Updated regularly.",
+  },
+
+  /* ── Posters / Updates (fallback when Sanity is not configured) ──
+     Shape mirrors the future Sanity `homepagePoster` schema so the same
+     renderer in PosterSlider.astro can consume either source. Keep claims
+     evergreen here — specific events/dates must come from the CMS.        */
+  posters: [
+    {
+      _id: "admissions-enquiry-2026-27",
+      title: "Admissions Enquiry Open",
+      description: "Now accepting enquiries for the 2026–27 academic year. Reach out to learn about classes, the campus, and the enrolment process.",
+      image: null,
+      imageAlt: "Notice of open admissions enquiry for the 2026–27 academic year at Al-Falah High School",
+      ctaLabel: "Enquire Now",
+      ctaHref: "#contact",
+      active: true,
+      featured: true,
+      order: 1,
+      startDate: null,
+      endDate: null,
+      accent: "deep-green" as const,
+    },
+    {
+      _id: "school-activities",
+      title: "School Activities & Events",
+      description: "From classroom learning to creative and cultural activities, school life at Al-Falah is built around balanced growth and engagement.",
+      image: null,
+      imageAlt: "Visual summary of school activities and student engagement at Al-Falah High School",
+      ctaLabel: "See Campus Life",
+      ctaHref: "#gallery",
+      active: true,
+      featured: true,
+      order: 2,
+      startDate: null,
+      endDate: null,
+      accent: "gold" as const,
+    },
+    {
+      _id: "parent-communication",
+      title: "Parent Communication & Notices",
+      description: "Families can reach the school directly for queries, visit requests, or notices. We keep parents informed through clear and timely communication.",
+      image: null,
+      imageAlt: "Notice describing the school's approach to parent communication and important notices",
+      ctaLabel: "Contact the School",
+      ctaHref: "#contact",
+      active: true,
+      featured: true,
+      order: 3,
+      startDate: null,
+      endDate: null,
+      accent: "deep-green" as const,
+    },
+  ],
+
   /* ── Admissions CTA Section ── */
   admissionsCta: {
     heading: "Begin Your Child's Journey",

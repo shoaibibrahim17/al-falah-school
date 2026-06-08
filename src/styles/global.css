@@ -833,6 +833,122 @@
   display: block;
 }
 
+/* ── Component: Poster / Updates Slider ──────────────────── */
+.poster-stage {
+  display: grid;
+  grid-template-areas: "stack";
+}
+.poster-slide {
+  grid-area: stack;
+  opacity: 0;
+  transform: translateY(16px) scale(0.985);
+  filter: blur(8px);
+  pointer-events: none;
+  transition: opacity 700ms var(--ease-ios-out),
+              transform 700ms var(--ease-ios-out),
+              filter 700ms var(--ease-ios-out);
+  will-change: opacity, transform, filter;
+}
+.poster-slide.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+}
+.poster-slide:not(.is-active) {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Carousel navigation arrows */
+.poster-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: var(--color-white);
+  color: var(--color-deep-green);
+  border: 1px solid var(--color-ivory-dark);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 6px 18px rgba(30, 41, 59, 0.10);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
+  transition: background-color 200ms var(--ease-ios-out),
+              color 200ms var(--ease-ios-out),
+              transform 200ms var(--ease-ios-spring);
+}
+.poster-nav:hover {
+  background: var(--color-deep-green);
+  color: var(--color-white);
+  transform: translateY(-50%) scale(1.05);
+}
+.poster-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+.poster-nav-prev { left: 0.75rem; }
+.poster-nav-next { right: 0.75rem; }
+@media (min-width: 768px) {
+  .poster-nav { display: flex; }
+}
+
+/* Dot navigation */
+.poster-dot {
+  position: relative;
+  width: 28px;
+  height: 6px;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 300ms var(--ease-ios-out),
+              width 400ms var(--ease-ios-spring);
+}
+.poster-dot:hover {
+  background: color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+}
+.poster-dot.is-active {
+  width: 44px;
+  background: color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+}
+.poster-dot-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--color-deep-green), var(--color-gold));
+  transform: translateX(-100%);
+  border-radius: inherit;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .poster-dot.is-active .poster-dot-fill {
+    animation: poster-dot-progress 5.5s linear forwards;
+  }
+}
+@keyframes poster-dot-progress {
+  to { transform: translateX(0); }
+}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .poster-slide {
+    transition: none;
+    filter: none;
+  }
+  .poster-dot,
+  .poster-dot.is-active {
+    transition: none;
+  }
+  .poster-dot-fill { display: none; }
+}
+
 /* ── Component: Floating Action Button (scroll to top) ────── */
 .fab-scroll-top {
   position: fixed;

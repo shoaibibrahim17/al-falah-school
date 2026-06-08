@@ -1,0 +1,327 @@
+---
+import { ArrowRight, Megaphone, Sparkles, GraduationCap, BookOpen, MessageSquare } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+
+/* Filter posters the way the future Sanity fetch will:
+   active === true AND featured === true AND inside date window.
+   Cap at 3 for the homepage. Sorted by `order` ascending. */
+const now = Date.now();
+const posters = SCHOOL.posters
+  .filter((p) => {
+    if (!p.active || !p.featured) return false;
+    if (p.startDate && Date.parse(p.startDate) > now) return false;
+    if (p.endDate && Date.parse(p.endDate) <= now) return false;
+    return true;
+  })
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 3);
+
+/* Hide gracefully — render nothing if no active featured posters. */
+const hasPosters = posters.length > 0;
+
+/* Icon palette keyed by poster id (decorative — chosen by code, not the CMS). */
+const iconFor: Record<string, typeof Megaphone> = {
+  "admissions-enquiry-2026-27": GraduationCap,
+  "school-activities": Sparkles,
+  "parent-communication": MessageSquare,
+};
+
+const accentPalette = {
+  "deep-green": {
+    panel: "from-deep-green via-deep-green to-deep-green-dark",
+    chip: "bg-deep-green/10 text-deep-green",
+    dot: "bg-deep-green",
+    glow: "bg-gold/15",
+  },
+  gold: {
+    panel: "from-gold-dark via-gold to-gold-light",
+    chip: "bg-gold/15 text-gold-dark",
+    dot: "bg-gold-dark",
+    glow: "bg-white/20",
+  },
+} as const;
+---
+
+{hasPosters && (
+  <section
+    id="updates"
+    class="relative py-16 lg:py-24 bg-white overflow-hidden"
+    aria-label={SCHOOL.updates.eyebrow}
+  >
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-0 right-1/3 w-72 h-72 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
+      <div class="absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-gold/[0.05] blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section header -->
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 lg:mb-12">
+        <div class="max-w-2xl">
+          <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-3">
+            <Megaphone class="w-3.5 h-3.5" />
+            {SCHOOL.updates.eyebrow}
+          </div>
+          <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal leading-tight tracking-tight">
+            {SCHOOL.updates.heading}
+          </h2>
+          <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed mt-3 max-w-xl">
+            {SCHOOL.updates.subtitle}
+          </p>
+        </div>
+      </div>
+
+      <!-- Slider -->
+      <div
+        class="poster-slider relative"
+        data-poster-slider
+        data-interval="5500"
+        data-count={posters.length}
+      >
+        <!-- Track -->
+        <div class="poster-track relative rounded-3xl border border-ivory-dark bg-ivory shadow-lg shadow-charcoal/[0.06] overflow-hidden">
+          <!-- Slides stack: absolutely positioned, one visible at a time -->
+          <div class="poster-stage relative">
+            {posters.map((p, i) => {
+              const Icon = iconFor[p._id] ?? BookOpen;
+              const accent = accentPalette[p.accent] ?? accentPalette["deep-green"];
+              return (
+                <article
+                  class="poster-slide grid md:grid-cols-5 gap-0"
+                  data-poster-slide
+                  data-index={i}
+                  aria-hidden={i === 0 ? "false" : "true"}
+                  aria-roledescription="slide"
+                  aria-label={`${i + 1} of ${posters.length}: ${p.title}`}
+                >
+                  <!-- Visual panel (left, 2/5 on desktop) -->
+                  <div class={`relative md:col-span-2 aspect-[16/10] md:aspect-auto md:min-h-[320px] bg-gradient-to-br ${accent.panel} overflow-hidden`}>
+                    <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.10)_1px,transparent_1px)] [background-size:20px_20px] opacity-60"></div>
+                    <div class={`absolute -top-12 -right-12 w-48 h-48 rounded-full ${accent.glow} blur-3xl breathe-slow`}></div>
+                    <div class={`absolute -bottom-12 -left-12 w-44 h-44 rounded-full ${accent.glow} blur-3xl breathe-slow delay`}></div>
+
+                    <!-- Centerpiece icon graphic -->
+                    <div class="absolute inset-0 flex items-center justify-center p-8">
+                      <div class="relative">
+                        <div class="absolute inset-0 -m-3 rounded-3xl bg-white/15 blur-xl"></div>
+                        <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-xl shadow-charcoal/30">
+                          <Icon class="w-10 h-10 sm:w-12 sm:h-12 text-deep-green" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Index marker -->
+                    <div class="absolute top-5 left-5 text-white/70 text-xs font-semibold tracking-[0.18em] uppercase">
+                      {String(i + 1).padStart(2, "0")} / {String(posters.length).padStart(2, "0")}
+                    </div>
+                  </div>
+
+                  <!-- Content panel (right, 3/5 on desktop) -->
+                  <div class="md:col-span-3 p-6 sm:p-8 lg:p-10 flex flex-col justify-center bg-white">
+                    <div class={`inline-flex w-fit items-center gap-2 px-2.5 py-1 ${accent.chip} rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4`}>
+                      <span class={`w-1.5 h-1.5 rounded-full ${accent.dot}`}></span>
+                      Update {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl lg:text-[2rem] font-bold font-serif text-charcoal leading-tight tracking-tight mb-3 sm:mb-4">
+                      {p.title}
+                    </h3>
+                    <p class="text-slate text-base sm:text-lg leading-relaxed max-w-2xl">
+                      {p.description}
+                    </p>
+                    {p.ctaLabel && p.ctaHref && (
+                      <div class="mt-6 sm:mt-8">
+                        <a
+                          href={p.ctaHref}
+                          class="btn-primary no-underline"
+                          data-cta
+                        >
+                          {p.ctaLabel}
+                          <ArrowRight class="w-4 h-4" />
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          {posters.length > 1 && (
+            <>
+              <!-- Prev / next controls (desktop only — kept clean and editorial) -->
+              <button
+                type="button"
+                class="poster-nav poster-nav-prev"
+                data-poster-prev
+                aria-label="Previous update"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
+              </button>
+              <button
+                type="button"
+                class="poster-nav poster-nav-next"
+                data-poster-next
+                aria-label="Next update"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </button>
+            </>
+          )}
+        </div>
+
+        {posters.length > 1 && (
+          <!-- Dots + progress bar -->
+          <div class="mt-5 flex items-center justify-center gap-4">
+            <div class="poster-dots flex items-center gap-2" role="tablist" aria-label="Choose update">
+              {posters.map((p, i) => (
+                <button
+                  type="button"
+                  class="poster-dot"
+                  role="tab"
+                  data-poster-dot
+                  data-index={i}
+                  aria-selected={i === 0 ? "true" : "false"}
+                  aria-label={`Show update ${i + 1}: ${p.title}`}
+                >
+                  <span class="poster-dot-fill"></span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <script>
+      (() => {
+        const root = document.querySelector<HTMLElement>("[data-poster-slider]");
+        if (!root) return;
+
+        const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-poster-slide]"));
+        const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-poster-dot]"));
+        const prevBtn = root.querySelector<HTMLButtonElement>("[data-poster-prev]");
+        const nextBtn = root.querySelector<HTMLButtonElement>("[data-poster-next]");
+        if (slides.length <= 1) return;
+
+        const interval = Number(root.dataset.interval ?? 5500);
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        let activeIndex = 0;
+        let timerId: number | null = null;
+        let paused = false;
+
+        const setActive = (next: number) => {
+          const target = ((next % slides.length) + slides.length) % slides.length;
+          slides.forEach((slide, i) => {
+            const isActive = i === target;
+            slide.classList.toggle("is-active", isActive);
+            slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+          });
+          dots.forEach((dot, i) => {
+            const isActive = i === target;
+            dot.classList.toggle("is-active", isActive);
+            dot.setAttribute("aria-selected", isActive ? "true" : "false");
+          });
+          activeIndex = target;
+        };
+
+        const stop = () => {
+          if (timerId !== null) {
+            window.clearTimeout(timerId);
+            timerId = null;
+          }
+        };
+
+        const tick = () => {
+          stop();
+          if (prefersReducedMotion || paused) return;
+          timerId = window.setTimeout(() => {
+            setActive(activeIndex + 1);
+            tick();
+          }, interval);
+        };
+
+        dots.forEach((dot, i) => {
+          dot.addEventListener("click", () => {
+            setActive(i);
+            tick();
+          });
+        });
+        prevBtn?.addEventListener("click", () => {
+          setActive(activeIndex - 1);
+          tick();
+        });
+        nextBtn?.addEventListener("click", () => {
+          setActive(activeIndex + 1);
+          tick();
+        });
+
+        root.addEventListener("pointerenter", () => {
+          paused = true;
+          stop();
+        });
+        root.addEventListener("pointerleave", () => {
+          paused = false;
+          tick();
+        });
+        root.addEventListener("focusin", () => {
+          paused = true;
+          stop();
+        });
+        root.addEventListener("focusout", (e) => {
+          if (!root.contains(e.relatedTarget as Node | null)) {
+            paused = false;
+            tick();
+          }
+        });
+
+        root.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight") {
+            setActive(activeIndex + 1);
+            tick();
+          } else if (e.key === "ArrowLeft") {
+            setActive(activeIndex - 1);
+            tick();
+          }
+        });
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) stop();
+          else tick();
+        });
+
+        /* Touch swipe (mobile) */
+        let touchStartX = 0;
+        let touchStartY = 0;
+        root.addEventListener(
+          "touchstart",
+          (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          },
+          { passive: true }
+        );
+        root.addEventListener(
+          "touchend",
+          (e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+              setActive(activeIndex + (dx < 0 ? 1 : -1));
+              tick();
+            }
+          },
+          { passive: true }
+        );
+
+        setActive(0);
+        tick();
+      })();
+    </script>
+  </section>
+)}
