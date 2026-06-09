@@ -34,6 +34,8 @@ const tileConfig = [
       {SCHOOL.gallery.images.map((item, i) => {
         const cfg = tileConfig[i] ?? tileConfig[0];
         const Icon = cfg.Icon;
+        const hasImage = Boolean(item.src);
+
         return (
           <div
             data-gallery-card
@@ -42,42 +44,52 @@ const tileConfig = [
             role="img"
             aria-label={item.alt}
           >
-            <!-- Gradient backdrop (Ken Burns target) -->
-            <div class={`gallery-media bg-gradient-to-br ${cfg.gradient}`}>
-              <!-- Texture overlays -->
-              <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:18px_18px] opacity-50"></div>
-              <div class="absolute inset-0 bg-gradient-to-tr from-charcoal/30 via-transparent to-white/10"></div>
-
-              <!-- Ambient glow -->
-              <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl"></div>
-              <div class="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-black/20 blur-3xl"></div>
-
-              <!-- Composed icon centerpiece -->
-              <div class="absolute inset-0 flex items-center justify-center">
-                <div
-                  data-card-inner
-                  class={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${cfg.iconBg} flex items-center justify-center shadow-xl shadow-charcoal/30 backdrop-blur-sm transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-rotate-3`}
-                  style="--inner-delay: 100ms"
-                >
-                  <Icon class={`w-8 h-8 sm:w-10 sm:h-10 ${cfg.iconColor}`} />
+            {hasImage ? (
+              /* ── Real photo ── */
+              <img
+                src={item.src}
+                alt={item.alt}
+                class="gallery-media absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              /* ── Decorative placeholder (icon tile) ── */
+              <div class={`gallery-media bg-gradient-to-br ${cfg.gradient}`}>
+                <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:18px_18px] opacity-50"></div>
+                <div class="absolute inset-0 bg-gradient-to-tr from-charcoal/30 via-transparent to-white/10"></div>
+                <div class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/15 blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-black/20 blur-3xl"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div
+                    data-card-inner
+                    class={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${cfg.iconBg} flex items-center justify-center shadow-xl shadow-charcoal/30 backdrop-blur-sm transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-rotate-3`}
+                    style="--inner-delay: 100ms"
+                  >
+                    <Icon class={`w-8 h-8 sm:w-10 sm:h-10 ${cfg.iconColor}`} />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            <!-- Always-visible caption strip -->
+            {/* Always-visible caption strip */}
             <div class="absolute bottom-0 inset-x-0 p-4 sm:p-5 bg-gradient-to-t from-charcoal/85 via-charcoal/40 to-transparent pointer-events-none">
               <p class="text-white text-sm sm:text-base font-semibold tracking-tight">{item.caption}</p>
-              <p class="text-white/70 text-xs mt-0.5">{item.alt}</p>
+              <p class="text-white/70 text-xs mt-0.5 line-clamp-1">{item.alt}</p>
             </div>
 
-            <!-- Hover scrim -->
+            {/* Hover scrim */}
             <div class="gallery-hover-overlay absolute inset-0"></div>
           </div>
         );
       })}
     </div>
 
-    <!-- Footnote: real photos coming soon -->
-    <p class="text-center text-slate-light text-xs mt-8 italic">Photos of our campus and activities will be added soon.</p>
+    {/* Footnote: real photos coming soon — shows only when all images are placeholders */}
+    {SCHOOL.gallery.images.every((img) => !img.src) && (
+      <p class="text-center text-slate-light text-xs mt-8 italic">
+        Photos of our campus and activities will be added soon.
+      </p>
+    )}
   </div>
 </section>

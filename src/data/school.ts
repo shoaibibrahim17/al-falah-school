@@ -117,13 +117,34 @@ export const SCHOOL = {
   gallery: {
     subtitle: "A look inside our campus and classrooms.",
     images: [
-      { alt: "School building exterior", caption: "Our Campus" },
-      { alt: "Classroom learning session", caption: "Interactive Classrooms" },
-      { alt: "Students in library", caption: "Library Hours" },
-      { alt: "Sports day event", caption: "Annual Sports Day" },
-      { alt: "Cultural program performance", caption: "Cultural Fest" },
-      { alt: "Science lab experiment", caption: "Lab Sessions" },
+      { alt: "School building exterior", caption: "Our Campus", src: null },
+      { alt: "Classroom learning session", caption: "Interactive Classrooms", src: null },
+      { alt: "Students in library", caption: "Library Hours", src: null },
+      { alt: "Sports day event", caption: "Annual Sports Day", src: null },
+      { alt: "Cultural program performance", caption: "Cultural Fest", src: null },
+      { alt: "Science lab experiment", caption: "Lab Sessions", src: null },
     ],
+  },
+
+  /* ── Principal's Message ── */
+  principalMessage: {
+    enabled: false, // Set to true once message is provided by the school
+    heading: "A Message from Our Principal",
+    placeholderNote: "The principal's message will be added once confirmed by the school.",
+    name: null,
+    designation: null,
+    message: null,
+    image: null,
+    imageAlt: null,
+  },
+
+  /* ── Faculty Section ── */
+  faculty: {
+    enabled: false, // Set to true once faculty list is provided by the school
+    heading: "Our Faculty",
+    subtitle: "Dedicated teachers committed to every student's growth and learning.",
+    placeholderNote: "Faculty details will be added soon.",
+    members: [], // { name, designation, department, image, imageAlt, profileUrl }
   },
 
   /* ── Latest School Updates Section ── */

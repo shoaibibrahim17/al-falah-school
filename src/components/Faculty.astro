@@ -1,0 +1,112 @@
+---
+/* Faculty Section — CMS-ready.
+   Shows a grid of faculty cards with photo, name, and designation.
+   Each card opens the profileUrl in a new tab (target="_blank").
+   When enabled: false, section is hidden entirely.
+   When enabled: true but no members, shows a placeholder notice.
+   When a member has no image, shows an initials placeholder. */
+import { Users, ExternalLink } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+
+const { faculty } = SCHOOL;
+
+/* Get initials from name for avatar fallback */
+function initials(name: string): string {
+  return name
+    .split(" ")
+    .slice(0, 2)
+    .map((n) => n[0]?.toUpperCase() ?? "")
+    .join("");
+}
+---
+
+{faculty.enabled && (
+  <section id="faculty" class="relative py-16 lg:py-24 bg-white overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute -top-32 left-1/3 w-72 h-72 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
+      <div class="absolute -bottom-24 right-1/4 w-64 h-64 rounded-full bg-deep-green/[0.03] blur-3xl"></div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
+          Our Team
+        </div>
+        <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal tracking-tight mb-3">
+          {faculty.heading}
+        </h2>
+        <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
+          {faculty.subtitle}
+        </p>
+      </div>
+
+      {faculty.members.length > 0 ? (
+        <div data-reveal-group class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+          {faculty.members.map((member) => {
+            const hasImage = Boolean(member.image);
+            const linkProps = member.profileUrl
+              ? { href: member.profileUrl, target: "_blank", rel: "noopener noreferrer" }
+              : { href: "#", "aria-disabled": "true" };
+
+            return (
+              <a
+                data-reveal
+                class="group card flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl border border-ivory-dark hover:border-deep-green/30 focus-visible:outline-deep-green cursor-pointer no-underline"
+                {...linkProps}
+              >
+                {/* Avatar */}
+                <div class="relative mb-4">
+                  {hasImage ? (
+                    <img
+                      src={member.image}
+                      alt={member.imageAlt ?? `${member.name}, ${member.designation}`}
+                      width="96"
+                      height="96"
+                      loading="lazy"
+                      decoding="async"
+                      class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-2 ring-ivory-dark group-hover:ring-deep-green/30 transition-all duration-300"
+                    />
+                  ) : (
+                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-deep-green/10 flex items-center justify-center ring-2 ring-ivory-dark group-hover:ring-deep-green/30 transition-all duration-300">
+                      <span class="text-xl sm:text-2xl font-bold font-serif text-deep-green/60">
+                        {initials(member.name)}
+                      </span>
+                    </div>
+                  )}
+                  {member.profileUrl && (
+                    <span class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-deep-green flex items-center justify-center shadow-md">
+                      <ExternalLink class="w-3 h-3 text-white" />
+                    </span>
+                  )}
+                </div>
+
+                {/* Info */}
+                <h3 class="text-sm font-bold text-charcoal group-hover:text-deep-green transition-colors duration-200 leading-snug mb-0.5">
+                  {member.name}
+                </h3>
+                {member.designation && (
+                  <p class="text-xs text-slate-light leading-tight">{member.designation}</p>
+                )}
+                {member.department && (
+                  <p class="text-[11px] text-deep-green/70 mt-1 font-medium uppercase tracking-wider">
+                    {member.department}
+                  </p>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      ) : (
+        <div data-reveal class="flex flex-col items-center justify-center py-14 text-center">
+          <div class="w-16 h-16 rounded-2xl bg-deep-green/10 flex items-center justify-center mb-4">
+            <Users class="w-8 h-8 text-deep-green/50" />
+          </div>
+          <p class="text-slate-light text-sm italic max-w-xs">
+            {faculty.placeholderNote ?? "Faculty details will be added soon."}
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+)}

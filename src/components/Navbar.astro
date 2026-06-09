@@ -24,6 +24,14 @@ import { SCHOOL } from "../data/school";
               {link.label}
             </a>
           ))}
+          {SCHOOL.faculty.enabled && (
+            <a
+              href="#faculty"
+              class="nav-link text-sm font-medium text-charcoal hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-deep-green"
+            >
+              Faculty
+            </a>
+          )}
         </div>
 
         <!-- Mobile: show "Menu" label + icon (left aligned so the nav row isn't empty on mobile) -->
@@ -60,6 +68,14 @@ import { SCHOOL } from "../data/school";
             {link.label}
           </a>
         ))}
+        {SCHOOL.faculty.enabled && (
+          <a
+            href="#faculty"
+            class="block text-base font-medium text-charcoal hover:text-deep-green hover:bg-deep-green/5 rounded-lg transition-colors duration-200 no-underline focus-visible:outline-deep-green px-3 py-3"
+          >
+            Faculty
+          </a>
+        )}
       </div>
     </div>
   </nav>
