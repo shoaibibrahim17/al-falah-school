@@ -29,6 +29,7 @@ export const SCHOOL = {
       { label: "Academics", href: "#academics" },
       { label: "Facilities", href: "#facilities" },
       { label: "Gallery", href: "#gallery" },
+      { label: "Parent Form", href: "#parent-form" },
       { label: "Contact", href: "#contact" },
     ],
     cta: "Enquire Now",
@@ -196,6 +197,19 @@ export const SCHOOL = {
   contact: {
     phone: "",
     email: "",
+  },
+
+  /* ── Parent Enquiry & Feedback Form ── */
+  parentForm: {
+    enabled: true,
+    heading: "Parent Enquiry & Feedback",
+    subtitle: "Share your enquiry, feedback, or suggestion with us. We read every message and respond as soon as possible.",
+    ctaLabel: "Open Form",
+    // Replace with your real Google Form link when ready.
+    // Example formats:
+    //   https://forms.gle/XXXXXXXXXXXXXXXX
+    //   https://docs.google.com/forms/d/e/XXXXXXXX/viewform
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSc_example/viewform?usp=sf_link",
   },
 
   /* ── Location / Contact Section ── */

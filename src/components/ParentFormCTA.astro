@@ -1,0 +1,52 @@
+---
+import { MessageSquare, ExternalLink } from "lucide-astro";
+import { SCHOOL } from "../data/school";
+
+const { parentForm } = SCHOOL;
+---
+
+{parentForm.enabled && (
+  <section id="parent-form" class="relative py-16 lg:py-20 overflow-hidden bg-deep-green/[0.02]">
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        data-reveal="scale"
+        class="relative bg-white rounded-3xl border border-ivory-dark shadow-xl shadow-charcoal/[0.06] p-8 sm:p-10 lg:p-12 text-center overflow-hidden"
+      >
+        <!-- Top green accent line -->
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark rounded-t-3xl" aria-hidden="true"></div>
+
+        <!-- Icon -->
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-deep-green to-deep-green-light shadow-lg shadow-deep-green/25 mb-6">
+          <MessageSquare class="w-8 h-8 text-white" />
+        </div>
+
+        <!-- Heading -->
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-charcoal leading-tight mb-3 tracking-tight">
+          {parentForm.heading}
+        </h2>
+
+        <!-- Subtitle -->
+        <p class="text-slate text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-8">
+          {parentForm.subtitle}
+        </p>
+
+        <!-- CTA -->
+        <a
+          href={parentForm.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary no-underline inline-flex"
+          data-cta
+        >
+          {parentForm.ctaLabel}
+          <ExternalLink class="w-5 h-5" />
+        </a>
+
+        <!-- Trust note -->
+        <p class="mt-4 text-xs text-slate-light">
+          Opens in a new secure window · Google Forms
+        </p>
+      </div>
+    </div>
+  </section>
+)}
