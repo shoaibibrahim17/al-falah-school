@@ -165,7 +165,7 @@ export const SCHOOL = {
       order: 2,
       startDate: null,
       endDate: null,
-      accent: "gold" as const,
+      accent: "green-light" as const,
     },
     {
       _id: "parent-communication",

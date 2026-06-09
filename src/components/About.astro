@@ -3,7 +3,7 @@ import { School, ArrowRight, BookOpen, GraduationCap, Sparkles, Leaf } from "luc
 import { SCHOOL } from "../data/school";
 ---
 
-<section id="about" class="relative py-16 lg:py-28 bg-ivory overflow-hidden">
+<section id="about" class="relative py-16 lg:py-28 bg-white overflow-hidden">
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <div class="absolute inset-0 bg-[radial-gradient(#0D5E3E_0.6px,transparent_0.6px)] [background-size:32px_32px] opacity-[0.03]"></div>
   </div>
@@ -14,8 +14,8 @@ import { SCHOOL } from "../data/school";
       <div data-reveal="slide-left" aria-hidden="true">
         <div class="relative">
           <!-- Decorative offset card behind -->
-          <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-gradient-to-br from-gold/15 to-deep-green/10"></div>
-          <div class="absolute inset-0 -translate-x-2 -translate-y-2 rounded-3xl bg-gradient-to-tl from-deep-green/8 to-gold/8"></div>
+          <div class="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl bg-gradient-to-br from-deep-green/10 to-deep-green/[0.03]"></div>
+          <div class="absolute inset-0 -translate-x-2 -translate-y-2 rounded-3xl bg-gradient-to-tl from-deep-green/8 to-deep-green/[0.02]"></div>
 
           <!-- Main illustration card -->
           <div class="relative aspect-[4/3] rounded-3xl bg-gradient-to-br from-deep-green to-deep-green-dark overflow-hidden shadow-2xl shadow-deep-green/20">
@@ -23,7 +23,7 @@ import { SCHOOL } from "../data/school";
             <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:20px_20px]"></div>
 
             <!-- Floating ambient circles -->
-            <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-gold/20 blur-2xl breathe-slow"></div>
+            <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-deep-green/15 blur-2xl breathe-slow"></div>
             <div class="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/10 blur-3xl breathe-slow delay"></div>
 
             <!-- Composed icon graphic -->
@@ -35,7 +35,7 @@ import { SCHOOL } from "../data/school";
                 </div>
 
                 <!-- Orbiting icon tiles -->
-                <div class="absolute -top-5 -left-8 w-12 h-12 rounded-2xl bg-gold flex items-center justify-center shadow-lg shadow-gold/40 float-soft">
+                <div class="absolute -top-5 -left-8 w-12 h-12 rounded-2xl bg-deep-green flex items-center justify-center shadow-lg shadow-deep-green/30 float-soft">
                   <BookOpen class="w-6 h-6 text-white" />
                 </div>
                 <div class="absolute -top-6 -right-9 w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-lg shadow-charcoal/20 float-soft" style="animation-delay: -1.2s">
@@ -44,8 +44,8 @@ import { SCHOOL } from "../data/school";
                 <div class="absolute -bottom-5 -left-6 w-11 h-11 rounded-2xl bg-white flex items-center justify-center shadow-lg shadow-charcoal/20 float-soft" style="animation-delay: -0.6s">
                   <Leaf class="w-5 h-5 text-deep-green-light" />
                 </div>
-                <div class="absolute -bottom-6 -right-8 w-12 h-12 rounded-2xl bg-gold-light flex items-center justify-center shadow-lg shadow-gold/40 float-soft" style="animation-delay: -1.8s">
-                  <Sparkles class="w-6 h-6 text-charcoal" />
+                <div class="absolute -bottom-6 -right-8 w-12 h-12 rounded-2xl bg-deep-green-light flex items-center justify-center shadow-lg shadow-deep-green/30 float-soft" style="animation-delay: -1.8s">
+                  <Sparkles class="w-6 h-6 text-white" />
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@ import { SCHOOL } from "../data/school";
         <div class="mt-8">
           <a
             href={SCHOOL.about.linkHref}
-            class="group link-arrow text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-gold cursor-pointer"
+            class="group link-arrow text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-deep-green cursor-pointer"
           >
             <span>{SCHOOL.about.linkText}</span>
             <ArrowRight class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />

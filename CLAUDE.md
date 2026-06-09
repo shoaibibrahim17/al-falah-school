@@ -1,71 +1,143 @@
-# Al-Falah High School — Project Requirements
+# Al-Falah School Website Project
 
-This file captures the long-lived requirements and rules for this project. Implementation choices may evolve, but anything in this file should be treated as a constraint when proposing or shipping changes.
+This is an Astro + Tailwind CSS school website for Al-Falah International School.
 
----
+## Project Goal
 
-## Content & integrity rules
+Build a premium, mobile-first school website with a real CMS dashboard so non-technical school staff can update content without touching code.
 
-- **No fake or unverified claims** anywhere on the site. If a fact isn't sourced from the client or from a verified public listing (JustDial / Google Maps for this school), it does not go on the page.
-- Phone, email, hours, principal name, established year, board affiliation, student count, awards, testimonials, and review numbers must come from the client. Until then, related UI must hide gracefully — not show placeholders that look real.
-- Layout is controlled by code. The client may edit content (text, images, links, ordering) but must not be able to redesign sections, change typography, change the color system, or rearrange the page structure.
+## Stack
 
----
 
-## Homepage Poster / Updates Slider
+- Astro
+- Tailwind CSS
+- TypeScript
+- Sanity CMS
+- Cloudflare Pages / GitHub Pages compatible static build
 
-A dedicated homepage section for featured posters and important school updates (e.g. admissions notices, event posters, holiday announcements). The client should be able to manage 2–3 featured posters from the CMS without writing any code.
+## Design Direction
 
-### 1. Frontend requirements
+- Premium academic style
+- Deep green, ivory, gold, white, charcoal
+- Islamic-inspired but modern
+- Parent-focused
+- Admission-enquiry focused
+- Mobile-first
+- Clean and trustworthy
+- No generic AI-looking layout
 
-- A homepage **poster/update slider section** that lives in the main page composition.
-- Shows **2–3 featured posters** at a time. Single-poster mode is allowed if only one is active.
-- Transitions smoothly like a **carousel** — slide or fade, using the existing iOS easing tokens (`--ease-ios-out`, `--ease-ios-spring`). No abrupt cuts, no JS-injected bounce that breaks the iOS-style motion language already in `src/styles/global.css`.
-- **Mobile responsive** — readable down to 375 px, single poster per view on small screens, proper touch swipe support, no horizontal page scroll.
-- **Matches the premium school design** — same border radius family, same shadow elevation language, same gold/deep-green/ivory palette, same `font-serif` for poster titles, same `data-reveal` entrance behavior, same `data-hover-card` interaction patterns.
-- Must **not look like a cheap ad banner**. No flashing borders, neon gradients, ALL-CAPS marketing copy, sharp red badges, or animated GIFs. Treat it as editorial — a curated set of cards, not a promo carousel.
-- **Hides gracefully** if there are no active posters: the entire section renders nothing (no empty container, no "coming soon" placeholder, no skeleton).
-- Respect `prefers-reduced-motion`: auto-advance disabled, transitions snap, but content stays fully accessible.
-- Keyboard-accessible (Tab/Enter on controls, Esc to pause auto-advance if implemented).
-- Each poster's image needs `alt` text — never empty, never derived from the filename.
+## Important Rules
 
-### 2. CMS requirements (Sanity — future integration)
+- Do not make fake claims.
+- Do not claim CBSE, transport, hostel, smart classrooms, international curriculum, awards, 100% result, or top-ranked unless clearly marked as placeholder or confirmed.
+- Keep website layout/design controlled by code.
+- CMS should let staff edit content safely, not freely redesign the website.
+- Do not build a fake dashboard.
+- Use a real CMS dashboard with Sanity.
+- Preserve current visual design unless the task specifically asks for UI changes.
+- Run `npm run build` after meaningful changes.
+- Fix all build errors before final response.
 
-When Sanity is wired in, define a schema type named **`homepagePoster`** (alias: `updatePoster`) with these fields, all editable by the client:
+## Editable CMS Content
 
-| Field | Type | Notes |
-|---|---|---|
-| `title` | string, required | Poster headline. |
-| `description` | text, optional | Short supporting line. |
-| `image` | image with hotspot, required | The poster art. |
-| `imageAlt` | string, required | Alt text. Mandatory — not optional. |
-| `ctaLabel` | string, optional | Button label, e.g. "Enquire Now". |
-| `ctaHref` | url or string, optional | Link target. Validate against allowed prefixes (`#…`, `https://…`, `tel:`, `mailto:`). |
-| `active` | boolean, default false | Master visibility switch. |
-| `featured` | boolean, default false | Surface in the homepage slider when true. |
-| `order` | number, default 0 | Sort key for stable ordering. |
-| `startDate` | datetime, optional | Show only on/after this date. |
-| `endDate` | datetime, optional | Hide on/after this date. |
+The CMS should eventually control:
 
-**Fetch behavior:**
-- Website **fetches active posters from Sanity** when Sanity is configured (env vars present, dataset reachable).
-- Filter logic: `active === true` AND `featured === true` AND (`!startDate || startDate <= now`) AND (`!endDate || now < endDate`), sorted by `order` then by `_updatedAt` descending. Cap at 3 results for the homepage.
-- **Fallback to `src/data/school.ts`** if Sanity is not configured or the fetch fails. Define a `SCHOOL.posters` array shape that mirrors the Sanity schema (so the same renderer can consume either source).
-- During the fallback path, the section still respects the same "hide gracefully when empty" rule.
+- School settings
+- Logo
+- Hero content
+- Admission notice
+- Academic levels
+- Facilities
+- Gallery categories
+- Multiple photos inside each gallery category
+- Principal/management message
+- Contact details
+- Footer links
 
-### 3. Rules
+## Gallery Requirement
 
-- **Do not let the client freely redesign layout.** No layout fields in the Sanity schema — no width, no alignment, no color picker, no font override, no "html" rich-text. The schema exposes content only.
-- **Only allow safe content editing.** Strings are length-validated, URLs are prefix-validated, dates are real dates, images use Sanity's hotspot/asset pipeline.
-- **Keep layout controlled by code.** The renderer in Astro decides spacing, animation, breakpoints, focus order. The CMS supplies data, not structure.
-- **No fake claims.** Posters shown publicly must reflect real school activity. Do not seed demo posters that imply events or programs the school hasn't confirmed.
-- **Don't ship code changes for this section yet** unless explicitly asked. This entry documents the contract for a future implementation pass.
+The gallery must support:
 
----
+- Categories like Our Campus, Library, Playground, Events, Activities, Classrooms
+- Multiple images per category
+- Cover image per category
+- Featured images for homepage
+- Full Gallery page
+- Filter by category
+- Mobile responsive grid
+- Optional lightbox if simple and reliable
 
-## Existing decisions (for reference)
+## CMS Dashboard Requirement
 
-- Tech: Astro 6 + Tailwind v4 + `lucide-astro` icons. Motion enhancements in `src/scripts/motion-enhance.ts`, reveal system in `src/scripts/reveal.ts`. Design tokens in `src/styles/global.css`.
-- Single source of content today: `src/data/school.ts`. The future Sanity integration must keep this file as the offline fallback.
-- Deploy: GitHub Pages via `.github/workflows/deploy.yml` on push to `master`.
-- Verified school facts (from public listings): name **Al-Falah High School**, locality **Shanti Nagar, Adilabad, Telangana**, coordinates **19.6690535, 78.5415095**.
+Use Sanity Studio as the real dashboard.
+
+Client should be able to:
+
+- Add/edit admission notice
+- Upload gallery photos
+- Add more photos under each gallery category
+- Reorder images/categories where possible
+- Edit contact information
+- Edit facilities and academic levels
+- Edit principal/management message
+
+Do not create a full drag-and-drop page builder.
+Allow safe content editing only.
+## Homepage Posters / Updates Slider Requirement
+
+The website should include a dedicated homepage space for continuously transitioning posters, announcements, or update banners.
+
+Purpose:
+- Show important school updates visually.
+- Highlight admissions, events, notices, annual day, exam schedules, parent meetings, achievements, or fee/admission reminders.
+- Allow the client to update these posters from the CMS without technical knowledge.
+
+Frontend requirement:
+- Add a dedicated section on the homepage for 2–3 featured posters/updates.
+- The section should appear near the top of the homepage, preferably after the hero section or inside the hero/admission area if it fits cleanly.
+- Posters should transition automatically in a smooth carousel/slider.
+- Include manual controls such as dots or previous/next buttons if clean.
+- Must be mobile responsive.
+- Must not look like an advertisement banner.
+- Must match the premium school design style.
+- Use deep green, ivory, gold, white, and charcoal styling.
+- Avoid flashy, cheap, or distracting animations.
+- Respect accessibility and reduced-motion preferences.
+
+CMS requirement:
+The client should be able to manage this section from Sanity CMS.
+
+CMS should allow:
+- Add poster/update title
+- Add short description
+- Upload poster image
+- Add CTA label
+- Add CTA link
+- Set active/inactive status
+- Set display order
+- Mark poster as featured
+- Add optional start date and end date for temporary updates
+
+Suggested CMS type:
+- homepagePoster or updatePoster
+
+Fields:
+- title: string, required
+- description: text
+- posterImage: image with alt text, required
+- ctaLabel: string
+- ctaHref: string
+- isActive: boolean
+- isFeatured: boolean
+- order: number
+- startDate: date optional
+- endDate: date optional
+
+Rules:
+- Show only active posters on the website.
+- Prefer showing 2–3 featured posters on the homepage.
+- If CMS is not configured, use fallback poster data from src/data/school.ts.
+- If no posters are available, the section should hide gracefully.
+- Do not break the website if images are missing.
+- Do not allow the client to redesign the whole page through this section.
+- The client can update content and images only; the layout stays controlled by code.

@@ -5,16 +5,24 @@
 
 @import "tailwindcss";
 
-/* ── Color Palette ─────────────────────────────────────────── */
+/* ── Color Palette ─────────────────────────────────────────────
+   Tuned to match the official Al-Falah banner identity:
+   - deep-green: vibrant school green from the calligraphy + logotype
+   - brand-red: vermillion red from the "ENGLISH MEDIUM" stripe —
+     used only for urgent action (admissions CTA, important notices)
+   - ivory: kept for subtle warm borders/background accents only
+   - gold: deprecated in UI; token kept for backward compatibility   */
 @theme {
-  --color-deep-green: #0D5E3E;
-  --color-deep-green-light: #1A7A52;
-  --color-deep-green-dark: #09452D;
+  --color-deep-green: #0F8A3D;
+  --color-deep-green-light: #14A848;
+  --color-deep-green-dark: #0A6F30;
   --color-ivory: #FDF8F0;
-  --color-ivory-dark: #F5EDE0;
+  --color-ivory-dark: #EFE9DC;
   --color-gold: #C99A3E;
   --color-gold-light: #D4B06A;
   --color-gold-dark: #A87D2E;
+  --color-brand-red: #D32D2A;
+  --color-brand-red-dark: #A82220;
   --color-slate: #475569;
   --color-slate-light: #64748B;
   --color-charcoal: #1E293B;
@@ -69,7 +77,7 @@
   }
 
   *:focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--color-deep-green);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -110,23 +118,21 @@
   justify-content: center;
   gap: 0.5rem;
   padding: 0.875rem 2rem;
-  background-color: var(--color-gold);
-  color: var(--color-charcoal);
+  background-color: var(--color-brand-red);
+  color: var(--color-white);
   font-size: var(--text-body);
   font-weight: 600;
   border-radius: 0.75rem;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(201, 154, 62, 0.2);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-gold) 20%, transparent);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-brand-red) 25%, transparent);
   transition: background-color 300ms var(--ease-ios-out),
               box-shadow 300ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
 }
 .btn-secondary:hover {
-  background-color: var(--color-gold-light);
-  box-shadow: 0 10px 28px rgba(201, 154, 62, 0.28);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-gold) 28%, transparent);
+  background-color: var(--color-brand-red-dark);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-brand-red) 32%, transparent);
 }
 .btn-secondary:active {
   transform: scale(0.96);
@@ -151,35 +157,41 @@
               transform 200ms var(--ease-ios-spring);
 }
 .btn-outline:hover {
-  border-color: var(--color-gold);
-  color: var(--color-gold-dark);
+  border-color: var(--color-deep-green);
+  color: var(--color-deep-green);
 }
 .btn-outline:active {
   transform: scale(0.96);
 }
 
-/* ── Component: Scroll-aware Navbar ─────────────────────────── */
+/* ── Component: Brand Header (large official logo strip) ──── */
+.brand-header {
+  /* The official artwork is wide; centre it and let it breathe. */
+  position: relative;
+  z-index: 1;
+}
+/* Subtle hover lift on the logo link — never recolors/distorts the image. */
+.brand-logo-link {
+  display: block;
+  transition: transform 350ms var(--ease-ios-spring);
+}
+.brand-logo-link:hover {
+  transform: translateY(-1px);
+}
+
+/* ── Component: Sticky Navigation (below brand header) ───── */
 [data-navbar] > nav {
   transition: background-color 400ms var(--ease-ios-out),
               backdrop-filter 400ms var(--ease-ios-out),
-              box-shadow 400ms var(--ease-ios-out);
+              box-shadow 400ms var(--ease-ios-out),
+              border-color 400ms var(--ease-ios-out);
 }
 [data-navbar][data-scrolled] > nav {
   background-color: rgb(255 255 255 / 0.98);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  box-shadow: 0 4px 20px rgba(30, 41, 59, 0.08);
-}
-[data-navbar] .nav-inner {
-  transition: height 400ms var(--ease-ios-out);
-}
-[data-navbar][data-scrolled] .nav-inner {
-  height: 3.5rem;
-}
-@media (min-width: 1024px) {
-  [data-navbar][data-scrolled] .nav-inner {
-    height: 4rem;
-  }
+  box-shadow: 0 6px 20px rgba(30, 41, 59, 0.08);
+  border-color: color-mix(in srgb, var(--color-deep-green) 30%, transparent);
 }
 
 /* Active nav link underline */
@@ -193,7 +205,7 @@
   right: 0;
   bottom: -6px;
   height: 2px;
-  background-color: var(--color-gold);
+  background-color: var(--color-deep-green);
   border-radius: 2px;
   transform: scaleX(0);
   transform-origin: center;
@@ -248,7 +260,7 @@
   inset: 0;
   border-radius: 1.25rem;
   padding: 1px;
-  background: linear-gradient(135deg, var(--color-gold), var(--color-deep-green), var(--color-gold-light));
+  background: linear-gradient(135deg, var(--color-deep-green-light), var(--color-deep-green), var(--color-deep-green-dark));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -260,8 +272,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.375rem 1rem;
-  background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
-  color: var(--color-charcoal);
+  background: linear-gradient(135deg, var(--color-deep-green), var(--color-deep-green-light));
+  color: var(--color-white);
   font-size: var(--text-caption);
   font-weight: 700;
   border-radius: 9999px;
@@ -574,11 +586,11 @@
   background: conic-gradient(
     from 0deg,
     transparent 0deg,
-    color-mix(in srgb, var(--color-gold) 35%, transparent) 60deg,
+    color-mix(in srgb, var(--color-white) 20%, transparent) 60deg,
     transparent 120deg,
     transparent 360deg
   );
-  opacity: 0.18;
+  opacity: 0.12;
   pointer-events: none;
   filter: blur(40px);
 }
@@ -689,8 +701,8 @@
 
   /* Admission CTA subtle glow */
   [data-cta="pulse"]:hover {
-    box-shadow: 0 0 28px color-mix(in srgb, var(--color-gold) 45%, transparent),
-                0 10px 36px color-mix(in srgb, var(--color-gold) 22%, transparent);
+    box-shadow: 0 0 28px color-mix(in srgb, var(--color-white) 35%, transparent),
+                0 10px 36px color-mix(in srgb, var(--color-white) 18%, transparent);
   }
 }
 
@@ -844,10 +856,10 @@
   border-radius: 1.5rem;
   padding: 0.5rem;
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--color-gold) 8%, transparent) inset,
+    0 1px 0 color-mix(in srgb, var(--color-deep-green) 8%, transparent) inset,
     0 18px 40px -16px rgba(30, 41, 59, 0.18);
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--color-gold) 8%, transparent) inset,
+    0 1px 0 color-mix(in srgb, var(--color-deep-green) 8%, transparent) inset,
     0 18px 40px -16px color-mix(in srgb, var(--color-charcoal) 18%, transparent);
 }
 @media (min-width: 640px) {
@@ -865,9 +877,9 @@
   padding: 1px;
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--color-gold) 55%, transparent),
-    color-mix(in srgb, var(--color-deep-green) 35%, transparent),
-    color-mix(in srgb, var(--color-gold-light) 50%, transparent)
+    color-mix(in srgb, var(--color-deep-green) 55%, transparent),
+    color-mix(in srgb, var(--color-deep-green-light) 35%, transparent),
+    color-mix(in srgb, var(--color-deep-green-dark) 50%, transparent)
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -994,7 +1006,7 @@
 .poster-dot-fill {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, var(--color-deep-green), var(--color-gold));
+  background: linear-gradient(to right, var(--color-deep-green), var(--color-deep-green-light));
   transform: translateX(-100%);
   border-radius: inherit;
 }

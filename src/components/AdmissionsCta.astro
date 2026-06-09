@@ -8,13 +8,13 @@ import { SCHOOL } from "../data/school";
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:24px_24px] opacity-60"></div>
     <div class="cta-sheen"></div>
-    <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-gold/15 blur-3xl breathe-slow"></div>
-    <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-gold/10 blur-3xl breathe-slow delay"></div>
+    <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-white/10 blur-3xl breathe-slow"></div>
+    <div class="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-white/5 blur-3xl breathe-slow delay"></div>
   </div>
 
   <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <div data-reveal>
-      <div class="inline-flex items-center gap-2 px-3 py-1 bg-gold/20 text-gold-light rounded-full text-xs font-semibold uppercase tracking-wider mb-5 backdrop-blur-sm border border-gold/20">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/15 text-white rounded-full text-xs font-semibold uppercase tracking-wider mb-5 backdrop-blur-sm border border-white/20">
         <Sparkles class="w-3.5 h-3.5" />
         {SCHOOL.admissionCard.year}
       </div>
@@ -27,7 +27,7 @@ import { SCHOOL } from "../data/school";
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
         <a
           href={SCHOOL.admissionsCta.ctaLink}
-          class="btn-secondary no-underline shadow-xl shadow-gold/30"
+          class="btn-secondary no-underline shadow-xl shadow-brand-red/30"
           data-cta="pulse"
           data-magnetic="0.25"
           data-magnetic-radius="100"
@@ -37,7 +37,7 @@ import { SCHOOL } from "../data/school";
         </a>
         <a
           href={`tel:${SCHOOL.contact.phone}`}
-          class="inline-flex items-center justify-center gap-2 px-5 sm:px-8 py-4 border-2 border-white/30 hover:border-white/60 text-white text-sm sm:text-base font-semibold rounded-xl transition-colors duration-200 no-underline focus-visible:outline-gold cursor-pointer backdrop-blur-sm"
+          class="inline-flex items-center justify-center gap-2 px-5 sm:px-8 py-4 border-2 border-white/30 hover:border-white/60 text-white text-sm sm:text-base font-semibold rounded-xl transition-colors duration-200 no-underline focus-visible:outline-white cursor-pointer backdrop-blur-sm"
           data-cta
         >
           <Phone class="w-5 h-5" />

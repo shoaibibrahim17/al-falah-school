@@ -7,11 +7,11 @@ import { SCHOOL } from "../data/school";
    single column on mobile. */
 const tileConfig = [
   { gradient: "from-deep-green via-deep-green-dark to-charcoal", iconBg: "bg-white", iconColor: "text-deep-green", Icon: MapPin, span: "lg:col-span-2 lg:row-span-2", aspect: "aspect-[4/5] lg:aspect-auto" },
-  { gradient: "from-gold via-gold-light to-ivory-dark", iconBg: "bg-white/90", iconColor: "text-gold-dark", Icon: ScrollText, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
-  { gradient: "from-deep-green-light via-deep-green to-deep-green-dark", iconBg: "bg-gold", iconColor: "text-white", Icon: Library, span: "", aspect: "aspect-square" },
-  { gradient: "from-gold-dark via-gold to-gold-light", iconBg: "bg-white", iconColor: "text-gold-dark", Icon: Trophy, span: "", aspect: "aspect-square" },
-  { gradient: "from-deep-green-dark via-deep-green to-deep-green-light", iconBg: "bg-gold-light", iconColor: "text-charcoal", Icon: Music, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
-  { gradient: "from-slate via-charcoal to-deep-green-dark", iconBg: "bg-gold", iconColor: "text-white", Icon: FlaskConical, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
+  { gradient: "from-charcoal via-charcoal to-deep-green-dark", iconBg: "bg-white/90", iconColor: "text-deep-green", Icon: ScrollText, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
+  { gradient: "from-deep-green-light via-deep-green to-deep-green-dark", iconBg: "bg-white", iconColor: "text-deep-green", Icon: Library, span: "", aspect: "aspect-square" },
+  { gradient: "from-deep-green-dark via-deep-green to-deep-green-light", iconBg: "bg-white", iconColor: "text-deep-green", Icon: Trophy, span: "", aspect: "aspect-square" },
+  { gradient: "from-deep-green-dark via-deep-green to-deep-green-light", iconBg: "bg-white", iconColor: "text-deep-green", Icon: Music, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
+  { gradient: "from-slate via-charcoal to-deep-green-dark", iconBg: "bg-white", iconColor: "text-deep-green", Icon: FlaskConical, span: "lg:col-span-2", aspect: "aspect-[16/9] lg:aspect-auto" },
 ];
 ---
 
@@ -37,7 +37,7 @@ const tileConfig = [
         return (
           <div
             data-gallery-card
-            class={`gallery-item relative ${cfg.aspect} ${cfg.span} rounded-2xl overflow-hidden border border-ivory-dark focus-visible:outline-gold cursor-pointer group`}
+            class={`gallery-item relative ${cfg.aspect} ${cfg.span} rounded-2xl overflow-hidden border border-ivory-dark focus-visible:outline-deep-green cursor-pointer group`}
             tabindex="0"
             role="img"
             aria-label={item.alt}

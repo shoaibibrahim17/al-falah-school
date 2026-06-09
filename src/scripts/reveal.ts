@@ -59,14 +59,24 @@
 
   /* ───── Navbar scroll listener + scroll-to-top FAB ───── */
   const navbar = document.querySelector("[data-navbar]");
+  const brandHeader = document.querySelector<HTMLElement>(".brand-header");
   const fab = document.querySelector<HTMLButtonElement>("[data-scroll-top]");
   if (navbar || fab) {
     let ticking = false;
+    /* Threshold = height of the brand header strip (if present), else 40px.
+       Re-measured on resize so the trigger stays accurate when the logo
+       reflows between breakpoints. */
+    let threshold = brandHeader ? brandHeader.offsetHeight : 40;
+    const recomputeThreshold = () => {
+      threshold = brandHeader ? brandHeader.offsetHeight : 40;
+    };
+    window.addEventListener("resize", recomputeThreshold, { passive: true });
+
     const onScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const y = window.scrollY;
-          if (navbar) navbar.toggleAttribute("data-scrolled", y > 40);
+          if (navbar) navbar.toggleAttribute("data-scrolled", y >= threshold);
           if (fab) fab.toggleAttribute("data-visible", y > 600);
           ticking = false;
         });

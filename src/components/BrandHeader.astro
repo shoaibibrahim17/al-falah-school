@@ -1,0 +1,43 @@
+---
+import { SCHOOL } from "../data/school";
+
+const base = import.meta.env.BASE_URL;
+const logoSvg = `${base}brand/al-falah-header-logo.svg`;
+const logoPng = `${base}brand/al-falah-header-logo.png`;
+const logoAlt = "Al-Falah High School English Medium official logo";
+---
+
+<!--
+  Dedicated brand header strip — the official logo is the page's primary
+  identity element, not a small badge inside the navbar. Renders in
+  normal document flow at the very top; the navbar below it is sticky
+  so navigation is still reachable after scrolling past this strip.
+-->
+<header
+  class="brand-header relative bg-white border-b-2 border-deep-green"
+  aria-label={`${SCHOOL.name} brand header`}
+>
+  <!-- Slim hairline above for premium feel; doesn't add visual weight -->
+  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-deep-green/40 to-transparent" aria-hidden="true"></div>
+
+  <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-5 lg:py-6">
+    <a
+      href="#"
+      class="brand-logo-link block mx-auto max-w-[860px] focus-visible:outline-deep-green rounded-sm"
+      aria-label={`${SCHOOL.name} home`}
+    >
+      <picture>
+        <source type="image/svg+xml" srcset={logoSvg} />
+        <img
+          src={logoPng}
+          alt={logoAlt}
+          width="2067"
+          height="355"
+          decoding="async"
+          fetchpriority="high"
+          class="block w-full h-auto select-none pointer-events-none"
+        />
+      </picture>
+    </a>
+  </div>
+</header>

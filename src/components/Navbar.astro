@@ -3,67 +3,63 @@ import { Menu, Phone } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 ---
 
-<div data-navbar class="fixed top-0 left-0 right-0 z-50">
-  <div class="h-1 bg-gradient-to-r from-deep-green via-gold to-deep-green"></div>
-  <nav class="bg-white/95 backdrop-blur-md border-b border-ivory-dark" aria-label="Main navigation">
+<!--
+  Sticky navigation that sits below the BrandHeader strip. Renders in
+  normal document flow at scroll = 0 and sticks to top:0 once the user
+  scrolls past the brand header. No logo here — the BrandHeader is the
+  identity element; this strip is for navigation only.
+-->
+<div data-navbar class="brand-nav sticky top-0 z-50">
+  <nav class="bg-white/95 backdrop-blur-md border-b border-deep-green/20" aria-label="Main navigation">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="nav-inner flex items-center justify-between h-16 lg:h-20">
-        <a href="#" class="flex items-center gap-2 no-underline focus-visible:outline-gold" aria-label="{SCHOOL.name} home">
-          <div class="w-9 h-9 rounded-lg bg-deep-green flex items-center justify-center text-white font-bold font-serif text-lg leading-none">
-            {SCHOOL.initials}
-          </div>
-          <div>
-            <span class="block text-base font-bold text-deep-green font-serif leading-tight">{SCHOOL.shortName}</span>
-            <span class="block text-[10px] text-gold font-medium tracking-wider uppercase leading-tight">High School</span>
-            <span class="hidden sm:block text-[9px] text-slate-light tracking-wide leading-tight mt-0.5">{SCHOOL.location.full}</span>
-          </div>
-        </a>
+      <div class="nav-inner flex items-center justify-between h-14 lg:h-16">
 
-      <div class="hidden lg:flex items-center gap-8">
+        <!-- Desktop nav links (left) -->
+        <div class="hidden lg:flex items-center gap-7">
+          {SCHOOL.nav.links.map((link) => (
+            <a
+              href={link.href}
+              class="nav-link text-sm font-medium text-charcoal hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-deep-green"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        <!-- Mobile: show "Menu" label + icon (left aligned so the nav row isn't empty on mobile) -->
+        <button
+          id="menu-toggle"
+          class="lg:hidden inline-flex items-center gap-2 px-3 py-2 text-deep-green hover:text-deep-green-light transition-colors duration-200 cursor-pointer focus-visible:outline-deep-green min-h-[44px] -ml-2"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <Menu class="w-5 h-5" id="menu-icon" />
+          <span class="text-sm font-semibold">Menu</span>
+        </button>
+
+        <!-- Right side: CTA -->
+        <a
+          href="#contact"
+          class="btn-primary !px-4 sm:!px-5 !py-2 sm:!py-2.5 !text-sm !rounded-lg no-underline"
+        >
+          <Phone class="w-4 h-4" />
+          <span class="hidden sm:inline">{SCHOOL.nav.cta}</span>
+          <span class="sm:hidden">Enquire</span>
+        </a>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-deep-green/15" role="navigation" aria-label="Mobile navigation">
+      <div class="px-4 py-4 space-y-1">
         {SCHOOL.nav.links.map((link) => (
           <a
             href={link.href}
-            class="nav-link text-sm font-medium text-slate hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-gold"
+            class="block text-base font-medium text-charcoal hover:text-deep-green hover:bg-deep-green/5 rounded-lg transition-colors duration-200 no-underline focus-visible:outline-deep-green px-3 py-3"
           >
             {link.label}
           </a>
         ))}
-        <a
-          href="#contact"
-          class="btn-secondary !px-5 !py-2.5 !text-sm !rounded-lg no-underline"
-        >
-          <Phone class="w-4 h-4" />
-          {SCHOOL.nav.cta}
-        </a>
-      </div>
-
-      <button
-        id="menu-toggle"
-        class="lg:hidden p-2.5 text-deep-green hover:text-deep-green-light transition-colors duration-200 cursor-pointer focus-visible:outline-gold min-w-[44px] min-h-[44px] flex items-center justify-center"
-        aria-label="Toggle navigation menu"
-        aria-expanded="false"
-      >
-        <Menu class="w-6 h-6" id="menu-icon" />
-      </button>
-    </div>
-  </div>
-
-  <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-ivory-dark" role="navigation" aria-label="Mobile navigation">
-    <div class="px-4 py-4 space-y-3">
-      {SCHOOL.nav.links.map((link) => (
-        <a
-          href={link.href}
-          class="block text-base font-medium text-slate hover:text-deep-green transition-colors duration-200 no-underline focus-visible:outline-gold py-2.5"
-        >
-          {link.label}
-        </a>
-      ))}
-      <a
-        href="#contact"
-        class="block text-center btn-secondary no-underline py-3"
-      >
-        {SCHOOL.nav.cta}
-      </a>
       </div>
     </div>
   </nav>
@@ -82,9 +78,9 @@ import { SCHOOL } from "../data/school";
       toggle.setAttribute("aria-expanded", String(!isOpen));
       if (icon) {
         if (isOpen) {
-          icon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-6 h-6" id="menu-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>';
+          icon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-5 h-5" id="menu-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>';
         } else {
-          icon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-6 h-6" id="menu-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+          icon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-5 h-5" id="menu-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
         }
       }
     });

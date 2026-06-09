@@ -28,19 +28,19 @@ const iconFor: Record<string, typeof Megaphone> = {
 
 const accentPalette = {
   "deep-green": "from-deep-green via-deep-green to-deep-green-dark",
-  gold: "from-gold-dark via-gold to-gold-light",
+  "green-light": "from-deep-green-light via-deep-green to-deep-green-dark",
 } as const;
 ---
 
 {hasPosters && (
   <section
     id="updates"
-    class="relative py-14 lg:py-20 bg-ivory overflow-hidden"
+    class="relative py-14 lg:py-20 bg-white overflow-hidden"
     aria-label={SCHOOL.updates.eyebrow}
   >
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
       <div class="absolute top-0 right-1/3 w-72 h-72 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
-      <div class="absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-gold/[0.05] blur-3xl"></div>
+      <div class="absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
     </div>
 
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,7 +63,7 @@ const accentPalette = {
         data-interval="4500"
         data-count={posters.length}
       >
-        <!-- Outer premium frame: ivory card, gold corner gradient, soft shadow -->
+        <!-- Outer premium frame: ivory card, green corner gradient, soft shadow -->
         <div class="poster-frame relative">
           <!-- Track / stage -->
           <div class="poster-stage relative aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-[1.25rem]">
