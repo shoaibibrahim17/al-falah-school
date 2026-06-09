@@ -833,28 +833,78 @@
   display: block;
 }
 
-/* ── Component: Poster / Updates Slider ──────────────────── */
+/* ── Component: Poster / Updates Slider (image-only) ────────
+   Premium ivory frame holds a single image at a time. Image uses
+   object-contain so poster text never crops; the frame itself
+   shows soft padding so a "shorter" image gets framed, not stretched. */
+.poster-frame {
+  position: relative;
+  background: var(--color-white);
+  border: 1px solid var(--color-ivory-dark);
+  border-radius: 1.5rem;
+  padding: 0.5rem;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-gold) 8%, transparent) inset,
+    0 18px 40px -16px rgba(30, 41, 59, 0.18);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-gold) 8%, transparent) inset,
+    0 18px 40px -16px color-mix(in srgb, var(--color-charcoal) 18%, transparent);
+}
+@media (min-width: 640px) {
+  .poster-frame {
+    padding: 0.75rem;
+    border-radius: 1.75rem;
+  }
+}
+/* Soft gold/green corner gradient ring */
+.poster-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-gold) 55%, transparent),
+    color-mix(in srgb, var(--color-deep-green) 35%, transparent),
+    color-mix(in srgb, var(--color-gold-light) 50%, transparent)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
 .poster-stage {
+  position: relative;
   display: grid;
   grid-template-areas: "stack";
+  background: var(--color-ivory);
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--color-deep-green) 6%, transparent) 0.8px, transparent 0.8px);
+  background-size: 22px 22px;
 }
+
 .poster-slide {
   grid-area: stack;
+  position: relative;
+  width: 100%;
+  height: 100%;
   opacity: 0;
-  transform: translateY(16px) scale(0.985);
+  transform: scale(1.015);
   filter: blur(8px);
   pointer-events: none;
   transition: opacity 700ms var(--ease-ios-out),
-              transform 700ms var(--ease-ios-out),
+              transform 900ms var(--ease-ios-out),
               filter 700ms var(--ease-ios-out);
   will-change: opacity, transform, filter;
 }
 .poster-slide.is-active {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: scale(1);
   filter: blur(0);
   pointer-events: auto;
-  position: relative;
   z-index: 2;
 }
 .poster-slide:not(.is-active) {
@@ -863,24 +913,45 @@
   z-index: 1;
 }
 
+/* The actual poster image — contain protects text in poster designs */
+.poster-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  background: var(--color-ivory);
+}
+
+/* Decorative placeholder when no image is uploaded yet */
+.poster-placeholder {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
 /* Carousel navigation arrows */
 .poster-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 9999px;
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--color-deep-green);
   border: 1px solid var(--color-ivory-dark);
   display: none;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 3;
-  box-shadow: 0 6px 18px rgba(30, 41, 59, 0.10);
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
+  z-index: 4;
+  box-shadow: 0 8px 22px rgba(30, 41, 59, 0.12);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--color-charcoal) 12%, transparent);
   transition: background-color 200ms var(--ease-ios-out),
               color 200ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
@@ -893,8 +964,8 @@
 .poster-nav:active {
   transform: translateY(-50%) scale(0.95);
 }
-.poster-nav-prev { left: 0.75rem; }
-.poster-nav-next { right: 0.75rem; }
+.poster-nav-prev { left: 1rem; }
+.poster-nav-next { right: 1rem; }
 @media (min-width: 768px) {
   .poster-nav { display: flex; }
 }
@@ -929,7 +1000,7 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .poster-dot.is-active .poster-dot-fill {
-    animation: poster-dot-progress 5.5s linear forwards;
+    animation: poster-dot-progress 4.5s linear forwards;
   }
 }
 @keyframes poster-dot-progress {
@@ -941,6 +1012,7 @@
   .poster-slide {
     transition: none;
     filter: none;
+    transform: none;
   }
   .poster-dot,
   .poster-dot.is-active {
