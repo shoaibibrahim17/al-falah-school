@@ -1,51 +1,98 @@
 ---
-import { MessageSquare, ExternalLink } from "lucide-astro";
+/* Parent Help Desk — practical, grounded section. Not a SaaS card.
+   Two-column on desktop: request types on the left, action panel on the right.
+   Stacks cleanly on mobile. Green identity, red only for the label. */
+import { ExternalLink } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 
 const { parentForm } = SCHOOL;
+
+const hasValidUrl = parentForm.url && !parentForm.url.includes("_example");
 ---
 
 {parentForm.enabled && (
-  <section id="parent-form" class="relative py-16 lg:py-20 overflow-hidden bg-deep-green/[0.02]">
-    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div
-        data-reveal="scale"
-        class="relative bg-white rounded-3xl border border-ivory-dark shadow-xl shadow-charcoal/[0.06] p-8 sm:p-10 lg:p-12 text-center overflow-hidden"
-      >
-        <!-- Top green accent line -->
-        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark rounded-t-3xl" aria-hidden="true"></div>
+  <section id="parent-form" class="relative py-16 lg:py-24 bg-white">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section label — red only here -->
+      <div data-reveal="fade" class="mb-6">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-brand-red/10 text-brand-red rounded-full text-sm font-semibold tracking-wide ring-1 ring-brand-red/20">
+          {parentForm.label}
+        </span>
+      </div>
 
-        <!-- Icon -->
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-deep-green to-deep-green-light shadow-lg shadow-deep-green/25 mb-6">
-          <MessageSquare class="w-8 h-8 text-white" />
+      <!-- Heading -->
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-serif text-charcoal leading-[1.1] tracking-tight mb-4">
+        {parentForm.heading}
+      </h2>
+
+      <!-- Description -->
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-2xl mb-10 lg:mb-14">
+        {parentForm.description}
+      </p>
+
+      <!-- Two-column layout -->
+      <div data-reveal-group class="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
+
+        <!-- Left: request type cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4" data-reveal="slide-left">
+          {parentForm.requestTypes.map((label) => (
+            <div class="request-type-card group flex items-center gap-4 px-5 py-4 rounded-xl border border-ivory-dark bg-white hover:bg-deep-green/[0.03] transition-colors duration-200 cursor-default">
+              <span class="request-type-dot flex-shrink-0 w-2 h-2 rounded-full bg-deep-green group-hover:bg-deep-green-light transition-colors duration-200"></span>
+              <span class="text-sm font-medium text-charcoal group-hover:text-deep-green transition-colors duration-200">
+                {label}
+              </span>
+            </div>
+          ))}
         </div>
 
-        <!-- Heading -->
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif text-charcoal leading-tight mb-3 tracking-tight">
-          {parentForm.heading}
-        </h2>
-
-        <!-- Subtitle -->
-        <p class="text-slate text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-8">
-          {parentForm.subtitle}
-        </p>
-
-        <!-- CTA -->
-        <a
-          href={parentForm.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary no-underline inline-flex"
-          data-cta
+        <!-- Right: action panel -->
+        <div
+          data-reveal="slide-right"
+          class="relative bg-white rounded-2xl border-2 border-deep-green/20 p-6 sm:p-8 lg:p-10 flex flex-col items-start justify-between"
         >
-          {parentForm.ctaLabel}
-          <ExternalLink class="w-5 h-5" />
-        </a>
+          <!-- Green top accent bar -->
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark rounded-t-2xl" aria-hidden="true"></div>
 
-        <!-- Trust note -->
-        <p class="mt-4 text-xs text-slate-light">
-          Opens in a new secure window · Google Forms
-        </p>
+          <div>
+            <h3 class="text-xl sm:text-2xl font-bold font-serif text-charcoal mb-3">
+              {parentForm.panel.title}
+            </h3>
+            <p class="text-slate text-sm sm:text-base leading-relaxed mb-6">
+              {parentForm.panel.description}
+            </p>
+          </div>
+
+          <div class="w-full">
+            {hasValidUrl ? (
+              <a
+                href={parentForm.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary no-underline w-full sm:w-auto inline-flex"
+                data-cta
+              >
+                {parentForm.panel.ctaLabel}
+                <ExternalLink class="w-4 h-4" />
+              </a>
+            ) : (
+              <button
+                type="button"
+                disabled
+                class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-charcoal/50 text-white/70 text-sm font-semibold rounded-xl cursor-not-allowed w-full sm:w-auto"
+              >
+                {parentForm.panel.ctaLabel}
+                <span class="text-[10px] uppercase tracking-wider">
+                  {parentForm.panel.urlPlaceholder}
+                </span>
+              </button>
+            )}
+
+            <p class="mt-5 text-xs text-slate-light leading-relaxed max-w-sm">
+              {parentForm.panel.note}
+            </p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

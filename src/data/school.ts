@@ -14,10 +14,10 @@ export const SCHOOL = {
 
   /* ── Location ── (verified from Google Maps + JustDial listings) */
   location: {
-    address: "Shanti Nagar, Adilabad",
+    address: "Shanti Nagar Road, Bokkalguda, Adilabad",
     city: "Adilabad",
     state: "Telangana",
-    full: "Shanti Nagar, Adilabad, Telangana",
+    full: "Shanti Nagar Road, Bokkalguda, Adilabad, Telangana 504001",
     coordinates: { lat: 19.6690535, lng: 78.5415095 },
   },
 
@@ -40,7 +40,7 @@ export const SCHOOL = {
     badge: "Admissions Open for 2026–27",
     headline: "A Strong Foundation for Every Child's Future",
     highlightPhrase: "Strong Foundation",
-    subtitle: "A focused learning environment in Shanti Nagar, Adilabad, centred on academic growth, values, and student well-being.",
+    subtitle: "A focused learning environment in Shanti Nagar Road, Bokkalguda, Adilabad, centred on academic growth, values, and student well-being.",
     cta: "Enquire About Admissions",
     ctaLink: "#contact",
     secondaryCta: "Explore Our School",
@@ -60,7 +60,7 @@ export const SCHOOL = {
   trustBadges: [
     { label: "Primary to Secondary" },
     { label: "State Board" },
-    { label: "Shanti Nagar, Adilabad" },
+    { label: "Shanti Nagar Road, Bokkalguda, Adilabad" },
     { label: "Admissions Enquiry Open" },
   ],
 
@@ -70,7 +70,7 @@ export const SCHOOL = {
     imagePlaceholder: "Our School Campus",
     paragraphs: [
       "Al-Falah High School was founded with a vision to provide accessible, quality education to families in the Adilabad region. We focus on building strong academic foundations while nurturing values that help students grow into responsible individuals.",
-      "Our campus in Shanti Nagar, Adilabad, offers a safe and supportive environment where students from Pre-Primary through Secondary receive personal attention in every class.",
+      "Our campus in Shanti Nagar Road, Bokkalguda, Adilabad, offers a safe and supportive environment where students from Pre-Primary through Secondary receive personal attention in every class.",
     ],
     linkText: "Know more about us",
     linkHref: "#contact",
@@ -202,9 +202,23 @@ export const SCHOOL = {
   /* ── Parent Enquiry & Feedback Form ── */
   parentForm: {
     enabled: true,
-    heading: "Parent Enquiry & Feedback",
-    subtitle: "Share your enquiry, feedback, or suggestion with us. We read every message and respond as soon as possible.",
-    ctaLabel: "Open Form",
+    label: "For Parents",
+    heading: "Parent Help Desk",
+    description: "Use this form for admission enquiries, general questions, suggestions, complaints, or callback requests. Your message will be reviewed by the school office.",
+    requestTypes: [
+      "Admission Enquiry",
+      "General Enquiry",
+      "Complaint / Concern",
+      "Suggestion",
+      "Request Callback",
+    ],
+    panel: {
+      title: "Submit a Request",
+      description: "The form opens in a secure Google Form.",
+      ctaLabel: "Fill Parent Form",
+      note: "Please enter a correct mobile number so the school office can contact you.",
+      urlPlaceholder: "Form link will be available soon",
+    },
     // Replace with your real Google Form link when ready.
     // Example formats:
     //   https://forms.gle/XXXXXXXXXXXXXXXX
@@ -222,13 +236,19 @@ export const SCHOOL = {
 
   /* ── Footer ── */
   footer: {
-    description: "Al-Falah High School is committed to helping every student build confidence, strong values, and a love for learning.",
+    description: "An English Medium school in Adilabad focused on learning, discipline, values, and parent-friendly communication.",
     quickLinks: [
+      { label: "Home", href: "#" },
       { label: "About", href: "#about" },
       { label: "Academics", href: "#academics" },
       { label: "Facilities", href: "#facilities" },
       { label: "Gallery", href: "#gallery" },
+    ],
+    parentSupportLinks: [
+      { label: "Parent Form", href: "#parent-form" },
+      { label: "Admissions Enquiry", href: "#contact" },
       { label: "Contact", href: "#contact" },
+      { label: "Location", href: "#contact" },
     ],
     socialLinks: {
       facebook: "#",

@@ -1036,23 +1036,23 @@
 /* ── Component: Floating Action Button (scroll to top) ────── */
 .fab-scroll-top {
   position: fixed;
-  bottom: 1.25rem;
-  right: 1.25rem;
+  bottom: 1rem;
+  right: 1rem;
   z-index: 60;
-  width: 3rem;
-  height: 3rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 9999px;
   background: var(--color-white);
   color: var(--color-deep-green);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-ivory-dark);
+  border: 1px solid var(--color-deep-green)/15;
   cursor: pointer;
-  box-shadow: 0 10px 28px rgba(30, 41, 59, 0.12);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+  box-shadow: 0 6px 18px rgba(30, 41, 59, 0.10);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
   opacity: 0;
-  transform: translateY(20px) scale(0.85);
+  transform: translateY(16px) scale(0.85);
   pointer-events: none;
   transition: opacity 400ms var(--ease-ios-out),
               transform 400ms var(--ease-ios-spring),
@@ -1067,16 +1067,16 @@
 .fab-scroll-top:hover {
   background: var(--color-deep-green);
   color: var(--color-white);
-  box-shadow: 0 16px 36px color-mix(in srgb, var(--color-deep-green) 28%, transparent);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-deep-green) 25%, transparent);
 }
 .fab-scroll-top:active {
   transform: translateY(0) scale(0.92);
 }
 @media (min-width: 640px) {
   .fab-scroll-top {
-    bottom: 1.75rem;
-    right: 1.75rem;
-    width: 3.25rem;
-    height: 3.25rem;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
