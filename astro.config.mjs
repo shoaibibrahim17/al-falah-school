@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
@@ -20,7 +19,7 @@ if (sanityEnabled) {
       projectId: sanityProjectId,
       dataset: sanityDataset,
       useCdn: true,
-      apiVersion: '2025-01-01',
+      apiVersion: process.env.PUBLIC_SANITY_API_VERSION || '2025-01-01',
     })
   );
 }
@@ -28,10 +27,8 @@ if (sanityEnabled) {
 export default defineConfig({
   site: 'https://shoaibibrahim17.github.io',
   base: '/al-falah-school/',
-
   vite: {
     plugins: [tailwindcss()],
   },
-
   integrations,
 });

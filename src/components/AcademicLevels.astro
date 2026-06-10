@@ -27,11 +27,11 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
 
     <div class="relative">
       <!-- Connecting line (desktop only) -->
-      <div class="hidden lg:block absolute left-0 right-0 top-[5.5rem] h-px pointer-events-none" aria-hidden="true">
+      <div class="hidden lg:block absolute left-0 right-0 top-[4.5rem] h-px pointer-events-none" aria-hidden="true">
         <div class="h-full bg-[linear-gradient(to_right,transparent,var(--color-deep-green)_15%,var(--color-deep-green)_85%,transparent)] opacity-20"></div>
       </div>
 
-      <div data-reveal-group class="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+      <div data-reveal-group class="relative grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
         {SCHOOL.academicLevels.levels.map((level, i) => {
           const Icon = iconMap[level.icon] || BookOpen;
           const stepNo = String(i + 1).padStart(2, "0");
