@@ -1,5 +1,5 @@
 ---
-import { Megaphone, GraduationCap, Sparkles, MessageSquare, Image as ImageIcon } from "lucide-astro";
+import { Megaphone, GraduationCap, MessageSquare, Image as ImageIcon } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 
 /* Filter posters the way the future Sanity fetch will:
@@ -18,11 +18,11 @@ const posters = SCHOOL.posters
 
 const hasPosters = posters.length > 0;
 
-/* Decorative placeholder palette/icon — used only when a poster has no image.
-   Code controls the visual; CMS controls the content (title/alt). */
+/* Decorative icon per poster — used only when no image is set.
+   Simple, consistent styling. */
 const iconFor: Record<string, typeof Megaphone> = {
   "admissions-enquiry-2026-27": GraduationCap,
-  "school-activities": Sparkles,
+  "school-office-hours": MessageSquare,
   "parent-communication": MessageSquare,
 };
 
@@ -35,17 +35,12 @@ const accentPalette = {
 {hasPosters && (
   <section
     id="updates"
-    class="relative py-14 lg:py-20 bg-white overflow-hidden"
+    class="relative py-12 lg:py-16 bg-white overflow-hidden"
     aria-label={SCHOOL.updates.eyebrow}
   >
-    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-0 right-1/3 w-72 h-72 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
-      <div class="absolute bottom-0 left-1/4 w-72 h-72 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
-    </div>
-
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Section header (kept compact — image is the focus) -->
-      <div class="text-center max-w-2xl mx-auto mb-7 lg:mb-10">
+      <!-- Section header -->
+      <div class="text-center max-w-xl mx-auto mb-6 lg:mb-8">
         <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-3">
           <Megaphone class="w-3.5 h-3.5" />
           {SCHOOL.updates.eyebrow}
@@ -55,7 +50,7 @@ const accentPalette = {
         </h2>
       </div>
 
-      <!-- Slider -->
+      <!-- Poster slider -->
       <div
         data-reveal="fade"
         class="poster-slider relative"
@@ -63,10 +58,9 @@ const accentPalette = {
         data-interval="4500"
         data-count={posters.length}
       >
-        <!-- Outer premium frame: ivory card, green corner gradient, soft shadow -->
         <div class="poster-frame relative">
-          <!-- Track / stage -->
-          <div class="poster-stage relative aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-[1.25rem]">
+          <!-- Slide track -->
+          <div class="poster-stage relative overflow-hidden rounded-xl">
             {posters.map((p, i) => {
               const Icon = iconFor[p._id] ?? ImageIcon;
               const accent = accentPalette[p.accent] ?? accentPalette["deep-green"];
@@ -89,39 +83,37 @@ const accentPalette = {
                       decoding="async"
                     />
                   ) : (
-                    <!-- Decorative placeholder — premium gradient block, not an ad banner -->
+                    /* Poster placeholder — clean gradient block */
                     <div
                       class={`poster-placeholder bg-gradient-to-br ${accent}`}
                       role="img"
                       aria-label={p.imageAlt}
                     >
+                      <!-- Subtle dot pattern -->
                       <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.10)_1px,transparent_1px)] [background-size:22px_22px] opacity-50"></div>
-                      <div class="absolute -top-14 -right-14 w-56 h-56 rounded-full bg-white/15 blur-3xl breathe-slow"></div>
-                      <div class="absolute -bottom-14 -left-14 w-52 h-52 rounded-full bg-white/10 blur-3xl breathe-slow delay"></div>
 
+                      <!-- Center icon -->
                       <div class="absolute inset-0 flex items-center justify-center">
-                        <div class="relative">
-                          <div class="absolute inset-0 -m-3 rounded-3xl bg-white/15 blur-xl"></div>
-                          <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-xl shadow-charcoal/30">
-                            <Icon class="w-10 h-10 sm:w-12 sm:h-12 text-deep-green" />
-                          </div>
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center shadow-lg">
+                          <Icon class="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                         </div>
                       </div>
 
-                      <!-- Brand mark in corner so the placeholder still feels institutional -->
-                      <div class="absolute top-4 left-4 text-white/85 text-[10px] font-semibold tracking-[0.22em] uppercase">
-                        {SCHOOL.shortName} · {SCHOOL.updates.eyebrow}
+                      <!-- Brand in corner -->
+                      <div class="absolute top-4 left-4 text-white/80 text-[10px] font-semibold tracking-[0.20em] uppercase">
+                        {SCHOOL.shortName}
                       </div>
                     </div>
                   )}
 
-                  <!-- Title/description kept for screen readers only — frontend visual is image-led -->
+                  <!-- Screen reader text -->
                   <span class="sr-only">{p.title}. {p.description}</span>
                 </article>
               );
             })}
           </div>
 
+          {/* Navigation arrows */}
           {posters.length > 1 && (
             <>
               <button
@@ -148,6 +140,7 @@ const accentPalette = {
           )}
         </div>
 
+        {/* Dot indicators */}
         {posters.length > 1 && (
           <div class="mt-4 sm:mt-5 flex items-center justify-center">
             <div class="poster-dots flex items-center gap-2" role="tablist" aria-label="Choose announcement">
@@ -270,7 +263,7 @@ const accentPalette = {
           else tick();
         });
 
-        /* Touch swipe (mobile) */
+        /* Touch swipe */
         let touchStartX = 0;
         let touchStartY = 0;
         root.addEventListener(
