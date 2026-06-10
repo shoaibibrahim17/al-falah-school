@@ -32,35 +32,38 @@ export const SCHOOL = {
       { label: "Parent Form", href: "#parent-form" },
       { label: "Contact", href: "#contact" },
     ],
-    cta: "Enquire Now",
+    cta: "Parent Form",
+    ctaLink: "#parent-form",
   },
 
   /* ── Hero Section ── */
   hero: {
     badge: "Admissions Open for 2026–27",
-    headline: "A Strong Foundation for Every Child's Future",
-    highlightPhrase: "Strong Foundation",
-    subtitle: "A focused learning environment in Shanti Nagar Road, Bokkalguda, Adilabad, centred on academic growth, values, and student well-being.",
-    cta: "Enquire About Admissions",
+    headline: "Al-Falah High School",
+    subtitle: "A neighbourhood school on Shanti Nagar Road focused on building strong basics, good habits, and clear communication with parents.",
+    cta: "Admission Enquiry",
     ctaLink: "#contact",
-    secondaryCta: "Explore Our School",
-    secondaryLink: "#academics",
-    admissionCardCta: "Enquire Now",
-  },
-
-  /* ── Admission Card (inside Hero) ── */
-  admissionCard: {
-    badge: "Admissions Enquiry Open",
-    year: "Academic Year 2026–27",
-    tagline: "Learning · Values · Growth",
-    highlights: ["Library", "Playground", "Focused Learning"],
+    secondaryCta: "Learn More",
+    secondaryLink: "#about",
+    /* Background image — subtle blurred atmosphere behind hero content */
+    backgroundImage: {
+      src: "/images/hero/al-falah-hero-bg.png",
+      alt: "",
+      isActive: true,
+    },
+    /* Foreground visual — clear school building card on right */
+    visualImage: {
+      src: "/images/hero/al-falah-building-card.png",
+      alt: "Exterior view of Al-Falah High School building",
+      caption: "School building exterior",
+      isActive: true,
+    },
   },
 
   /* ── Trust Badges (inside Hero) ── */
   trustBadges: [
-    { label: "Primary to Secondary" },
+    { label: "English Medium" },
     { label: "State Board" },
-    { label: "Shanti Nagar Road, Bokkalguda, Adilabad" },
     { label: "Admissions Enquiry Open" },
   ],
 
@@ -69,60 +72,61 @@ export const SCHOOL = {
     heading: "About Al-Falah",
     imagePlaceholder: "Our School Campus",
     paragraphs: [
-      "Al-Falah High School was founded with a vision to provide accessible, quality education to families in the Adilabad region. We focus on building strong academic foundations while nurturing values that help students grow into responsible individuals.",
-      "Our campus in Shanti Nagar Road, Bokkalguda, Adilabad, offers a safe and supportive environment where students from Pre-Primary through Secondary receive personal attention in every class.",
+      "Al-Falah High School is an English-medium school in Bokkalguda, Adilabad. We serve students from the local neighbourhood and surrounding areas, focusing on clear basics, regular practice, and honest communication with parents.",
+      "The school is located on Shanti Nagar Road and is reachable for admission enquiries, school visits, and general questions during office hours.",
     ],
-    linkText: "Know more about us",
+    linkText: "Contact the school office",
     linkHref: "#contact",
   },
 
-  /* ── Why Choose Us Section ── */
-  whyChooseUs: {
-    subtitle: "What families trust about Al-Falah.",
+  /* ── What Parents Can Expect Section ── */
+  whatParentsCanExpect: {
+    subtitle: "Here's what parents and students can expect at Al-Falah.",
     items: [
-      { title: "Experienced Faculty", description: "Our teachers bring years of classroom experience and a genuine commitment to helping every student succeed.", icon: "BookOpen" },
-      { title: "Balanced Development", description: "We encourage students to take part in academics, sports, and creative activities for well-rounded growth.", icon: "Sparkles" },
-      { title: "Safe & Supportive Campus", description: "A well-maintained campus with a child-safe environment where students feel secure and respected.", icon: "Shield" },
-      { title: "Personal Attention", description: "Small class sizes allow teachers to understand each student's strengths and support their individual learning needs.", icon: "Users" },
-      { title: "Engaging Classrooms", description: "Our teachers use interactive methods and regular assessments to make learning clear, meaningful, and enjoyable.", icon: "Monitor" },
-      { title: "Values-Based Learning", description: "Moral education and character-building activities are part of everyday school life, helping students grow with integrity.", icon: "Heart" },
+      { title: "Academic Focus", description: "Clear, structured lessons in language, mathematics, science, and social studies following the state board curriculum.", icon: "BookOpen" },
+      { title: "Values & Discipline", description: "Daily habits and conduct are part of school life — punctuality, respect, and honest work are encouraged consistently.", icon: "Sparkles" },
+      { title: "Parent-Friendly Communication", description: "The school office is reachable for queries, visit requests, and regular updates. Parents are kept informed.", icon: "Shield" },
+      { title: "Admission Guidance", description: "The admission process is straightforward. The school office helps parents with forms, documents, and enquiries.", icon: "Users" },
+      { title: "School Office Support", description: "For fee queries, leave applications, exam schedules, and general concerns — the school office assists parents directly.", icon: "Monitor" },
+      { title: "Clean Learning Environment", description: "A simple, well-kept campus with adequate space for learning activities and basic amenities.", icon: "Heart" },
     ],
   },
 
   /* ── Academic Levels Section ── */
   academicLevels: {
-    subtitle: "A comprehensive academic journey from early childhood to secondary education.",
+    subtitle: "Classes offered from Pre-Primary through Secondary. The school follows the state board curriculum.",
     levels: [
       { level: "Pre-Primary", ages: "Ages 3–5", description: "A warm, play-based environment that builds early learning skills through curiosity, creativity, and guided play.", icon: "Baby" },
       { level: "Primary", grades: "Grades 1–5", description: "Building strong fundamentals in language, mathematics, science, and social awareness through interactive lessons.", icon: "BookOpen" },
       { level: "Middle School", grades: "Grades 6–8", description: "Developing analytical thinking and subject knowledge with a focus on conceptual understanding and collaboration.", icon: "Library" },
       { level: "Secondary", grades: "Grades 9–10", description: "Preparing students for board examinations with structured guidance, regular practice, and individual support.", icon: "GraduationCap" },
+      { level: "Higher Secondary", grades: "Grades 11–12", description: "Specialised streams for Science and Commerce with focused board preparation and career guidance.", icon: "BookOpen" },
     ],
   },
 
   /* ── Facilities Section ── */
   facilities: {
-    subtitle: "A campus designed to support learning, creativity, and well-being.",
+    subtitle: "Basic facilities available for students during school hours.",
     items: [
-      { title: "Spacious Classrooms", description: "Well-lit, ventilated classrooms designed for focused learning and student comfort.", icon: "LayoutGrid" },
-      { title: "Science & Computer Labs", description: "Equipped labs where students learn through practical experiments and hands-on activities.", icon: "FlaskConical" },
-      { title: "Library", description: "A growing collection of books and reference materials to support reading and research.", icon: "Library" },
-      { title: "Playground", description: "Outdoor space for sports and physical activities as part of a healthy school routine.", icon: "Trophy" },
-      { title: "Art & Music Room", description: "Spaces for creative expression through art, music, and cultural activities.", icon: "Palette" },
-      { title: "Clean & Safe Facilities", description: "Clean drinking water, hygienic washrooms, and well-maintained campus facilities.", icon: "Droplets" },
+      { title: "Classrooms", description: "Well-lit and ventilated rooms set up for regular classroom learning and exams.", icon: "LayoutGrid" },
+      { title: "Reading Room", description: "A quiet space where students can read and study during free periods.", icon: "FlaskConical" },
+      { title: "Study Resources", description: " textbooks and basic reference materials are available for student use.", icon: "Library" },
+      { title: "Play Area", description: "Basic outdoor space for daily recess and physical activities.", icon: "Trophy" },
+      { title: "School Office", description: "The administrative office handles admissions, fee collections, and parent enquiries.", icon: "Palette" },
+      { title: "Basic Amenities", description: "Clean drinking water and maintained washroom facilities for students.", icon: "Droplets" },
     ],
   },
 
   /* ── Gallery Section ── */
   gallery: {
-    subtitle: "A look inside our campus and classrooms.",
+    subtitle: "Glimpses of school life and campus. Real photos will be added once available.",
     images: [
-      { alt: "School building exterior", caption: "Our Campus", src: null },
-      { alt: "Classroom learning session", caption: "Interactive Classrooms", src: null },
-      { alt: "Students in library", caption: "Library Hours", src: null },
-      { alt: "Sports day event", caption: "Annual Sports Day", src: null },
-      { alt: "Cultural program performance", caption: "Cultural Fest", src: null },
-      { alt: "Science lab experiment", caption: "Lab Sessions", src: null },
+      { alt: "School building entrance", caption: "School Entrance", src: null },
+      { alt: "Classroom setup", caption: "Classroom", src: null },
+      { alt: "Study area", caption: "Study Area", src: null },
+      { alt: "School ground", caption: "School Ground", src: null },
+      { alt: "School activity", caption: "School Activity", src: null },
+      { alt: "School building view", caption: "School Building", src: null },
     ],
   },
 
@@ -182,20 +186,6 @@ export const SCHOOL = {
         endDate: null,
       },
       {
-        id: "parent-help-desk",
-        title: "Parent Help Desk",
-        description: "For admission questions, suggestions, concerns, or callback requests, parents can use the Parent Form section.",
-        noticeDate: null,
-        category: "Parent Support",
-        priority: "normal" as const,
-        ctaLabel: "Use Parent Form",
-        ctaHref: "#parent-form",
-        isActive: true,
-        order: 3,
-        startDate: null,
-        endDate: null,
-      },
-      {
         id: "school-visit-enquiries",
         title: "School Visit Enquiries",
         description: "Parents may contact the school office before visiting the campus for admission or general enquiries.",
@@ -205,7 +195,7 @@ export const SCHOOL = {
         ctaLabel: null,
         ctaHref: null,
         isActive: true,
-        order: 4,
+        order: 3,
         startDate: null,
         endDate: null,
       },
@@ -214,9 +204,9 @@ export const SCHOOL = {
 
   /* ── Latest School Updates Section ── */
   updates: {
-    eyebrow: "Latest School Updates",
-    heading: "What's Happening at Al-Falah",
-    subtitle: "A glance at admissions, school life, and parent communication. Updated regularly.",
+    eyebrow: "Updates",
+    heading: "School Updates",
+    subtitle: "Admission news, school announcements, and important information for parents.",
   },
 
   /* ── Posters / Updates (fallback when Sanity is not configured) ──
@@ -226,10 +216,10 @@ export const SCHOOL = {
   posters: [
     {
       _id: "admissions-enquiry-2026-27",
-      title: "Admissions Enquiry Open",
-      description: "Now accepting enquiries for the 2026–27 academic year. Reach out to learn about classes, the campus, and the enrolment process.",
+      title: "Admissions Open",
+      description: "Admission enquiries for the 2026–27 academic year are welcome. Parents can visit the school office or fill the parent form.",
       image: null,
-      imageAlt: "Notice of open admissions enquiry for the 2026–27 academic year at Al-Falah High School",
+      imageAlt: "Admissions open for 2026-27 academic year",
       ctaLabel: "Enquire Now",
       ctaHref: "#contact",
       active: true,
@@ -240,13 +230,13 @@ export const SCHOOL = {
       accent: "deep-green" as const,
     },
     {
-      _id: "school-activities",
-      title: "School Activities & Events",
-      description: "From classroom learning to creative and cultural activities, school life at Al-Falah is built around balanced growth and engagement.",
+      _id: "school-office-hours",
+      title: "School Office",
+      description: "The school office is open for parent enquiries, admission forms, and general questions during working hours.",
       image: null,
-      imageAlt: "Visual summary of school activities and student engagement at Al-Falah High School",
-      ctaLabel: "See Campus Life",
-      ctaHref: "#gallery",
+      imageAlt: "School office is open for enquiries",
+      ctaLabel: "Visit School",
+      ctaHref: "#contact",
       active: true,
       featured: true,
       order: 2,
@@ -256,12 +246,12 @@ export const SCHOOL = {
     },
     {
       _id: "parent-communication",
-      title: "Parent Communication & Notices",
-      description: "Families can reach the school directly for queries, visit requests, or notices. We keep parents informed through clear and timely communication.",
+      title: "Parent Communication",
+      description: "Parents can reach the school office directly for updates on fees, exams, holidays, and student progress.",
       image: null,
-      imageAlt: "Notice describing the school's approach to parent communication and important notices",
-      ctaLabel: "Contact the School",
-      ctaHref: "#contact",
+      imageAlt: "Parent communication information",
+      ctaLabel: "Fill Parent Form",
+      ctaHref: "#parent-form",
       active: true,
       featured: true,
       order: 3,
@@ -273,10 +263,10 @@ export const SCHOOL = {
 
   /* ── Admissions CTA Section ── */
   admissionsCta: {
-    heading: "Begin Your Child's Journey",
-    subtitle: "Admissions for the 2026–27 academic year are now open. Give your child the gift of quality education.",
-    cta: "Enquire About Admissions",
-    ctaLink: "#contact",
+    heading: "Admission Enquiry",
+    subtitle: "Admissions for the 2026–27 academic year are open. Parents can visit the school office or fill the parent form to enquire.",
+    cta: "Fill Parent Form",
+    ctaLink: "#parent-form",
   },
 
   /* ── Contact Details ── (phone/email pending; placeholders only) */
@@ -299,17 +289,17 @@ export const SCHOOL = {
       "Request Callback",
     ],
     panel: {
-      title: "Submit a Request",
-      description: "The form opens in a secure Google Form.",
-      ctaLabel: "Fill Parent Form",
-      note: "Please enter a correct mobile number so the school office can contact you.",
+      title: "Send your Enquiry",
+      description: "Your message goes directly to the school office. We respond to all enquiries within working hours.",
+      ctaLabel: "Submit Enquiry",
+      note: "Please share a working phone number so we can reach you if needed.",
       urlPlaceholder: "Form link will be available soon",
     },
     // Replace with your real Google Form link when ready.
     // Example formats:
     //   https://forms.gle/XXXXXXXXXXXXXXXX
     //   https://docs.google.com/forms/d/e/XXXXXXXX/viewform
-    url: "https://docs.google.com/forms/d/e/1FAIpQLSc_example/viewform?usp=sf_link",
+    url: "https://docs.google.com/forms/d/e/1FAIpQLScFgy0IChSjjfbtUkAiuXaMOfE2ofdpNWfYl8Qxl8hiMbdlZw/viewform?usp=header",
   },
 
   /* ── Location / Contact Section ── */
