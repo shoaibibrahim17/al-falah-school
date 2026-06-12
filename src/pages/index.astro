@@ -16,7 +16,6 @@ import Gallery from "../components/Gallery.astro";
 import ParentFormCTA from "../components/ParentFormCTA.astro";
 import Location from "../components/Location.astro";
 import Footer from "../components/Footer.astro";
-import AcademicBackgroundDoodles from "../components/AcademicBackgroundDoodles.astro";
 ---
 
 <Layout>
@@ -24,27 +23,18 @@ import AcademicBackgroundDoodles from "../components/AcademicBackgroundDoodles.a
   <Navbar />
   <main>
     <Hero />
-    <div class="content-with-doodles">
-      <AcademicBackgroundDoodles />
-      <PosterSlider />
-      <NoticeBoard />
-      <About />
-      <WhyChooseUs />
-      <AcademicLevels />
-      <Facilities />
-      <PrincipalMessage />
-      <Faculty />
-      <AdmissionsCta />
-      <Gallery />
-      <ParentFormCTA />
-      <Location />
-    </div>
+    <PosterSlider />
+    <NoticeBoard />
+    <About />
+    <WhyChooseUs />
+    <AcademicLevels />
+    <Facilities />
+    <PrincipalMessage />
+    <Faculty />
+    <AdmissionsCta />
+    <Gallery />
+    <ParentFormCTA />
+    <Location />
   </main>
   <Footer />
 </Layout>
-
-<style>
-  .content-with-doodles {
-    position: relative;
-  }
-</style>

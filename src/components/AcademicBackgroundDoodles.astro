@@ -2,18 +2,17 @@
 /**
  * AcademicBackgroundDoodles.astro
  * Pencil-sketch academic doodle background layer.
- * Renders behind all content below the hero section.
+ * Fixed position across viewport — renders behind all page content.
+ * Hero section is visually excluded due to its own background/overlay layers.
  *
  * CMS: NOT managed — code-only decorative asset.
- *
- * Styles: charcoal pencil-gray, very low opacity, thin outline strokes.
  * 24 doodles on desktop, 10 on tablet, 5 on mobile.
  */
 
-const STROKE = "rgba(30, 41, 59, 0.25)";
-const STROKE_LIGHT = "rgba(30, 41, 59, 0.14)";
-const STROKE_GREEN = "rgba(15, 100, 55, 0.20)";
-const STROKE_GREEN_LIGHT = "rgba(15, 100, 55, 0.11)";
+const STROKE = "rgba(30, 41, 59, 0.45)";
+const STROKE_LIGHT = "rgba(30, 41, 59, 0.25)";
+const STROKE_GREEN = "rgba(15, 100, 55, 0.35)";
+const STROKE_GREEN_LIGHT = "rgba(15, 100, 55, 0.18)";
 ---
 
 <div class="doodle-layer" aria-hidden="true" role="presentation">
@@ -257,7 +256,7 @@ const STROKE_GREEN_LIGHT = "rgba(15, 100, 55, 0.11)";
 
 <style>
   .doodle-layer {
-    position: absolute;
+    position: fixed;
     inset: 0;
     pointer-events: none;
     user-select: none;
@@ -274,7 +273,6 @@ const STROKE_GREEN_LIGHT = "rgba(15, 100, 55, 0.11)";
   }
 
   /* ── Desktop positions (24 doodles) ─────────── */
-  /* Effective opacity ≈ stroke(0.25) * container_opacity ≈ 0.10–0.22 */
   .doodle-book     { top: 5%;   left: 5%;  opacity: 0.85; transform: rotate(-3deg); }
   .doodle-pencil   { top: 8%;   right: 6%; opacity: 0.70; transform: rotate(12deg); }
   .doodle-ruler    { top: 14%;  left: 2%;  opacity: 0.75; transform: rotate(-8deg); }
