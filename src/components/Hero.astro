@@ -1,6 +1,7 @@
 ---
 import { ArrowRight, GraduationCap, MapPin } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+import { assetUrl } from "../utils/assetUrl";
 
 const { hero } = SCHOOL;
 const hasBgImage = hero.backgroundImage?.isActive && hero.backgroundImage?.src;
@@ -13,7 +14,7 @@ const hasVisualImage = hero.visualImage?.isActive && hero.visualImage?.src;
   {hasBgImage && (
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
       <img
-        src={hero.backgroundImage.src}
+        src={assetUrl(hero.backgroundImage.src)}
         alt=""
         class="w-full h-full object-cover"
         style="filter: blur(12px) saturate(0.7); opacity: 0.18;"
@@ -85,7 +86,7 @@ const hasVisualImage = hero.visualImage?.isActive && hero.visualImage?.src;
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark z-10"></div>
 
             <img
-              src={hero.visualImage.src}
+              src={assetUrl(hero.visualImage.src)}
               alt={hero.visualImage.alt}
               class="w-full aspect-[4/3] object-cover"
               loading="eager"

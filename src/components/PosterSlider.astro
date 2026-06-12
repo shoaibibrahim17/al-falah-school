@@ -1,6 +1,7 @@
 ---
 import { Megaphone, GraduationCap, MessageSquare, Image as ImageIcon } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+import { assetUrl } from "../utils/assetUrl";
 
 /* Filter posters the way the future Sanity fetch will:
    active === true AND featured === true AND inside date window.
@@ -76,7 +77,7 @@ const accentPalette = {
                 >
                   {hasImage ? (
                     <img
-                      src={p.image ?? ""}
+                      src={assetUrl(p.image)}
                       alt={p.imageAlt}
                       class="poster-image"
                       loading={i === 0 ? "eager" : "lazy"}

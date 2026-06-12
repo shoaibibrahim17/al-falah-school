@@ -1,18 +1,18 @@
 ---
-import { MapPin, BookOpen, Library, Users, GraduationCap, Star } from "lucide-astro";
+import { MapPin, BookOpen, Library, Users, GraduationCap, Star, LayoutGrid } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+import { assetUrl } from "../utils/assetUrl";
 
-/* Tile config — simple, consistent gradient palette for placeholder tiles.
-   Each tile has a distinct gradient so the grid looks intentional
-   rather than all the same. */
-const tileConfig = [
-  { gradient: "from-deep-green via-deep-green-dark to-charcoal", iconBg: "bg-white/10", iconColor: "text-white", Icon: MapPin, label: "Location" },
-  { gradient: "from-charcoal via-charcoal to-deep-green-dark", iconBg: "bg-white/10", iconColor: "text-white", Icon: BookOpen, label: "Learning" },
-  { gradient: "from-deep-green-dark via-deep-green to-deep-green-light", iconBg: "bg-white/10", iconColor: "text-white", Icon: Library, label: "Study" },
-  { gradient: "from-deep-green via-deep-green-light to-deep-green-dark", iconBg: "bg-white/10", iconColor: "text-white", Icon: Users, label: "Community" },
-  { gradient: "from-deep-green-dark via-charcoal to-deep-green", iconBg: "bg-white/10", iconColor: "text-white", Icon: GraduationCap, label: "Growth" },
-  { gradient: "from-slate via-charcoal to-deep-green-dark", iconBg: "bg-white/10", iconColor: "text-white", Icon: Star, label: "Values" },
-];
+/* Category icon config */
+const categoryIcons: Record<string, typeof LayoutGrid> = {
+  activities: Star,
+  classrooms: BookOpen,
+  events: GraduationCap,
+};
+
+/* Default to first category */
+const categories = SCHOOL.gallery.categories;
+const defaultCategory = categories[0]?.id ?? "";
 ---
 
 <section id="gallery" class="relative py-16 lg:py-24 bg-white overflow-hidden">
@@ -23,69 +23,252 @@ const tileConfig = [
         Campus Life
       </div>
       <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
-        Our <span class="text-gradient-green">School</span>
+        Our <span class="text-gradient-green">Gallery</span>
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.gallery.subtitle}
       </p>
     </div>
 
-    <!-- Gallery grid -->
-    <div data-reveal-group class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-      {SCHOOL.gallery.images.map((item, i) => {
-        const cfg = tileConfig[i] ?? tileConfig[0];
-        const Icon = cfg.Icon;
-        const hasImage = Boolean(item.src);
+    {categories.length > 0 ? (
+      <>
+        {/* Category tabs */}
+        <div data-reveal class="flex flex-wrap justify-center gap-2 mb-8" role="tablist" aria-label="Gallery categories">
+          {categories.map((cat, i) => {
+            const Icon = categoryIcons[cat.id] ?? LayoutGrid;
+            return (
+              <button
+                type="button"
+                role="tab"
+                data-gallery-tab={cat.id}
+                data-gallery-tab-index={i}
+                aria-selected={i === 0 ? "true" : "false"}
+                aria-controls={`gallery-panel-${cat.id}`}
+                class={`gallery-tab ${i === 0 ? "gallery-tab-active" : ""}`}
+              >
+                <Icon class="w-4 h-4" />
+                {cat.name}
+              </button>
+            );
+          })}
+        </div>
 
-        return (
+        {/* Gallery panels — one per category */}
+        {categories.map((cat, i) => (
           <div
-            data-gallery-card
-            class={`gallery-item relative rounded-xl overflow-hidden border border-ivory-dark focus-visible:outline-deep-green cursor-pointer group aspect-[4/3]`}
-            tabindex="0"
-            role="img"
-            aria-label={item.alt}
+            id={`gallery-panel-${cat.id}`}
+            role="tabpanel"
+            data-gallery-panel={cat.id}
+            aria-labelledby={`gallery-tab-${cat.id}`}
+            data-gallery-panel-index={i}
+            class={`gallery-panel ${i !== 0 ? "hidden" : ""}`}
           >
-            {hasImage ? (
-              /* Real photo */
-              <img
-                src={item.src}
-                alt={item.alt}
-                class="gallery-media absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              /* Placeholder tile — simple, consistent, not distracting */
-              <div class={`gallery-media absolute inset-0 bg-gradient-to-br ${cfg.gradient}`}>
-                <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:20px_20px] opacity-40"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div class="flex flex-col items-center gap-2">
-                    <div class={`w-12 h-12 sm:w-14 sm:h-14 rounded-xl ${cfg.iconBg} backdrop-blur-sm flex items-center justify-center`}>
-                      <Icon class={`w-6 h-6 sm:w-7 sm:h-7 ${cfg.iconColor}`} />
-                    </div>
-                    <span class="text-white/70 text-xs font-medium">{cfg.label}</span>
-                  </div>
-                </div>
-              </div>
-            )}
+            <p class="text-center text-slate text-sm mb-6">{cat.subtitle}</p>
 
-            {/* Caption strip */}
-            <div class="absolute bottom-0 inset-x-0 px-4 py-3 bg-gradient-to-t from-charcoal/80 to-transparent">
-              <p class="text-white text-sm font-medium">{item.caption}</p>
+            {/* Image grid */}
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {cat.images.map((item, imgIdx) => {
+                const Icon = categoryIcons[cat.id] ?? LayoutGrid;
+                const hasImage = Boolean(item.src);
+
+                return (
+                  <div
+                    data-gallery-card
+                    class={`gallery-item relative rounded-xl overflow-hidden border border-ivory-dark focus-visible:outline-deep-green cursor-pointer group aspect-[4/3] ${!hasImage ? "bg-deep-green/5" : ""}`}
+                    tabindex={hasImage ? 0 : -1}
+                    role={hasImage ? "button" : "img"}
+                    aria-label={item.alt}
+                    data-gallery-index={imgIdx}
+                  >
+                    {hasImage ? (
+                      <img
+                        src={assetUrl(item.src)}
+                        alt={item.alt}
+                        class="gallery-media absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="gallery-media absolute inset-0 flex items-center justify-center bg-deep-green/5">
+                        <Icon class="w-8 h-8 text-deep-green/30" />
+                      </div>
+                    )}
+
+                    {/* Caption strip */}
+                    <div class="absolute bottom-0 inset-x-0 px-3 py-2 bg-gradient-to-t from-charcoal/70 to-transparent">
+                      <p class="text-white/90 text-xs font-medium truncate">{item.caption}</p>
+                    </div>
+
+                    {/* Hover overlay */}
+                    <div class="gallery-hover-overlay absolute inset-0"></div>
+                  </div>
+                );
+              })}
             </div>
 
-            {/* Hover overlay */}
-            <div class="gallery-hover-overlay absolute inset-0"></div>
+            {cat.images.length === 0 && (
+              <p class="text-center text-slate-light text-sm py-8">No photos in this category yet.</p>
+            )}
           </div>
-        );
-      })}
-    </div>
-
-    <!-- Note about photos -->
-    {SCHOOL.gallery.images.every((img) => !img.src) && (
-      <p class="text-center text-slate-light text-xs mt-6">
-        School photos will be added here once available.
-      </p>
+        ))}
+      </>
+    ) : (
+      <p class="text-center text-slate text-sm">Gallery photos will be added soon.</p>
     )}
   </div>
+
+  <script>
+    (() => {
+      /* Tab switching */
+      const tabs = document.querySelectorAll<HTMLButtonElement>("[data-gallery-tab]");
+      const panels = document.querySelectorAll<HTMLElement>("[data-gallery-panel]");
+
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const targetId = tab.dataset.galleryTab;
+
+          tabs.forEach((t) => {
+            t.classList.remove("gallery-tab-active");
+            t.setAttribute("aria-selected", "false");
+          });
+          tab.classList.add("gallery-tab-active");
+          tab.setAttribute("aria-selected", "true");
+
+          panels.forEach((panel) => {
+            if (panel.dataset.galleryPanel === targetId) {
+              panel.classList.remove("hidden");
+            } else {
+              panel.classList.add("hidden");
+            }
+          });
+        });
+      });
+
+      /* Lightbox on image click */
+      const cards = document.querySelectorAll<HTMLElement>("[data-gallery-card][role=\"button\"]");
+      let lightbox: HTMLElement | null = null;
+      let lightboxImg: HTMLImageElement | null = null;
+
+      const openLightbox = (imgEl: HTMLImageElement, alt: string) => {
+        if (!lightbox) {
+          lightbox = document.createElement("div");
+          lightbox.className = "lightbox-overlay";
+          lightbox.setAttribute("aria-modal", "true");
+          lightbox.innerHTML = `
+            <div class="lightbox-content">
+              <button class="lightbox-close" aria-label="Close">&times;</button>
+              <img class="lightbox-img" alt="" />
+            </div>
+          `;
+          lightbox.addEventListener("click", (e) => {
+            if (e.target === lightbox) closeLightbox();
+          });
+          lightbox.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
+          document.body.appendChild(lightbox);
+        }
+
+        lightboxImg = lightbox.querySelector(".lightbox-img");
+        if (lightboxImg) {
+          lightboxImg.src = imgEl.src;
+          lightboxImg.alt = alt;
+        }
+        lightbox.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+      };
+
+      const closeLightbox = () => {
+        lightbox?.classList.remove("is-open");
+        document.body.style.overflow = "";
+      };
+
+      cards.forEach((card) => {
+        const imgEl = card.querySelector("img");
+        if (!imgEl) return;
+
+        card.addEventListener("click", () => openLightbox(imgEl, imgEl.alt));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openLightbox(imgEl, imgEl.alt);
+          }
+        });
+      });
+
+      /* Close lightbox on Escape */
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeLightbox();
+      });
+    })();
+  </script>
+
+  <style>
+    .gallery-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-slate, #64748b);
+      background: transparent;
+      border: 1.5px solid var(--color-ivory-dark, #e8e0d0);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .gallery-tab:hover {
+      border-color: var(--color-deep-green, #1a5a3a);
+      color: var(--color-deep-green, #1a5a3a);
+    }
+    .gallery-tab-active {
+      background: var(--color-deep-green, #1a5a3a);
+      border-color: var(--color-deep-green, #1a5a3a);
+      color: white;
+    }
+    .gallery-tab-active:hover {
+      background: var(--color-deep-green-dark, #143d26);
+      border-color: var(--color-deep-green-dark, #143d26);
+      color: white;
+    }
+
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .lightbox-overlay.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 0.5rem;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: -2.5rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.25rem;
+    }
+  </style>
 </section>
