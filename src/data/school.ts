@@ -29,7 +29,6 @@ export const SCHOOL = {
       { label: "Academics", href: "#academics" },
       { label: "Facilities", href: "#facilities" },
       { label: "Gallery", href: "#gallery" },
-      { label: "Parent Form", href: "#parent-form" },
       { label: "Contact", href: "#contact" },
     ],
     cta: "Parent Form",
@@ -393,7 +392,6 @@ export const SCHOOL = {
       { label: "Gallery", href: "#gallery" },
     ],
     parentSupportLinks: [
-      { label: "Parent Form", href: "#parent-form" },
       { label: "Admissions Enquiry", href: "#contact" },
       { label: "Contact", href: "#contact" },
       { label: "Location", href: "#contact" },
