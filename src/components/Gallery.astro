@@ -163,6 +163,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       <ChevronLeft class="w-6 h-6" />
     </button>
     <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img" />
+    <p id="img-lightbox-caption" class="img-lightbox-caption"></p>
     <button
       type="button"
       class="img-lightbox-next"
@@ -203,7 +204,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         if (modalCount) modalCount.textContent = `${albumData.images.length} photos`;
         if (modalIcon) modalIcon.textContent = iconMap[albumId] ?? "📷";
 
-        /* Build image grid */
+        /* Build image grid — clean thumbnails, no per-image labels */
         if (imageGrid) {
           imageGrid.innerHTML = "";
           albumData.images.forEach((img: { src: string; alt: string; caption: string }, idx: number) => {
@@ -211,6 +212,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
             item.className = "album-img-item";
             item.setAttribute("role", "listitem");
             item.setAttribute("data-img-idx", String(idx));
+            item.setAttribute("data-img-caption", img.caption || "");
             item.innerHTML = `
               <button type="button" class="album-img-btn" aria-label="View photo ${idx + 1}">
                 <img
@@ -220,9 +222,6 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
                   loading="lazy"
                   decoding="async"
                 />
-                <div class="album-img-overlay">
-                  <span class="album-img-caption">${img.caption || ""}</span>
-                </div>
               </button>
             `;
             imageGrid.appendChild(item);
@@ -256,10 +255,11 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     /* ── Image lightbox ── */
     const lightbox = document.getElementById("image-lightbox");
     const lightboxImg = document.getElementById("img-lightbox-img") as HTMLImageElement | null;
+    const lightboxCaption = document.getElementById("img-lightbox-caption");
     const prevBtn = document.querySelector<HTMLButtonElement>("[data-img-prev]");
     const nextBtn = document.querySelector<HTMLButtonElement>("[data-img-next]");
 
-    let currentImages: Array<{ src: string; alt: string }> = [];
+    let currentImages: Array<{ src: string; alt: string; caption: string }> = [];
     let currentIdx = 0;
 
     const openLightbox = (idx: number) => {
@@ -267,6 +267,12 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       currentIdx = idx;
       lightboxImg.src = currentImages[idx].src;
       lightboxImg.alt = currentImages[idx].alt;
+      /* Show caption only when meaningful (not empty, not just a category name) */
+      const cap = currentImages[idx].caption;
+      if (lightboxCaption) {
+        lightboxCaption.textContent = cap && cap.trim().length > 0 ? cap : "";
+        lightboxCaption.style.display = cap && cap.trim().length > 0 ? "block" : "none";
+      }
       lightbox.hidden = false;
       lightbox.classList.add("is-open");
       document.body.style.overflow = "hidden";
@@ -294,13 +300,14 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
           if (!item) return;
           const idx = Number(item.dataset.imgIdx);
 
-          /* Gather all images from current album grid */
+          /* Gather all images + captions from current album grid */
           const grid = document.getElementById("album-image-grid");
           if (!grid) return;
           const items = Array.from(grid.querySelectorAll<HTMLElement>("[data-img-idx]"));
           currentImages = items.map((el) => {
             const img = el.querySelector("img");
-            return { src: img?.src ?? "", alt: img?.alt ?? "" };
+            const caption = el.dataset.imgCaption ?? "";
+            return { src: img?.src ?? "", alt: img?.alt ?? "", caption };
           });
 
           openLightbox(idx);
@@ -601,28 +608,6 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   .album-img-btn:hover .album-img-thumb {
     transform: scale(1.06);
   }
-  .album-img-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 20, 15, 0);
-    display: flex;
-    align-items: flex-end;
-    padding: 0.5rem;
-    transition: background 300ms;
-  }
-  .album-img-btn:hover .album-img-overlay {
-    background: rgba(10, 20, 15, 0.2);
-  }
-  .album-img-caption {
-    font-size: 0.6875rem;
-    color: white;
-    font-weight: 500;
-    opacity: 0;
-    transition: opacity 300ms;
-  }
-  .album-img-btn:hover .album-img-caption {
-    opacity: 1;
-  }
 
   /* ── Image Lightbox ── */
   .img-lightbox {
@@ -667,6 +652,16 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     object-fit: contain;
     border-radius: 0.5rem;
     flex: 1;
+  }
+  .img-lightbox-caption {
+    position: absolute;
+    bottom: -2rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: rgba(255, 255, 255, 0.70);
+    display: none;
   }
   .img-lightbox-close {
     position: absolute;

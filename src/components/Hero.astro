@@ -8,21 +8,22 @@ const hasBgImage = hero.backgroundImage?.isActive && hero.backgroundImage?.src;
 const hasVisualImage = hero.visualImage?.isActive && hero.visualImage?.src;
 ---
 
-<section class="relative pt-8 sm:pt-10 lg:pt-16 pb-12 lg:pb-20 overflow-hidden bg-gradient-to-b from-ivory to-white">
+<section class="relative pt-8 sm:pt-10 lg:pt-16 pb-12 lg:pb-20 overflow-hidden">
 
-  {/* ── Background image layer — subtle atmospheric layer only ── */}
+  {/* ── Premium blurred hero background ── */}
   {hasBgImage && (
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      {/* Background photo — scaled 1.05x to hide blur edges, visible but atmospheric */}
       <img
         src={assetUrl(hero.backgroundImage.src)}
         alt=""
-        class="w-full h-full object-cover"
-        style="filter: blur(10px) saturate(0.75); opacity: 0.25;"
+        class="hero-bg-img"
         loading="eager"
       />
-      {/* White + subtle green overlay for text readability */}
-      <div class="absolute inset-0 bg-white/65"></div>
-      <div class="absolute inset-0 bg-gradient-to-b from-deep-green/8 via-transparent to-ivory/30"></div>
+      {/* Left-to-right readability gradient: ivory-left (readable text), transparent-right (photo visible) */}
+      <div class="hero-bg-overlay"></div>
+      {/* Subtle green tint for premium feel */}
+      <div class="hero-bg-green-tint"></div>
     </div>
   )}
 
@@ -124,3 +125,74 @@ const hasVisualImage = hero.visualImage?.isActive && hero.visualImage?.src;
     </div>
   </div>
 </section>
+
+<style>
+  /* Hero background image — scaled 1.05x to hide blur edges */
+  .hero-bg-img {
+    position: absolute;
+    inset: -5%;
+    width: 110%;
+    height: 110%;
+    object-fit: cover;
+    object-position: center;
+    filter: blur(12px) saturate(0.90);
+    opacity: 0.50;
+  }
+
+  /* Left-to-right readability gradient:
+     Left (text area)  = 92% ivory — readable text
+     Center            = 55% ivory — smooth transition
+     Right             = 20% ivory — photo bleeds through */
+  .hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(253, 248, 240, 0.92) 0%,
+      rgba(253, 248, 240, 0.70) 42%,
+      rgba(253, 248, 240, 0.22) 100%
+    );
+  }
+
+  /* Subtle green tint — adds premium depth without washing out the photo */
+  .hero-bg-green-tint {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(15, 100, 55, 0.07) 0%,
+      transparent 55%
+    );
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-bg-img {
+      animation: hero-bg-scale 20s ease-out forwards;
+    }
+    @keyframes hero-bg-scale {
+      from { transform: scale(1.08); }
+      to   { transform: scale(1.05); }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg-img {
+      transform: scale(1.05);
+    }
+  }
+
+  /* On mobile: stronger left overlay for readability */
+  @media (max-width: 639px) {
+    .hero-bg-overlay {
+      background: linear-gradient(
+        to right,
+        rgba(253, 248, 240, 0.95) 0%,
+        rgba(253, 248, 240, 0.78) 40%,
+        rgba(253, 248, 240, 0.35) 100%
+      );
+    }
+    .hero-bg-img {
+      opacity: 0.40;
+    }
+  }
+</style>
