@@ -1047,6 +1047,12 @@
   .poster-dot-fill { display: none; }
 }
 
+/* ── Page-level content sits above doodle layer ─ */
+main, header, footer, section, nav {
+  position: relative;
+  z-index: 1;
+}
+
 /* ── Component: Floating Action Button (scroll to top) ────── */
 .fab-scroll-top {
   position: fixed;

@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { SCHOOL } from "../data/school";
+import AcademicBackgroundDoodles from "../components/AcademicBackgroundDoodles.astro";
 
 const { title } = Astro.props;
 const pageTitle = title ? `${title} | ${SCHOOL.shortName}` : `${SCHOOL.name} | ${SCHOOL.tagline}`;
@@ -65,6 +66,9 @@ const structuredData = JSON.stringify({
     <script is:inline type="application/ld+json" set:html={structuredData}></script>
   </head>
   <body class="bg-white text-charcoal">
+    <!-- Site-wide academic doodle background — code-managed, not CMS-managed -->
+    <AcademicBackgroundDoodles />
+
     <slot />
 
     <button

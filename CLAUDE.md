@@ -148,27 +148,134 @@ Do not force generic images into categories they don't belong to. If a category 
 - Run `npm run build` after meaningful changes.
 - Fix all build errors before final response.
 
+## CMS-First Development Principle
+
+**EVERY piece of content on this website MUST be structured, typed, and built so that it can be edited and managed through the Sanity CMS dashboard after full integration — WITHOUT touching code, WITHOUT breaking the UI, and WITHOUT refactoring the data layer.**
+
+This is not optional. It is the core engineering constraint of this project.
+
+### What This Means in Practice
+
+**1. Data Structure Rule**
+Every data object in `src/data/school.ts` must mirror the exact shape of its future Sanity schema. Fields that will be CMS-editable must have:
+- Correct TypeScript types (not `any`)
+- Optional fields marked as optional (`?`) with `null` defaults
+- Enum/string unions for constrained values (e.g. `priority: "normal" | "important" | "urgent"`)
+- No bare strings/numbers that should be CMS fields — everything must be a named, documented property
+
+**2. Rendering Rule**
+Component logic must handle **both** CMS data and fallback data without conditional rendering that breaks layout:
+- If a CMS field is `null` or undefined → render nothing gracefully (no empty boxes, no "undefined", no broken UI)
+- If a CMS field has a value → render it correctly
+- Never render placeholder text that looks like real content
+- Never show empty containers or broken-looking UI when data is missing
+
+**3. Schema Documentation Rule**
+Every component that displays CMS-manageable content must have its Sanity schema documented in this file (CLAUDE.md) BEFORE the code is merged. The schema doc must include:
+- Schema name (e.g. `schoolNotice`)
+- Every field with type, required/optional, and purpose
+- What the renderer controls vs. what CMS controls
+- Fetch/filter behavior
+- Graceful fallback behavior when CMS is not configured
+
+**4. No Hardcoded Content**
+Content that a non-technical staff member should be able to change must NEVER be hardcoded in component files. It must live in:
+- `src/data/school.ts` as a typed fallback
+- Referenced by the component
+- Documented with its CMS schema
+
+**5. Layout is Code, Content is CMS**
+- Layout, spacing, colors, typography, animations → controlled by code (Astro/Tailwind)
+- Text content, images, dates, file uploads → controlled by CMS (Sanity)
+- Never allow CMS fields that control layout (no `bgColor`, `width`, `padding` fields in schemas)
+- **CMS manages school content. Code manages layout and decorative design assets.** Decorative UI elements such as background ornaments, subject doodles, and visual accents are not CMS-managed unless they become school-editable media/content.
+
+### Applying This to Every Component
+
+Before building any component or section, ask:
+- What content does this display?
+- Which of this content should be editable by school staff?
+- What does the Sanity schema look like for this content?
+- Does my TypeScript type in `school.ts` match the Sanity schema exactly?
+- Does the renderer handle missing/null CMS data gracefully?
+- Is the fallback data in `school.ts` accurate and safe (no fake claims)?
+
+If any content area doesn't have a documented schema in CLAUDE.md, it is incomplete and must not be merged until it does.
+
+### Graceful Fallback Pattern
+
+All CMS-fetched sections must follow this pattern:
+
+```
+Sanity configured (env vars present)?
+  → Fetch from Sanity with proper GROQ query
+  → Filter by isActive, startDate, endDate
+  → Sort by order
+  → Cap at limit
+  → Render with CMS data
+
+Sanity NOT configured?
+  → Fall back to src/data/school.ts
+  → Same filtering/sorting logic applied
+  → Same renderer used (never a different layout)
+
+No data available at all?
+  → Section hides completely (no empty containers, no placeholder boxes)
+  → No broken UI, no "undefined" text, no empty containers
+```
+
+### Existing CMS Schemas (Documented)
+
+| Schema | Status | Where Documented |
+|---|---|---|
+| `heroBadge` | Documented | CLAUDE.md › Editable CMS Content |
+| `homepagePoster` / `updatePoster` | Documented | CLAUDE.md › Homepage Posters |
+| `schoolNotice` (with `pdf`) | Documented | CLAUDE.md › School Notice Board |
+
+### Remaining Schemas to Document (Before Integration)
+
+These must have schema docs added in CLAUDE.md before the feature is built:
+- [ ] `schoolSettings` — name, tagline, contact details, logo
+- [ ] `academicLevel` — class/grade levels with description
+- [ ] `facility` — facilities with icon, title, description
+- [ ] `galleryCategory` — category name, cover image, order
+- [ ] `galleryImage` — image with alt, caption, category reference
+- [ ] `principalMessage` — name, designation, message, photo
+- [ ] `facultyMember` — name, designation, department, photo
+- [ ] `footerLink` — label, href, section (quick links / parent support)
+- [ ] `contactInfo` — phone, email, address, map embed
+
+When building any of these sections, the schema MUST be documented first. Do not build the component without the schema doc.
+
 ## Editable CMS Content
 
-The CMS should eventually control:
+> **This list is the source of truth. Every item here must have a documented Sanity schema in CLAUDE.md and a typed fallback in `src/data/school.ts` before the feature is built. See: CMS-First Development Principle.**
 
-- School settings
-- Logo
-- Hero content
-- Admission notice
-- Academic levels
-- Facilities
-- Gallery categories
-- Multiple photos inside each gallery category
-- Principal/management message
-- Contact details
-- Footer links
+The CMS should eventually control ALL of the following:
 
-## Gallery Requirement
+### Content Sections
 
-The gallery must support:
+- **School settings** — name, tagline, description, SEO fields
+- **Logo** — header logo, footer logo
+- **Hero section** — headline, subtitle, background image, building visual
+- **Hero badge** — flash/animate text, visibility, animation toggle
+- **Poster/updates slider** — 2–3 featured posters with image, title, description, CTA
+- **School Notice Board** — notices with title, description, date, category, priority, CTA, PDF attachment
+- **About section** — heading, paragraphs, link text/href
+- **What Parents Can Expect** — 6 items with icon, title, description
+- **Academic levels** — 5 levels with name, grades, description
+- **Facilities** — 6 items with icon, title, description
+- **Principal message** — name, designation, photo, message text
+- **Faculty section** — staff list with name, designation, department, photo
+- **Admissions CTA** — heading, subtitle, CTA button
+- **Contact details** — phone, email, address, map
+- **Footer** — description, quick links, parent support links, social links
+- **Gallery categories** — category name, cover image, order, active status
+- **Gallery photos** — image with alt text, caption, category reference
+- **Parent form** — Google Form URL (or future form integration)
 
-- Categories like Our Campus, Library, Playground, Events, Activities, Classrooms
+### Gallery Requirements
+
 - Multiple images per category
 - Cover image per category
 - Featured images for homepage
@@ -306,6 +413,10 @@ Schema name: **`schoolNotice`**
 | `order` | number | Sort key for stable ordering. |
 | `startDate` | datetime, optional | Show only on/after this date. |
 | `endDate` | datetime, optional | Hide on/after this date. |
+| **`pdf`** | **object, optional** | **PDF attachment — max 3 per notice board** |
+| `pdf.label` | string | Display name of the PDF (e.g. "Admission Form 2026-27"). Editable by CMS. |
+| `pdf.file` | file | The actual PDF file upload. Stored in Sanity Assets. CMS manages this. |
+| `pdf.uploadedDate` | date | Upload date shown as "Uploaded: [date]" next to the download button. Editable by CMS. |
 
 ### Fetch Behavior
 
@@ -324,3 +435,33 @@ Schema name: **`schoolNotice`**
 - `priority: "urgent"` reserved for genuine urgent cases (exam cancellations, emergency closures) — not for routine admissions reminders.
 - Notices with `endDate` in the past must not render.
 - Section should look official, local, and practical — not a promotional widget.
+
+### PDF Document Management (CMS)
+
+**Max 3 PDFs across all notices** — one per notice row.
+
+**CMS upload flow:**
+1. Staff goes to `schoolNotice` in Sanity Studio
+2. Opens a notice → expands the `pdf` field
+3. Uploads the PDF file via Sanity's file picker → stored in Sanity Assets
+4. Sets the `label` (e.g. "Admission Form 2026-27")
+5. Sets the `uploadedDate` (defaults to today's date — editable)
+6. Saves → PDF download button appears on the website
+
+**PDF file storage:** Sanity Assets (not local `public/documents/` folder). This avoids needing server access or GitHub uploads for file changes.
+
+**Fallback (no CMS):** PDFs are defined in `src/data/school.ts` under each notice's `pdf` field. The path can be a local `public/documents/*.pdf` reference for static deployments.
+
+**Download behavior:**
+- `download` attribute on the anchor tag triggers browser save dialog
+- `aria-label` on the button says "Download [label name]" for accessibility
+- If `pdf.file` is `null` or points to a missing file, the entire PDF row is hidden (graceful fallback — no broken buttons)
+
+**PDF row display (what staff controls vs. what code controls):**
+
+| What staff controls (CMS) | What code controls (renderer) |
+|---|---|
+| PDF label text | Icon color, font size, row background |
+| PDF file upload | File type icon (always FileText) |
+| Upload date display text | "Uploaded:" label prefix |
+| Whether to show a PDF at all | Border color, hover effect, button color |
