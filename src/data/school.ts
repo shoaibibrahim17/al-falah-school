@@ -126,6 +126,8 @@ export const SCHOOL = {
         name: "Activities",
         subtitle: "Students engaged in creative and cultural activities",
         coverImage: "/images/gallery/activities/WhatsApp Image 2026-06-10 at 14.42.25.jpeg",
+        isActive: true,
+        order: 1,
         images: [
           { alt: "School activity", caption: "School Activity", src: "/images/gallery/activities/WhatsApp Image 2026-06-10 at 14.42.23 (1).jpeg" },
           { alt: "School activity", caption: "School Activity", src: "/images/gallery/activities/WhatsApp Image 2026-06-10 at 14.42.23.jpeg" },
@@ -143,6 +145,8 @@ export const SCHOOL = {
         name: "Classrooms",
         subtitle: "Learning spaces and classroom environments",
         coverImage: "/images/gallery/classrooms/WhatsApp Image 2026-06-10 at 14.47.04.jpeg",
+        isActive: true,
+        order: 2,
         images: [
           { alt: "Classroom", caption: "Classroom", src: "/images/gallery/classrooms/WhatsApp Image 2026-06-10 at 14.47.04.jpeg" },
           { alt: "Classroom", caption: "Classroom", src: "/images/gallery/classrooms/WhatsApp Image 2026-06-10 at 14.47.25.jpeg" },
@@ -153,6 +157,8 @@ export const SCHOOL = {
         name: "Events",
         subtitle: "School events, celebrations, and gatherings",
         coverImage: "/images/gallery/events/WhatsApp Image 2026-06-10 at 14.40.26.jpeg",
+        isActive: true,
+        order: 3,
         images: [
           { alt: "School event", caption: "School Event", src: "/images/gallery/events/WhatsApp Image 2026-06-10 at 14.40.26.jpeg" },
           { alt: "School event", caption: "School Event", src: "/images/gallery/events/WhatsApp Image 2026-06-10 at 14.40.27.jpeg" },

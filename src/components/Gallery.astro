@@ -1,22 +1,44 @@
 ---
-import { MapPin, BookOpen, Library, Users, GraduationCap, Star, LayoutGrid } from "lucide-astro";
+import { Star, BookOpen, GraduationCap, X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 import { assetUrl } from "../utils/assetUrl";
 
-/* Category icon config */
-const categoryIcons: Record<string, typeof LayoutGrid> = {
+const categoryIcons: Record<string, typeof Star> = {
   activities: Star,
   classrooms: BookOpen,
   events: GraduationCap,
 };
 
-/* Default to first category */
-const categories = SCHOOL.gallery.categories;
-const defaultCategory = categories[0]?.id ?? "";
+const albums = SCHOOL.gallery.categories.filter((cat) => cat.images.length > 0);
+
+/* Pre-compute base URL for client-side use */
+const BASE_URL = (import.meta.env?.BASE_URL ?? "/").replace(/\/$/, "");
+const baseUrl = BASE_URL ? `${BASE_URL}/` : "/";
+
+/* Server-side album data with base URL pre-applied */
+const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
+  Object.fromEntries(
+    albums.map((album) => [
+      album.id,
+      {
+        name: album.name,
+        subtitle: album.subtitle,
+        coverImage: baseUrl + album.coverImage.replace(/^\//, ""),
+        images: album.images.map((img) => ({
+          src: baseUrl + img.src.replace(/^\//, ""),
+          alt: img.alt,
+          caption: img.caption ?? "",
+        })),
+      },
+    ])
+  )
+)};`;
 ---
 
 <section id="gallery" class="relative py-16 lg:py-24 bg-white overflow-hidden">
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Section header -->
     <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
       <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
@@ -30,245 +52,672 @@ const defaultCategory = categories[0]?.id ?? "";
       </p>
     </div>
 
-    {categories.length > 0 ? (
-      <>
-        {/* Category tabs */}
-        <div data-reveal class="flex flex-wrap justify-center gap-2 mb-8" role="tablist" aria-label="Gallery categories">
-          {categories.map((cat, i) => {
-            const Icon = categoryIcons[cat.id] ?? LayoutGrid;
-            return (
-              <button
-                type="button"
-                role="tab"
-                data-gallery-tab={cat.id}
-                data-gallery-tab-index={i}
-                aria-selected={i === 0 ? "true" : "false"}
-                aria-controls={`gallery-panel-${cat.id}`}
-                class={`gallery-tab ${i === 0 ? "gallery-tab-active" : ""}`}
-              >
-                <Icon class="w-4 h-4" />
-                {cat.name}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Gallery panels — one per category */}
-        {categories.map((cat, i) => (
-          <div
-            id={`gallery-panel-${cat.id}`}
-            role="tabpanel"
-            data-gallery-panel={cat.id}
-            aria-labelledby={`gallery-tab-${cat.id}`}
-            data-gallery-panel-index={i}
-            class={`gallery-panel ${i !== 0 ? "hidden" : ""}`}
-          >
-            <p class="text-center text-slate text-sm mb-6">{cat.subtitle}</p>
-
-            {/* Image grid */}
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-              {cat.images.map((item, imgIdx) => {
-                const Icon = categoryIcons[cat.id] ?? LayoutGrid;
-                const hasImage = Boolean(item.src);
-
-                return (
-                  <div
-                    data-gallery-card
-                    class={`gallery-item relative rounded-xl overflow-hidden border border-ivory-dark focus-visible:outline-deep-green cursor-pointer group aspect-[4/3] ${!hasImage ? "bg-deep-green/5" : ""}`}
-                    tabindex={hasImage ? 0 : -1}
-                    role={hasImage ? "button" : "img"}
-                    aria-label={item.alt}
-                    data-gallery-index={imgIdx}
-                  >
-                    {hasImage ? (
-                      <img
-                        src={assetUrl(item.src)}
-                        alt={item.alt}
-                        class="gallery-media absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : (
-                      <div class="gallery-media absolute inset-0 flex items-center justify-center bg-deep-green/5">
-                        <Icon class="w-8 h-8 text-deep-green/30" />
-                      </div>
-                    )}
-
-                    {/* Caption strip */}
-                    <div class="absolute bottom-0 inset-x-0 px-3 py-2 bg-gradient-to-t from-charcoal/70 to-transparent">
-                      <p class="text-white/90 text-xs font-medium truncate">{item.caption}</p>
-                    </div>
-
-                    {/* Hover overlay */}
-                    <div class="gallery-hover-overlay absolute inset-0"></div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {cat.images.length === 0 && (
-              <p class="text-center text-slate-light text-sm py-8">No photos in this category yet.</p>
-            )}
-          </div>
-        ))}
-      </>
+    <!-- Album cards grid -->
+    {albums.length > 0 ? (
+      <div data-reveal-group class="album-grid">
+        {albums.map((album) => {
+          const Icon = categoryIcons[album.id] ?? ImageIcon;
+          return (
+            <button
+              type="button"
+              class="album-card"
+              data-album-id={album.id}
+              aria-label={`Open ${album.name} album — ${album.images.length} photos`}
+            >
+              <!-- Cover image -->
+              <div class="album-cover">
+                <img
+                  src={assetUrl(album.coverImage)}
+                  alt={`${album.name} cover`}
+                  class="album-cover-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <!-- Gradient overlay -->
+                <div class="album-cover-overlay" aria-hidden="true"></div>
+                <!-- Icon + count badge -->
+                <div class="album-cover-badge" aria-hidden="true">
+                  <Icon class="w-4 h-4" />
+                  <span>{album.images.length}</span>
+                </div>
+              </div>
+              <!-- Album info -->
+              <div class="album-info">
+                <h3 class="album-title">{album.name}</h3>
+                <p class="album-subtitle">{album.images.length} photos</p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
     ) : (
       <p class="text-center text-slate text-sm">Gallery photos will be added soon.</p>
     )}
+
   </div>
-
-  <script>
-    (() => {
-      /* Tab switching */
-      const tabs = document.querySelectorAll<HTMLButtonElement>("[data-gallery-tab]");
-      const panels = document.querySelectorAll<HTMLElement>("[data-gallery-panel]");
-
-      tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          const targetId = tab.dataset.galleryTab;
-
-          tabs.forEach((t) => {
-            t.classList.remove("gallery-tab-active");
-            t.setAttribute("aria-selected", "false");
-          });
-          tab.classList.add("gallery-tab-active");
-          tab.setAttribute("aria-selected", "true");
-
-          panels.forEach((panel) => {
-            if (panel.dataset.galleryPanel === targetId) {
-              panel.classList.remove("hidden");
-            } else {
-              panel.classList.add("hidden");
-            }
-          });
-        });
-      });
-
-      /* Lightbox on image click */
-      const cards = document.querySelectorAll<HTMLElement>("[data-gallery-card][role=\"button\"]");
-      let lightbox: HTMLElement | null = null;
-      let lightboxImg: HTMLImageElement | null = null;
-
-      const openLightbox = (imgEl: HTMLImageElement, alt: string) => {
-        if (!lightbox) {
-          lightbox = document.createElement("div");
-          lightbox.className = "lightbox-overlay";
-          lightbox.setAttribute("aria-modal", "true");
-          lightbox.innerHTML = `
-            <div class="lightbox-content">
-              <button class="lightbox-close" aria-label="Close">&times;</button>
-              <img class="lightbox-img" alt="" />
-            </div>
-          `;
-          lightbox.addEventListener("click", (e) => {
-            if (e.target === lightbox) closeLightbox();
-          });
-          lightbox.querySelector(".lightbox-close")?.addEventListener("click", closeLightbox);
-          document.body.appendChild(lightbox);
-        }
-
-        lightboxImg = lightbox.querySelector(".lightbox-img");
-        if (lightboxImg) {
-          lightboxImg.src = imgEl.src;
-          lightboxImg.alt = alt;
-        }
-        lightbox.classList.add("is-open");
-        document.body.style.overflow = "hidden";
-      };
-
-      const closeLightbox = () => {
-        lightbox?.classList.remove("is-open");
-        document.body.style.overflow = "";
-      };
-
-      cards.forEach((card) => {
-        const imgEl = card.querySelector("img");
-        if (!imgEl) return;
-
-        card.addEventListener("click", () => openLightbox(imgEl, imgEl.alt));
-        card.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            openLightbox(imgEl, imgEl.alt);
-          }
-        });
-      });
-
-      /* Close lightbox on Escape */
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeLightbox();
-      });
-    })();
-  </script>
-
-  <style>
-    .gallery-tab {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.4rem 1rem;
-      border-radius: 9999px;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--color-slate, #64748b);
-      background: transparent;
-      border: 1.5px solid var(--color-ivory-dark, #e8e0d0);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .gallery-tab:hover {
-      border-color: var(--color-deep-green, #1a5a3a);
-      color: var(--color-deep-green, #1a5a3a);
-    }
-    .gallery-tab-active {
-      background: var(--color-deep-green, #1a5a3a);
-      border-color: var(--color-deep-green, #1a5a3a);
-      color: white;
-    }
-    .gallery-tab-active:hover {
-      background: var(--color-deep-green-dark, #143d26);
-      border-color: var(--color-deep-green-dark, #143d26);
-      color: white;
-    }
-
-    .lightbox-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
-    .lightbox-overlay.is-open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .lightbox-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
-    }
-    .lightbox-img {
-      max-width: 90vw;
-      max-height: 90vh;
-      object-fit: contain;
-      border-radius: 0.5rem;
-    }
-    .lightbox-close {
-      position: absolute;
-      top: -2.5rem;
-      right: 0;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0.25rem;
-    }
-  </style>
 </section>
+
+<!-- ── Album Modal ── -->
+<div
+  id="album-modal"
+  class="album-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Photo album viewer"
+  hidden
+>
+  <!-- Backdrop -->
+  <div class="album-backdrop" data-album-close></div>
+
+  <!-- Modal panel -->
+  <div class="album-panel">
+    <!-- Header -->
+    <div class="album-header">
+      <div class="album-header-left">
+        <span class="album-header-icon" id="album-modal-icon"></span>
+        <div>
+          <h2 class="album-header-title" id="album-modal-title"></h2>
+          <p class="album-header-count" id="album-modal-count"></p>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="album-close-btn"
+        data-album-close
+        aria-label="Close album"
+      >
+        <X class="w-5 h-5" />
+      </button>
+    </div>
+
+    <!-- Image grid -->
+    <div class="album-image-grid" id="album-image-grid" role="list"></div>
+  </div>
+</div>
+
+<!-- ── Image Lightbox ── -->
+<div
+  id="image-lightbox"
+  class="img-lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Photo preview"
+  hidden
+>
+  <div class="img-lightbox-backdrop" data-img-close></div>
+  <div class="img-lightbox-content">
+    <button
+      type="button"
+      class="img-lightbox-close"
+      data-img-close
+      aria-label="Close photo"
+    >
+      <X class="w-5 h-5" />
+    </button>
+    <button
+      type="button"
+      class="img-lightbox-prev"
+      data-img-prev
+      aria-label="Previous photo"
+    >
+      <ChevronLeft class="w-6 h-6" />
+    </button>
+    <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img" />
+    <button
+      type="button"
+      class="img-lightbox-next"
+      data-img-next
+      aria-label="Next photo"
+    >
+      <ChevronRight class="w-6 h-6" />
+    </button>
+  </div>
+</div>
+
+<script>
+  (() => {
+    /* ── Album cards → open modal ── */
+    const albumCards = document.querySelectorAll<HTMLButtonElement>("[data-album-id]");
+    const modal = document.getElementById("album-modal");
+    const modalTitle = document.getElementById("album-modal-title");
+    const modalCount = document.getElementById("album-modal-count");
+    const modalIcon = document.getElementById("album-modal-icon");
+    const imageGrid = document.getElementById("album-image-grid");
+
+    const iconMap: Record<string, string> = {
+      activities: "★",
+      classrooms: "📘",
+      events: "🎓",
+    };
+
+    albumCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const albumId = card.dataset.albumId;
+        if (!albumId || !modal) return;
+
+        const albumData = (window as any).__ALBUM_DATA__?.[albumId];
+        if (!albumData) return;
+
+        /* Populate modal header */
+        if (modalTitle) modalTitle.textContent = albumData.name;
+        if (modalCount) modalCount.textContent = `${albumData.images.length} photos`;
+        if (modalIcon) modalIcon.textContent = iconMap[albumId] ?? "📷";
+
+        /* Build image grid */
+        if (imageGrid) {
+          imageGrid.innerHTML = "";
+          albumData.images.forEach((img: { src: string; alt: string; caption: string }, idx: number) => {
+            const item = document.createElement("div");
+            item.className = "album-img-item";
+            item.setAttribute("role", "listitem");
+            item.setAttribute("data-img-idx", String(idx));
+            item.innerHTML = `
+              <button type="button" class="album-img-btn" aria-label="View photo ${idx + 1}">
+                <img
+                  src="${img.src}"
+                  alt="${img.alt}"
+                  class="album-img-thumb"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="album-img-overlay">
+                  <span class="album-img-caption">${img.caption || ""}</span>
+                </div>
+              </button>
+            `;
+            imageGrid.appendChild(item);
+          });
+        }
+
+        /* Show modal */
+        modal.hidden = false;
+        modal.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+        modal.querySelector<HTMLElement>(".album-close-btn")?.focus();
+      });
+    });
+
+    /* ── Close album modal ── */
+    const closeAlbumModal = () => {
+      if (!modal) return;
+      modal.hidden = true;
+      modal.classList.remove("is-open");
+      document.body.style.overflow = "";
+    };
+
+    modal?.querySelectorAll("[data-album-close]").forEach((el) => {
+      el.addEventListener("click", closeAlbumModal);
+    });
+
+    modal?.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeAlbumModal();
+    });
+
+    /* ── Image lightbox ── */
+    const lightbox = document.getElementById("image-lightbox");
+    const lightboxImg = document.getElementById("img-lightbox-img") as HTMLImageElement | null;
+    const prevBtn = document.querySelector<HTMLButtonElement>("[data-img-prev]");
+    const nextBtn = document.querySelector<HTMLButtonElement>("[data-img-next]");
+
+    let currentImages: Array<{ src: string; alt: string }> = [];
+    let currentIdx = 0;
+
+    const openLightbox = (idx: number) => {
+      if (!lightbox || !lightboxImg) return;
+      currentIdx = idx;
+      lightboxImg.src = currentImages[idx].src;
+      lightboxImg.alt = currentImages[idx].alt;
+      lightbox.hidden = false;
+      lightbox.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      lightbox.querySelector<HTMLButtonElement>(".img-lightbox-close")?.focus();
+      updateLightboxNav();
+    };
+
+    const closeLightbox = () => {
+      if (!lightbox) return;
+      lightbox.hidden = true;
+      lightbox.classList.remove("is-open");
+      document.body.style.overflow = "";
+    };
+
+    const updateLightboxNav = () => {
+      if (prevBtn) prevBtn.style.display = currentIdx > 0 ? "flex" : "none";
+      if (nextBtn) nextBtn.style.display = currentIdx < currentImages.length - 1 ? "flex" : "none";
+    };
+
+    /* Attach lightbox triggers to thumbnail buttons */
+    const attachLightboxTriggers = () => {
+      document.querySelectorAll<HTMLButtonElement>(".album-img-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = btn.closest<HTMLElement>("[data-img-idx]");
+          if (!item) return;
+          const idx = Number(item.dataset.imgIdx);
+
+          /* Gather all images from current album grid */
+          const grid = document.getElementById("album-image-grid");
+          if (!grid) return;
+          const items = Array.from(grid.querySelectorAll<HTMLElement>("[data-img-idx]"));
+          currentImages = items.map((el) => {
+            const img = el.querySelector("img");
+            return { src: img?.src ?? "", alt: img?.alt ?? "" };
+          });
+
+          openLightbox(idx);
+        });
+      });
+    };
+
+    /* Re-attach after modal opens (since grid is rebuilt each time) */
+    const observer = new MutationObserver(() => {
+      attachLightboxTriggers();
+    });
+    if (imageGrid && modal) {
+      observer.observe(imageGrid, { childList: true });
+    }
+
+    /* Close lightbox handlers */
+    lightbox?.querySelectorAll("[data-img-close]").forEach((el) => {
+      el.addEventListener("click", closeLightbox);
+    });
+
+    lightbox?.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowRight") navigateLightbox(1);
+      if (e.key === "ArrowLeft") navigateLightbox(-1);
+    });
+
+    const navigateLightbox = (dir: 1 | -1) => {
+      const next = currentIdx + dir;
+      if (next < 0 || next >= currentImages.length) return;
+      currentIdx = next;
+      if (lightboxImg) {
+        lightboxImg.src = currentImages[currentIdx].src;
+        lightboxImg.alt = currentImages[currentIdx].alt;
+      }
+      updateLightboxNav();
+    };
+
+    prevBtn?.addEventListener("click", () => navigateLightbox(-1));
+    nextBtn?.addEventListener("click", () => navigateLightbox(1));
+  })();
+</script>
+
+<!-- Inject album data for JS (pre-rendered JSON with base URL applied server-side) -->
+<script is:inline set:html={albumDataScript}></script>
+
+<style>
+  /* ── Album Cards Grid ── */
+  .album-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+  }
+  @media (min-width: 480px) {
+    .album-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 768px) {
+    .album-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  .album-card {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(30, 41, 59, 0.08);
+    border: 1px solid var(--color-ivory-dark, #e8e0d0);
+    transition: transform 300ms var(--ease-ios-out),
+                box-shadow 300ms var(--ease-ios-out);
+  }
+  .album-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(30, 41, 59, 0.14);
+  }
+  .album-card:focus-visible {
+    outline: 2px solid var(--color-deep-green, #1a5a3a);
+    outline-offset: 2px;
+  }
+
+  /* Cover image */
+  .album-cover {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-ivory, #faf8f4);
+  }
+  .album-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms var(--ease-ios-out);
+  }
+  .album-card:hover .album-cover-img {
+    transform: scale(1.05);
+  }
+  .album-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 40%,
+      rgba(10, 30, 20, 0.45) 100%
+    );
+  }
+  .album-cover-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.6rem;
+    background: rgba(10, 30, 20, 0.65);
+    backdrop-filter: blur(6px);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Album info */
+  .album-info {
+    padding: 0.875rem 1rem 1rem;
+    background: var(--color-white, #fff);
+  }
+  .album-title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-charcoal, #1c1917);
+    margin: 0 0 0.2rem;
+  }
+  .album-subtitle {
+    font-size: 0.75rem;
+    color: var(--color-slate, #64748b);
+    margin: 0;
+  }
+
+  /* ── Album Modal ── */
+  .album-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: stretch;
+  }
+  .album-modal[hidden] {
+    display: none;
+  }
+  .album-modal:not(.is-open) {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .album-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .album-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 15, 20, 0.7);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .album-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    max-height: 90vh;
+    background: var(--color-white, #fff);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(10, 20, 15, 0.3);
+  }
+  @media (max-width: 639px) {
+    .album-panel {
+      max-height: 100vh;
+      border-radius: 1rem 1rem 0 0;
+      margin-top: auto;
+    }
+    .album-modal {
+      align-items: flex-end;
+    }
+  }
+
+  /* Modal header */
+  .album-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-ivory-dark, #e8e0d0);
+    flex-shrink: 0;
+  }
+  .album-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .album-header-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.625rem;
+    background: var(--color-deep-green, #1a5a3a);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .album-header-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-charcoal, #1c1917);
+    margin: 0;
+  }
+  .album-header-count {
+    font-size: 0.75rem;
+    color: var(--color-slate, #64748b);
+    margin: 0;
+  }
+  .album-close-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    border: 1.5px solid var(--color-ivory-dark, #e8e0d0);
+    background: transparent;
+    color: var(--color-slate, #64748b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 200ms, color 200ms;
+    flex-shrink: 0;
+  }
+  .album-close-btn:hover {
+    background: var(--color-deep-green, #1a5a3a);
+    color: white;
+    border-color: var(--color-deep-green, #1a5a3a);
+  }
+
+  /* Modal image grid */
+  .album-image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding: 1rem 1.25rem 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+  }
+  @media (min-width: 640px) {
+    .album-image-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.625rem;
+      padding: 1.25rem;
+    }
+  }
+
+  .album-img-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 0.625rem;
+    overflow: hidden;
+    background: var(--color-ivory, #faf8f4);
+  }
+  .album-img-btn {
+    position: absolute;
+    inset: 0;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .album-img-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 400ms var(--ease-ios-out);
+    display: block;
+  }
+  .album-img-btn:hover .album-img-thumb {
+    transform: scale(1.06);
+  }
+  .album-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 20, 15, 0);
+    display: flex;
+    align-items: flex-end;
+    padding: 0.5rem;
+    transition: background 300ms;
+  }
+  .album-img-btn:hover .album-img-overlay {
+    background: rgba(10, 20, 15, 0.2);
+  }
+  .album-img-caption {
+    font-size: 0.6875rem;
+    color: white;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 300ms;
+  }
+  .album-img-btn:hover .album-img-caption {
+    opacity: 1;
+  }
+
+  /* ── Image Lightbox ── */
+  .img-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-lightbox[hidden] {
+    display: none;
+  }
+  .img-lightbox:not(.is-open) {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .img-lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .img-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 10, 8, 0.92);
+    cursor: pointer;
+  }
+  .img-lightbox-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 90vw;
+    max-height: 90vh;
+    z-index: 1;
+  }
+  .img-lightbox-img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    flex: 1;
+  }
+  .img-lightbox-close {
+    position: absolute;
+    top: -2.75rem;
+    right: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 200ms;
+  }
+  .img-lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .img-lightbox-prev,
+  .img-lightbox-next {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 200ms;
+  }
+  .img-lightbox-prev:hover,
+  .img-lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+  .img-lightbox-prev {
+    display: none;
+  }
+  .img-lightbox-next {
+    display: none;
+  }
+
+  @media (max-width: 639px) {
+    .img-lightbox-prev,
+    .img-lightbox-next {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+</style>

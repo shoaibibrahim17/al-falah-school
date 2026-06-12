@@ -68,7 +68,7 @@ const accentPalette = {
               const hasImage = Boolean(p.image);
               return (
                 <article
-                  class="poster-slide"
+                  class={`poster-slide ${i === 0 ? "is-active" : ""}`}
                   data-poster-slide
                   data-index={i}
                   aria-hidden={i === 0 ? "false" : "true"}
@@ -208,7 +208,7 @@ const accentPalette = {
 
         const tick = () => {
           stop();
-          if (prefersReducedMotion || paused) return;
+          if (paused) return;
           timerId = window.setTimeout(() => {
             setActive(activeIndex + 1);
             tick();
@@ -289,6 +289,7 @@ const accentPalette = {
         );
 
         setActive(0);
+        /* Kick off first auto-advance immediately after init, not after a full interval */
         tick();
       })();
     </script>

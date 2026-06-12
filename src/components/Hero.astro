@@ -17,11 +17,12 @@ const hasVisualImage = hero.visualImage?.isActive && hero.visualImage?.src;
         src={assetUrl(hero.backgroundImage.src)}
         alt=""
         class="w-full h-full object-cover"
-        style="filter: blur(12px) saturate(0.7); opacity: 0.18;"
+        style="filter: blur(10px) saturate(0.75); opacity: 0.25;"
         loading="eager"
       />
-      {/* White overlay for text readability — heavy enough to keep text clear */}
-      <div class="absolute inset-0 bg-white/80"></div>
+      {/* White + subtle green overlay for text readability */}
+      <div class="absolute inset-0 bg-white/65"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-deep-green/8 via-transparent to-ivory/30"></div>
     </div>
   )}
 
