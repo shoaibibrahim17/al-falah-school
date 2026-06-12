@@ -28,6 +28,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
           src: baseUrl + img.src.replace(/^\//, ""),
           alt: img.alt,
           caption: img.caption ?? "",
+          type: img.type ?? "image",
         })),
       },
     ])
@@ -163,6 +164,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       <ChevronLeft class="w-6 h-6" />
     </button>
     <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img" />
+    <video id="img-lightbox-video" class="img-lightbox-video" controls playsinline></video>
     <p id="img-lightbox-caption" class="img-lightbox-caption"></p>
     <button
       type="button"
@@ -207,23 +209,43 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         /* Build image grid — clean thumbnails, no per-image labels */
         if (imageGrid) {
           imageGrid.innerHTML = "";
-          albumData.images.forEach((img: { src: string; alt: string; caption: string }, idx: number) => {
+          albumData.images.forEach((img: { src: string; alt: string; caption: string; type: string }, idx: number) => {
+            const isVideo = img.type === "video";
             const item = document.createElement("div");
-            item.className = "album-img-item";
+            item.className = `album-img-item${isVideo ? " is-video" : ""}`;
             item.setAttribute("role", "listitem");
             item.setAttribute("data-img-idx", String(idx));
             item.setAttribute("data-img-caption", img.caption || "");
-            item.innerHTML = `
-              <button type="button" class="album-img-btn" aria-label="View photo ${idx + 1}">
-                <img
-                  src="${img.src}"
-                  alt="${img.alt}"
-                  class="album-img-thumb"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </button>
-            `;
+            item.setAttribute("data-img-type", img.type || "image");
+
+            if (isVideo) {
+              /* Video thumbnail — show first frame of video as poster */
+              item.innerHTML = `
+                <button type="button" class="album-img-btn" aria-label="Play video ${idx + 1}">
+                  <video
+                    src="${img.src}"
+                    class="album-img-thumb"
+                    muted
+                    preload="metadata"
+                  ></video>
+                  <div class="album-video-play-btn" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </div>
+                </button>
+              `;
+            } else {
+              item.innerHTML = `
+                <button type="button" class="album-img-btn" aria-label="View photo ${idx + 1}">
+                  <img
+                    src="${img.src}"
+                    alt="${img.alt}"
+                    class="album-img-thumb"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              `;
+            }
             imageGrid.appendChild(item);
           });
         }
@@ -256,27 +278,46 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     const lightbox = document.getElementById("image-lightbox");
     const lightboxImg = document.getElementById("img-lightbox-img") as HTMLImageElement | null;
     const lightboxCaption = document.getElementById("img-lightbox-caption");
+    const lightboxVideo = document.getElementById("img-lightbox-video") as HTMLVideoElement | null;
     const prevBtn = document.querySelector<HTMLButtonElement>("[data-img-prev]");
     const nextBtn = document.querySelector<HTMLButtonElement>("[data-img-next]");
 
-    let currentImages: Array<{ src: string; alt: string; caption: string }> = [];
+    let currentImages: Array<{ src: string; alt: string; caption: string; type: string }> = [];
     let currentIdx = 0;
 
     const openLightbox = (idx: number) => {
       if (!lightbox || !lightboxImg) return;
       currentIdx = idx;
-      lightboxImg.src = currentImages[idx].src;
-      lightboxImg.alt = currentImages[idx].alt;
-      /* Show caption only when meaningful (not empty, not just a category name) */
-      const cap = currentImages[idx].caption;
+      const item = currentImages[idx];
+      const isVideo = item.type === "video";
+
+      if (isVideo && lightboxVideo) {
+        /* Show video player */
+        lightboxVideo.src = item.src;
+        lightboxVideo.alt = item.alt;
+        lightboxVideo.classList.add("is-visible");
+        lightboxImg.classList.remove("is-visible");
+      } else if (lightboxImg) {
+        /* Show image */
+        lightboxImg.src = item.src;
+        lightboxImg.alt = item.alt;
+        lightboxImg.classList.add("is-visible");
+        if (lightboxVideo) lightboxVideo.classList.remove("is-visible");
+        if (lightboxVideo) lightboxVideo.pause();
+      }
+
+      /* Show caption only when meaningful */
+      const cap = item.caption;
       if (lightboxCaption) {
         lightboxCaption.textContent = cap && cap.trim().length > 0 ? cap : "";
         lightboxCaption.style.display = cap && cap.trim().length > 0 ? "block" : "none";
       }
+
       lightbox.hidden = false;
       lightbox.classList.add("is-open");
       document.body.style.overflow = "hidden";
       lightbox.querySelector<HTMLButtonElement>(".img-lightbox-close")?.focus();
+      /* Hide prev/next nav when on a video (simple approach) */
       updateLightboxNav();
     };
 
@@ -285,6 +326,8 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       lightbox.hidden = true;
       lightbox.classList.remove("is-open");
       document.body.style.overflow = "";
+      /* Pause video when closing */
+      if (lightboxVideo) lightboxVideo.pause();
     };
 
     const updateLightboxNav = () => {
@@ -300,14 +343,15 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
           if (!item) return;
           const idx = Number(item.dataset.imgIdx);
 
-          /* Gather all images + captions from current album grid */
+          /* Gather all images + captions + type from current album grid */
           const grid = document.getElementById("album-image-grid");
           if (!grid) return;
           const items = Array.from(grid.querySelectorAll<HTMLElement>("[data-img-idx]"));
           currentImages = items.map((el) => {
-            const img = el.querySelector("img");
+            const img = el.querySelector("img, video");
             const caption = el.dataset.imgCaption ?? "";
-            return { src: img?.src ?? "", alt: img?.alt ?? "", caption };
+            const type = el.dataset.imgType ?? "image";
+            return { src: img?.src ?? "", alt: img?.alt ?? "", caption, type };
           });
 
           openLightbox(idx);
@@ -609,6 +653,31 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     transform: scale(1.06);
   }
 
+  /* Video thumbnail play button */
+  .album-video-play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 30, 20, 0.45);
+    color: white;
+    transition: background 200ms;
+  }
+  .album-video-play-btn svg {
+    width: 2rem;
+    height: 2rem;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+  }
+  .album-img-btn:hover .album-video-play-btn {
+    background: rgba(10, 30, 20, 0.55);
+  }
+
+  /* Video items in grid get a border accent */
+  .album-img-item.is-video {
+    border: 2px solid rgba(26, 90, 58, 0.25);
+  }
+
   /* ── Image Lightbox ── */
   .img-lightbox {
     position: fixed;
@@ -653,6 +722,17 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     border-radius: 0.5rem;
     flex: 1;
   }
+  .img-lightbox-img { display: block; }
+  .img-lightbox-img:not(.is-visible) { display: none; }
+  .img-lightbox-video {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    flex: 1;
+    display: none;
+  }
+  .img-lightbox-video.is-visible { display: block; }
   .img-lightbox-caption {
     position: absolute;
     bottom: -2rem;

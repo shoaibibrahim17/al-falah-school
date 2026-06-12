@@ -14,10 +14,10 @@ export const SCHOOL = {
 
   /* ── Location ── (verified from Google Maps + JustDial listings) */
   location: {
-    address: "Shanti Nagar Road, Bokkalguda, Adilabad",
+    address: "# 1-2-56/26 Shanti Nagar Road, Bokkalguda, Adilabad",
     city: "Adilabad",
     state: "Telangana",
-    full: "Shanti Nagar Road, Bokkalguda, Adilabad, Telangana 504001",
+    full: "# 1-2-56/26 Shanti Nagar Road, Bokkalguda, Adilabad - 504001",
     coordinates: { lat: 19.6690535, lng: 78.5415095 },
   },
 
@@ -175,6 +175,7 @@ export const SCHOOL = {
           { alt: "School event photo", caption: "", src: "/images/gallery/events/WhatsApp Image 2026-06-10 at 14.51.16.jpeg" },
           { alt: "School event photo", caption: "", src: "/images/gallery/events/WhatsApp Image 2026-06-10 at 14.51.48.jpeg" },
           { alt: "School event photo", caption: "", src: "/images/gallery/events/WhatsApp Image 2026-06-10 at 14.52.21.jpeg" },
+          { type: "video", alt: "School event video", caption: "School Event", src: "/videos/gallery/WhatsApp Video 2026-06-10 at 14.46.24.mp4" },
         ],
       },
     ],
@@ -211,43 +212,49 @@ export const SCHOOL = {
         id: "admissions-enquiry-open",
         title: "Admissions Enquiry Open",
         description: "Parents can contact the school office for admission-related questions for the 2026–27 academic year.",
-        noticeDate: null,
+        noticeDate: "2026-06-01",
         category: "Admission",
-        priority: "important" as const,
+        priority: "important" as "normal" | "important" | "urgent",
         ctaLabel: null,
         ctaHref: null,
         isActive: true,
         order: 1,
         startDate: null,
         endDate: null,
+        // CMS-ready: set pdf when a real notice PDF is uploaded through Sanity.
+        pdf: null,
       },
       {
         id: "documents-required",
         title: "Documents Required for Admission",
         description: "Parents are requested to keep basic student and parent documents ready during the admission enquiry process.",
-        noticeDate: null,
+        noticeDate: "2026-06-05",
         category: "Documents",
-        priority: "normal" as const,
+        priority: "normal" as "normal" | "important" | "urgent",
         ctaLabel: null,
         ctaHref: null,
         isActive: true,
         order: 2,
         startDate: null,
         endDate: null,
+        // CMS-ready: set pdf when a real notice PDF is uploaded through Sanity.
+        pdf: null,
       },
       {
         id: "school-visit-enquiries",
         title: "School Visit Enquiries",
         description: "Parents may contact the school office before visiting the campus for admission or general enquiries.",
-        noticeDate: null,
+        noticeDate: "2026-06-08",
         category: "Visit",
-        priority: "normal" as const,
+        priority: "normal" as "normal" | "important" | "urgent",
         ctaLabel: null,
         ctaHref: null,
         isActive: true,
         order: 3,
         startDate: null,
         endDate: null,
+        // CMS-ready: set pdf when a real notice PDF is uploaded through Sanity.
+        pdf: null,
       },
     ],
   },
@@ -334,10 +341,10 @@ export const SCHOOL = {
     ctaLink: "#parent-form",
   },
 
-  /* ── Contact Details ── (phone/email pending; placeholders only) */
+  /* ── Contact Details ── */
   contact: {
-    phone: "",
-    email: "",
+    phone: "9030396250, 7981757850",
+    email: "alfalahinternationalschool@gmail.com",
   },
 
   /* ── Parent Enquiry & Feedback Form ── */
@@ -394,7 +401,8 @@ export const SCHOOL = {
     socialLinks: {
       facebook: "#",
       instagram: "#",
-      youtube: "#",
+      youtube: "https://youtube.com/@schoolalfalah1364?si=uKc-gDUSJv5PKJCn",
+      whatsapp: "https://wa.me/919030396250",
     },
     copyright: `© ${new Date().getFullYear()} Al-Falah High School. All rights reserved.`,
   },
