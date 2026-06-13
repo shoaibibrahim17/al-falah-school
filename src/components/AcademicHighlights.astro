@@ -1,0 +1,107 @@
+---
+/* Academic Highlights — clean, premium cards.
+   8 items, premium card design. Strong claims are softened in the data
+   (e.g. '100% result' and '85%–98%' include 'as shared by the school').
+   CMS-ready via SCHOOL.academicHighlights. */
+import {
+  BookOpen,
+  BookOpenCheck,
+  Mic,
+  MessageCircle,
+  Trophy,
+  Award,
+  Users,
+  GraduationCap,
+  Atom,
+  FlaskConical,
+  HeartHandshake,
+  Heart,
+} from "lucide-astro";
+import { SCHOOL } from "../data/school";
+
+const { academicHighlights: ah } = SCHOOL;
+
+const iconMap: Record<string, any> = {
+  BookOpen,
+  BookOpenCheck,
+  Mic,
+  MessageCircle,
+  Trophy,
+  Award,
+  Users,
+  GraduationCap,
+  Atom,
+  FlaskConical,
+  HeartHandshake,
+  Heart,
+};
+---
+
+{ah.enabled && (
+  <section id="academic-highlights" class="relative py-16 lg:py-24 bg-white overflow-hidden">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section header -->
+      <div data-reveal="fade" class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+          <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
+          {ah.eyebrow}
+        </div>
+        <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal leading-tight tracking-tight mb-4">
+          {ah.title}
+        </h2>
+        <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
+          {ah.subtitle}
+        </p>
+      </div>
+
+      <!-- Cards grid -->
+      <div data-reveal-group class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        {ah.items.map((item) => {
+          const Icon = iconMap[item.icon] || BookOpen;
+          const isHighlight = Boolean(item.highlight);
+          return (
+            <article
+              data-hover-card
+              class={`group relative bg-white rounded-2xl p-5 sm:p-6 border ${isHighlight ? 'border-brand-red/30' : 'border-ivory-dark'} focus-visible:outline-deep-green transition-colors duration-300 overflow-hidden`}
+              tabindex="0"
+            >
+              <!-- Top accent bar -->
+              <div
+                class={`absolute top-0 left-0 right-0 h-0.5 ${isHighlight ? 'bg-gradient-to-r from-brand-red/40 via-brand-red to-brand-red/40' : 'bg-gradient-to-r from-transparent via-deep-green to-transparent'} scale-x-0 origin-center group-hover:scale-x-100 transition-transform duration-500 ease-out`}
+                aria-hidden="true"
+              ></div>
+
+              <!-- Highlight badge (only for important claims) -->
+              {isHighlight && (
+                <div class="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 bg-brand-red/10 text-brand-red text-[10px] font-bold uppercase tracking-wider rounded-full">
+                  <span class="w-1 h-1 rounded-full bg-brand-red" aria-hidden="true"></span>
+                  Highlight
+                </div>
+              )}
+
+              <!-- Icon -->
+              <div class="w-11 h-11 rounded-xl bg-deep-green/10 flex items-center justify-center mb-4 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:bg-deep-green/15">
+                <Icon class="w-5 h-5 text-deep-green" aria-hidden="true" />
+              </div>
+
+              <!-- Title -->
+              <h3 class="text-base sm:text-lg font-bold font-serif text-charcoal leading-snug mb-2 transition-colors duration-300 group-hover:text-deep-green">
+                {item.title}
+              </h3>
+
+              <!-- Description -->
+              <p class="text-slate text-sm leading-relaxed">
+                {item.description}
+              </p>
+            </article>
+          );
+        })}
+      </div>
+
+      <!-- Disclosure note — claim safety footer -->
+      <p data-reveal="fade" class="text-center text-[11px] text-slate-light mt-8 max-w-2xl mx-auto">
+        Academic outcomes and student performance figures are reported by the school and have not been independently verified.
+      </p>
+    </div>
+  </section>
+)}

@@ -31,8 +31,8 @@ export const SCHOOL = {
       { label: "Gallery", href: "#gallery" },
       { label: "Contact", href: "#contact" },
     ],
-    cta: "Parent Form",
-    ctaLink: "#parent-form",
+    cta: "Contact",
+    ctaLink: "#contact",
   },
 
   /* ── Hero Section ── */
@@ -41,7 +41,7 @@ export const SCHOOL = {
     headline: "Al-Falah High School",
     subtitle: "A neighbourhood school on Shanti Nagar Road focused on building strong basics, good habits, and clear communication with parents.",
     cta: "Admission Enquiry",
-    ctaLink: "#contact",
+    ctaLink: "#parent-form",
     secondaryCta: "Learn More",
     secondaryLink: "#about",
     /* Background image — subtle blurred atmosphere behind hero content */
@@ -69,7 +69,13 @@ export const SCHOOL = {
   /* ── About Section ── */
   about: {
     heading: "About Al-Falah",
-    imagePlaceholder: "Our School Campus",
+    imagePlaceholder: "School campus photo",
+    image: {
+      src: null as string | null,
+      alt: "",
+      caption: "",
+      isActive: false,
+    },
     paragraphs: [
       "Al-Falah High School is an English-medium school in Bokkalguda, Adilabad. We serve students from the local neighbourhood and surrounding areas, focusing on clear basics, regular practice, and honest communication with parents.",
       "The school is located on Shanti Nagar Road and is reachable for admission enquiries, school visits, and general questions during office hours.",
@@ -182,14 +188,88 @@ export const SCHOOL = {
 
   /* ── Principal's Message ── */
   principalMessage: {
-    enabled: false, // Set to true once message is provided by the school
-    heading: "A Message from Our Principal",
-    placeholderNote: "The principal's message will be added once confirmed by the school.",
-    name: null,
-    designation: null,
-    message: null,
+    enabled: true, // Safe to enable — no fake name or fake photo
+    eyebrow: "Principal's Desk",
+    title: "Message from the School Leadership",
+    // Paragraphs of the message. Sanity CMS will eventually own these.
+    body: [
+      "At Al-Falah, education is not only about marks. We aim to build character, confidence, discipline, and a sense of responsibility.",
+      "We guide students to become good human beings, respectful children, responsible neighbours, loyal friends, and true citizens of India.",
+      "Al-Falah means success — success in this life and success in the hereafter. Our effort is to nurture students with knowledge, values, and good conduct.",
+    ],
+    // Use 'School Leadership' or 'Al-Falah High School' as the author label.
+    // Real name/photo can be added later when the school provides them.
+    authorLabel: "School Leadership",
+    // Short value chips shown below the message.
+    valueChips: [
+      "Character",
+      "Responsibility",
+      "Good Conduct",
+      "Nation Building",
+    ],
+    // Photo intentionally omitted — no fake principal portrait.
     image: null,
     imageAlt: null,
+  },
+
+  /* ── Academic Highlights ── */
+  academicHighlights: {
+    enabled: true,
+    eyebrow: "Academic Highlights",
+    title: "Academic Highlights",
+    subtitle: "Key learning support and academic strengths shared by the school.",
+    // Each item is CMS-ready. Strong claims include 'as shared by the school'.
+    items: [
+      {
+        id: "spell-bee",
+        title: "SPELL BEE Course",
+        description: "Introduced for higher classes to support vocabulary, spelling, and language confidence.",
+        icon: "BookOpenCheck",
+      },
+      {
+        id: "fluency-pronunciation",
+        title: "Fluency & Pronunciation",
+        description: "International-style methods are used to improve speaking fluency and pronunciation.",
+        icon: "Mic",
+      },
+      {
+        id: "class-x-record",
+        title: "Class X Result Record",
+        description: "100% Class X result record for the past 5 years, as shared by the school.",
+        icon: "Trophy",
+        highlight: true,
+      },
+      {
+        id: "strong-performance",
+        title: "Strong Student Performance",
+        description: "In each batch, many students have scored between 85% and 98%, as shared by the school.",
+        icon: "Award",
+      },
+      {
+        id: "primary-teachers",
+        title: "Experienced Primary Teachers",
+        description: "Experienced teachers support learning from Class I to V.",
+        icon: "Users",
+      },
+      {
+        id: "higher-class-teachers",
+        title: "Qualified Higher-Class Teachers",
+        description: "B.Ed teachers with 10 to 20 years of experience guide students from VI to X.",
+        icon: "GraduationCap",
+      },
+      {
+        id: "neet-iit-foundation",
+        title: "NEET & IIT Foundation",
+        description: "Foundation classes from VII to X with Physics-focused support material.",
+        icon: "Atom",
+      },
+      {
+        id: "affordable-tuition",
+        title: "Affordable Tuition Fee",
+        description: "Affordable tuition support for academic and Islamic studies.",
+        icon: "HeartHandshake",
+      },
+    ],
   },
 
   /* ── Faculty Section ── */
@@ -335,9 +415,11 @@ export const SCHOOL = {
   /* ── Admissions CTA Section ── */
   admissionsCta: {
     heading: "Admission Enquiry",
-    subtitle: "Admissions for the 2026–27 academic year are open. Parents can visit the school office or fill the parent form to enquire.",
-    cta: "Fill Parent Form",
-    ctaLink: "#parent-form",
+    subtitle: "Admissions for the 2026–27 academic year are open. Parents can visit the school office or submit an enquiry to begin.",
+    primaryCta: "Visit School Office",
+    primaryCtaLink: "#contact",
+    secondaryCta: "View Notices",
+    secondaryCtaLink: "#notices",
   },
 
   /* ── Contact Details ── */

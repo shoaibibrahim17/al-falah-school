@@ -1,8 +1,7 @@
 ---
-/* Principal's Message — CMS-ready.
-   Shows a two-column layout with photo on one side and message on the other.
-   When the principal's message hasn't been provided (enabled: false), the
-   section renders nothing — it does not show a placeholder. */
+/* Principal's Message — premium full-width message card.
+   No fake portrait or signature. Author label is the school
+   leadership unless a real name is provided via CMS later. */
 import { Quote } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 
@@ -15,77 +14,64 @@ const { principalMessage: pm } = SCHOOL;
       <div class="absolute inset-0 bg-[radial-gradient(#0D5E3E_0.7px,transparent_0.7px)] [background-size:28px_28px] opacity-[0.04]"></div>
     </div>
 
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div data-reveal class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section header -->
+      <div data-reveal="fade" class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
         <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
           <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-          Principal's Desk
+          {pm.eyebrow}
         </div>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal tracking-tight mb-3">
-          {pm.heading}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal leading-tight tracking-tight">
+          {pm.title}
         </h2>
-        {pm.subtitle && (
-          <p class="text-slate text-base sm:text-lg leading-relaxed">{pm.subtitle}</p>
-        )}
       </div>
 
-      <div data-reveal="scale" class="bg-white rounded-3xl border border-ivory-dark shadow-xl shadow-charcoal/[0.06] overflow-hidden">
-        <div class="grid md:grid-cols-2">
-          <!-- Photo side -->
-          <div class="relative bg-gradient-to-br from-deep-green to-deep-green-dark min-h-[280px] md:min-h-[400px]">
-            {pm.image ? (
-              <img
-                src={pm.image}
-                alt={pm.imageAlt ?? `${pm.name}, ${pm.designation}`}
-                class="absolute inset-0 w-full h-full object-cover object-top"
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <!-- Graceful placeholder: school-themed graphic, not a fake person -->
-              <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                <div class="w-24 h-24 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center mb-4">
-                  <Quote class="w-10 h-10 text-white/70" />
-                </div>
-                <p class="text-white/50 text-sm font-medium tracking-wide">
-                  Principal's photo<br />coming soon
-                </p>
-              </div>
-            )}
-            <!-- Decorative overlay on photo side -->
-            <div class="absolute inset-0 bg-gradient-to-t from-charcoal/30 to-transparent pointer-events-none"></div>
+      <!-- Premium message card — left green accent border, full-width text -->
+      <article
+        data-reveal="slide-up"
+        class="relative bg-white rounded-3xl border border-ivory-dark shadow-lg shadow-charcoal/[0.05] overflow-hidden"
+      >
+        <!-- Green left accent border -->
+        <div class="absolute top-0 left-0 bottom-0 w-1.5 bg-gradient-to-b from-deep-green-light via-deep-green to-deep-green-dark" aria-hidden="true"></div>
+
+        <div class="relative p-7 sm:p-10 lg:p-14 pl-8 sm:pl-12 lg:pl-16">
+          <!-- Quote icon -->
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-deep-green/10 mb-6">
+            <Quote class="w-6 h-6 text-deep-green" aria-hidden="true" />
           </div>
 
-          <!-- Message side -->
-          <div class="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-            {pm.message ? (
-              <>
-                <Quote class="w-8 h-8 text-deep-green/30 mb-5" aria-hidden="true" />
-                <blockquote class="text-charcoal text-base sm:text-lg leading-relaxed font-serif italic mb-7">
-                  {pm.message}
-                </blockquote>
-                {pm.name && (
-                  <footer class="border-t border-ivory-dark pt-5">
-                    <cite class="not-italic">
-                      <span class="block text-sm font-bold text-charcoal">{pm.name}</span>
-                      {pm.designation && (
-                        <span class="block text-xs text-slate-light mt-0.5">{pm.designation}</span>
-                      )}
-                    </cite>
-                  </footer>
-                )}
-              </>
-            ) : (
-              <div class="text-center py-6">
-                <Quote class="w-8 h-8 text-deep-green/20 mx-auto mb-4" aria-hidden="true" />
-                <p class="text-slate-light text-sm italic">
-                  {pm.placeholderNote ?? "Message will be added soon."}
-                </p>
-              </div>
-            )}
+          <!-- Message body — clean paragraphs, not oversized -->
+          <div class="space-y-5 sm:space-y-6 max-w-3xl">
+            {pm.body.map((paragraph) => (
+              <p class="text-charcoal text-base sm:text-lg leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
           </div>
+
+          <!-- Value chips — small, informational, not pushy -->
+          {pm.valueChips && pm.valueChips.length > 0 && (
+            <ul class="flex flex-wrap gap-2 mt-8" role="list">
+              {pm.valueChips.map((chip) => (
+                <li class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-deep-green/[0.06] text-deep-green text-xs sm:text-sm font-semibold rounded-full">
+                  <span class="w-1 h-1 rounded-full bg-deep-green" aria-hidden="true"></span>
+                  {chip}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <!-- Author label — footer with thin divider -->
+          <footer class="mt-8 pt-6 border-t border-ivory-dark">
+            <p class="text-sm font-semibold text-charcoal">
+              {pm.authorLabel}
+            </p>
+            <p class="text-xs text-slate-light mt-0.5">
+              Al-Falah High School, Adilabad
+            </p>
+          </footer>
         </div>
-      </div>
+      </article>
     </div>
   </section>
 )}
