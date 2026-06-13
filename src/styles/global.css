@@ -861,9 +861,8 @@
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--color-deep-green) 8%, transparent) inset,
     0 18px 40px -16px color-mix(in srgb, var(--color-charcoal) 18%, transparent);
-  /* Compact frame for vertical posters — wider on larger screens */
-  width: 100%;
-  max-width: 480px;
+  /* Premium centered frame for vertical posters */
+  width: min(92vw, 520px);
   margin: 0 auto;
 }
 @media (min-width: 640px) {
@@ -902,14 +901,8 @@
     radial-gradient(color-mix(in srgb, var(--color-deep-green) 5%, transparent) 0.8px, transparent 0.8px);
   background-size: 22px 22px;
   overflow: hidden;
-  /* Responsive fixed heights — poster image uses object-fit: contain + max-height */
-  height: 14rem;     /* 224px mobile */
-}
-@media (min-width: 640px) {
-  .poster-stage { height: 16rem; }  /* 256px sm */
-}
-@media (min-width: 1024px) {
-  .poster-stage { height: 20rem; }  /* 320px lg */
+  /* Premium sizing: large on mobile and desktop, scales with viewport */
+  height: clamp(22rem, 68vw, 36rem);
 }
 
 .poster-slide {
@@ -996,41 +989,25 @@
   .poster-nav { display: flex; }
 }
 
-/* Dot navigation */
+/* Dot navigation — clean simple dots, no progress bar */
 .poster-dot {
-  position: relative;
-  width: 28px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 9999px;
-  background: color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+  background: color-mix(in srgb, var(--color-charcoal) 18%, transparent);
   border: 0;
   padding: 0;
   cursor: pointer;
-  overflow: hidden;
-  transition: background-color 300ms var(--ease-ios-out),
-              width 400ms var(--ease-ios-spring);
+  transition: background-color 200ms var(--ease-ios-out),
+              transform 200ms var(--ease-ios-out);
 }
 .poster-dot:hover {
-  background: color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+  background: color-mix(in srgb, var(--color-deep-green) 55%, transparent);
+  transform: scale(1.15);
 }
 .poster-dot.is-active {
-  width: 44px;
-  background: color-mix(in srgb, var(--color-deep-green) 25%, transparent);
-}
-.poster-dot-fill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, var(--color-deep-green), var(--color-deep-green-light));
-  transform: translateX(-100%);
-  border-radius: inherit;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .poster-dot.is-active .poster-dot-fill {
-    animation: poster-dot-progress 4.5s linear forwards;
-  }
-}
-@keyframes poster-dot-progress {
-  to { transform: translateX(0); }
+  background: var(--color-deep-green);
+  transform: scale(1.15);
 }
 
 /* Reduced motion fallback */
@@ -1044,7 +1021,6 @@
   .poster-dot.is-active {
     transition: none;
   }
-  .poster-dot-fill { display: none; }
 }
 
 /* ── Page-level content sits above doodle layer ─ */
