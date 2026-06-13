@@ -618,6 +618,9 @@ The current `src/data/school.ts` fallback now mirrors these future Sanity shapes
   - `eyebrow: string`
   - `title: string`
   - `subtitle: text`
+  - `groups: array<object>`
+  - `groups[].title: string`
+  - `groups[].itemIds: array<string>`
   - `items: array<object>`
   - `items[].id: string`
   - `items[].title: string`
