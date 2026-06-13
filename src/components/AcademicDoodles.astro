@@ -1,0 +1,255 @@
+---
+/**
+ * AcademicDoodles.astro
+ * Reusable pencil-style academic doodle component.
+ * Decorative only — aria-hidden, pointer-events none, low opacity.
+ *
+ * Renders a single SVG doodle. Place it inside a section with
+ * `relative` positioning and decorative parent wrappers.
+ *
+ * Variants use thin line-art in brand colors (deep green or slate).
+ */
+
+type Variant =
+  | "book"
+  | "pencil"
+  | "globe"
+  | "compass"
+  | "atom"
+  | "cap"
+  | "camera"
+  | "pin"
+  | "ruler"
+  | "star"
+  | "leaf"
+  | "microscope"
+  | "trophy"
+  | "book-check"
+  | "school"
+  | "flask"
+  | "lightbulb"
+  | "shield"
+  | "users";
+
+type Size = "sm" | "md" | "lg";
+type Color = "green" | "slate" | "mixed";
+
+interface Props {
+  variant: Variant;
+  size?: Size;
+  color?: Color;
+  rotation?: number;
+  opacity?: number;
+}
+
+const {
+  variant,
+  size = "md",
+  color = "mixed",
+  rotation = 0,
+  opacity = 0.5,
+} = Astro.props;
+
+const sizeMap: Record<Size, number> = {
+  sm: 28,
+  md: 40,
+  lg: 56,
+};
+const px = sizeMap[size];
+
+const stroke =
+  color === "green"
+    ? "rgba(15, 100, 55, 0.30)"
+    : color === "slate"
+    ? "rgba(30, 41, 59, 0.30)"
+    : "rgba(30, 41, 59, 0.30)";
+
+const strokeLight =
+  color === "green"
+    ? "rgba(15, 100, 55, 0.16)"
+    : color === "slate"
+    ? "rgba(30, 41, 59, 0.16)"
+    : "rgba(30, 41, 59, 0.16)";
+
+const strokeAccent =
+  color === "mixed" ? "rgba(15, 100, 55, 0.22)" : null;
+---
+
+<svg
+  width={px}
+  height={px}
+  viewBox="0 0 56 56"
+  fill="none"
+  aria-hidden="true"
+  class="doodle"
+  style={`transform: rotate(${rotation}deg); opacity: ${opacity};`}
+  preserveAspectRatio="xMidYMid meet"
+>
+  {variant === "book" && (
+    <g>
+      <path d="M28 46V12" stroke={stroke} stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M28 12C22 12 16 14 12 16C8 18 6 21 6 25C6 30 10 34 15 36C20 38 28 40 28 40" stroke={stroke} stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M28 12C34 12 40 14 44 16C48 18 50 21 50 25C50 30 46 34 41 36C36 38 28 40 28 40" stroke={stroke} stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 22H20M11 27H19M12 32H18" stroke={strokeLight} stroke-width="1" stroke-linecap="round"/>
+      <path d="M44 22H36M45 27H37M44 32H38" stroke={strokeLight} stroke-width="1" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "pencil" && (
+    <g>
+      <path d="M10 48L6 52L4 50L8 46L10 48Z" stroke={stroke} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 48L22 10L26 14L16 52L10 48Z" stroke={stroke} stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 10L20 6L26 14" stroke={stroke} stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 36L18 24" stroke={strokeLight} stroke-width="0.8" stroke-linecap="round"/>
+      <path d="M16 38L20 26" stroke={strokeLight} stroke-width="0.8" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "globe" && (
+    <g>
+      <circle cx="28" cy="28" r="20" stroke={stroke} stroke-width="1.4"/>
+      <ellipse cx="28" cy="28" rx="20" ry="8" stroke={strokeLight} stroke-width="1"/>
+      <ellipse cx="28" cy="28" rx="8" ry="20" stroke={strokeLight} stroke-width="1"/>
+      <path d="M8 28H48" stroke={strokeLight} stroke-width="0.9"/>
+      <path d="M28 16C25 16 22 18 22 21C22 25 28 32 28 32C28 32 34 25 34 21C34 18 31 16 28 16Z" stroke={stroke} stroke-width="1.2" stroke-linejoin="round"/>
+    </g>
+  )}
+  {variant === "compass" && (
+    <g>
+      <circle cx="28" cy="28" r="20" stroke={stroke} stroke-width="1.4"/>
+      <circle cx="28" cy="28" r="3" stroke={stroke} stroke-width="1.1"/>
+      <path d="M28 8L30 22H26L28 8Z" stroke={stroke} stroke-width="1.1" stroke-linejoin="round"/>
+      <path d="M28 48L26 34H30L28 48Z" stroke={stroke} stroke-width="1.1" stroke-linejoin="round"/>
+      <path d="M28 8V10M28 46V48M8 28H10M46 28H48" stroke={strokeLight} stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "atom" && (
+    <g>
+      <circle cx="28" cy="28" r="3.5" stroke={stroke} stroke-width="1.3"/>
+      <ellipse cx="28" cy="28" rx="20" ry="8" stroke={strokeLight} stroke-width="1.1"/>
+      <ellipse cx="28" cy="28" rx="20" ry="8" stroke={strokeLight} stroke-width="1.1" transform="rotate(60 28 28)"/>
+      <ellipse cx="28" cy="28" rx="20" ry="8" stroke={strokeLight} stroke-width="1.1" transform="rotate(120 28 28)"/>
+      <circle cx="6" cy="24" r="1.6" stroke={stroke} stroke-width="1"/>
+      <circle cx="42" cy="40" r="1.6" stroke={stroke} stroke-width="1"/>
+    </g>
+  )}
+  {variant === "cap" && (
+    <g>
+      <path d="M28 6L8 16L28 26L48 16L28 6Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M12 18V26C12 32 18 36 28 36C38 36 44 32 44 26V18" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M28 26V34" stroke={stroke} stroke-width="1.1" stroke-linecap="round"/>
+      <circle cx="28" cy="36" r="2" stroke={stroke} stroke-width="1"/>
+    </g>
+  )}
+  {variant === "camera" && (
+    <g>
+      <rect x="6" y="18" width="44" height="30" rx="3" stroke={stroke} stroke-width="1.4"/>
+      <path d="M18 18L22 12H34L38 18" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <circle cx="28" cy="32" r="8" stroke={stroke} stroke-width="1.3"/>
+      <circle cx="28" cy="32" r="3" stroke={strokeLight} stroke-width="1"/>
+      <circle cx="44" cy="24" r="1.2" stroke={strokeLight} stroke-width="1"/>
+    </g>
+  )}
+  {variant === "pin" && (
+    <g>
+      <path d="M28 4C22 4 18 9 18 14C18 22 28 50 28 50C28 50 38 22 38 14C38 9 34 4 28 4Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <circle cx="28" cy="14" r="3.5" stroke={stroke} stroke-width="1.1"/>
+    </g>
+  )}
+  {variant === "ruler" && (
+    <g>
+      <rect x="4" y="22" width="48" height="12" rx="2" stroke={stroke} stroke-width="1.3"/>
+      <path d="M10 22V28M16 22V26M22 22V28M28 22V26M34 22V28M40 22V26M46 22V28" stroke={strokeLight} stroke-width="0.9" stroke-linecap="round"/>
+      <path d="M10 34V28M16 34V30M22 34V28M28 34V30M34 34V28M40 34V30M46 34V28" stroke={strokeLight} stroke-width="0.8" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "star" && (
+    <g>
+      <path d="M28 8L31 22H46L34 30L38 44L28 36L18 44L22 30L10 22H25L28 8Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+    </g>
+  )}
+  {variant === "leaf" && (
+    <g>
+      <path d="M28 50V12" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M28 12C20 12 12 18 10 28C8 36 14 42 28 12Z" stroke={stroke} stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M28 12C36 12 44 18 46 28C48 36 42 42 28 12Z" stroke={stroke} stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M18 22L28 16L38 22" stroke={strokeLight} stroke-width="0.9" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "microscope" && (
+    <g>
+      <path d="M22 18V32M22 32C22 32 18 24 16 18C14 16 12 16 12 18C12 20 14 24 16 26L18 28" stroke={stroke} stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 32L26 28C26 28 30 24 30 18C30 12 26 8 22 8C18 8 14 12 14 18" stroke={stroke} stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14 36H30" stroke={stroke} stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M12 44H32" stroke={stroke} stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="24" cy="14" r="2" stroke={strokeLight} stroke-width="1"/>
+    </g>
+  )}
+  {variant === "trophy" && (
+    <g>
+      <path d="M14 50H42" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M28 50V42" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M14 8H42V18C42 26 36 32 28 32C20 32 14 26 14 18V8Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M14 8C14 4 10 4 6 4C4 4 4 6 4 8V10C4 14 8 18 14 18" stroke={strokeLight} stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M42 8C42 4 46 4 50 4C52 4 52 6 52 8V10C52 14 48 18 42 18" stroke={strokeLight} stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M18 18L28 22L38 18" stroke={strokeLight} stroke-width="0.9" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "book-check" && (
+    <g>
+      <path d="M8 14C8 12 9 10 11 10H22V44H11C9 44 8 42 8 40V14Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M48 14C48 12 47 10 45 10H34V44H45C47 44 48 42 48 40V14Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M22 10H34" stroke={stroke} stroke-width="1.2"/>
+      <path d="M22 44H34" stroke={stroke} stroke-width="1.2"/>
+      <path d="M14 22L18 26L24 18" stroke={strokeAccent ?? stroke} stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  )}
+  {variant === "school" && (
+    <g>
+      <path d="M8 26L28 14L48 26" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M12 24V42" stroke={stroke} stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M44 24V42" stroke={stroke} stroke-width="1.2" stroke-linecap="round"/>
+      <rect x="14" y="28" width="8" height="14" stroke={stroke} stroke-width="1.2"/>
+      <rect x="26" y="28" width="6" height="14" stroke={stroke} stroke-width="1.2"/>
+      <rect x="36" y="28" width="8" height="14" stroke={stroke} stroke-width="1.2"/>
+      <path d="M8 46H48" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "flask" && (
+    <g>
+      <path d="M18 6H38V18L46 38C47 41 45 44 42 44H14C11 44 9 41 10 38L18 18V6Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M18 6H38" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M14 36C14 36 17 32 28 32C39 32 42 36 42 36" stroke={strokeLight} stroke-width="1" stroke-linecap="round"/>
+      <circle cx="18" cy="30" r="1.4" stroke={strokeLight} stroke-width="0.9"/>
+      <circle cx="24" cy="26" r="1.4" stroke={strokeLight} stroke-width="0.9"/>
+      <circle cx="32" cy="28" r="1.4" stroke={strokeLight} stroke-width="0.9"/>
+    </g>
+  )}
+  {variant === "lightbulb" && (
+    <g>
+      <path d="M28 4C18 4 12 12 12 22C12 28 16 32 20 36V42C20 44 22 46 24 46H32C34 46 36 44 36 42V36C40 32 44 28 44 22C44 12 38 4 28 4Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M24 46V48M32 46V48M28 48V50" stroke={strokeLight} stroke-width="1" stroke-linecap="round"/>
+      <path d="M20 24C20 24 22 28 28 28C34 28 36 24 36 24" stroke={strokeLight} stroke-width="0.9" stroke-linecap="round"/>
+    </g>
+  )}
+  {variant === "shield" && (
+    <g>
+      <path d="M28 6L12 14V26C12 36 18 44 28 50C38 44 44 36 44 26V14L28 6Z" stroke={stroke} stroke-width="1.3" stroke-linejoin="round"/>
+      <path d="M20 26L26 32L38 20" stroke={stroke} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  )}
+  {variant === "users" && (
+    <g>
+      <circle cx="20" cy="22" r="6" stroke={stroke} stroke-width="1.3"/>
+      <circle cx="38" cy="22" r="5" stroke={stroke} stroke-width="1.3"/>
+      <path d="M8 44C8 36 14 32 20 32C26 32 32 36 32 44" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M30 44C30 38 34 35 38 35C42 35 46 38 46 44" stroke={stroke} stroke-width="1.3" stroke-linecap="round"/>
+    </g>
+  )}
+</svg>
+
+<style>
+  .doodle {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+</style>

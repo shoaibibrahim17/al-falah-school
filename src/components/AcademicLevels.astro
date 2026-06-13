@@ -1,6 +1,7 @@
 ---
 import { Baby, BookOpen, Library, GraduationCap } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+import AcademicDoodles from "./AcademicDoodles.astro";
 
 const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, GraduationCap };
 ---
@@ -9,6 +10,13 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <div class="absolute top-1/3 right-0 w-72 h-72 rounded-full bg-deep-green/[0.06] blur-3xl"></div>
     <div class="absolute bottom-1/3 left-0 w-72 h-72 rounded-full bg-deep-green/[0.05] blur-3xl"></div>
+    <!-- 2 subject doodles: math ruler + pencil -->
+    <div class="absolute top-16 left-[4%] opacity-50 hidden sm:block">
+      <AcademicDoodles variant="ruler" size="sm" color="slate" rotation={-10} opacity={0.4} />
+    </div>
+    <div class="absolute bottom-20 right-[5%] opacity-50 hidden sm:block">
+      <AcademicDoodles variant="pencil" size="sm" color="slate" rotation={15} opacity={0.4} />
+    </div>
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

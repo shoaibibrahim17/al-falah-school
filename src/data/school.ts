@@ -191,6 +191,9 @@ export const SCHOOL = {
     enabled: true, // Safe to enable — no fake name or fake photo
     eyebrow: "Principal's Desk",
     title: "Message from the School Leadership",
+    subtitle: "Guiding students with knowledge, values, and responsibility.",
+    // Short typewriter-animated line shown near the header (or in the visual panel).
+    animatedLine: "Building character, confidence, and responsibility.",
     // Paragraphs of the message. Sanity CMS will eventually own these.
     body: [
       "At Al-Falah, education is not only about marks. We aim to build character, confidence, discipline, and a sense of responsibility.",
@@ -200,12 +203,12 @@ export const SCHOOL = {
     // Use 'School Leadership' or 'Al-Falah High School' as the author label.
     // Real name/photo can be added later when the school provides them.
     authorLabel: "School Leadership",
-    // Short value chips shown below the message.
-    valueChips: [
-      "Character",
-      "Responsibility",
-      "Good Conduct",
-      "Nation Building",
+    // Premium value cards shown in the visual panel.
+    valueCards: [
+      { label: "Character", icon: "Sparkles" },
+      { label: "Responsibility", icon: "Shield" },
+      { label: "Good Conduct", icon: "Heart" },
+      { label: "Nation Building", icon: "Users" },
     ],
     // Photo intentionally omitted — no fake principal portrait.
     image: null,

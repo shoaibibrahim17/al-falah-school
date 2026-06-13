@@ -1,6 +1,7 @@
 ---
 import { MapPin, Phone, Mail, ExternalLink } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+import AcademicDoodles from "./AcademicDoodles.astro";
 
 const { lat, lng } = SCHOOL.location.coordinates;
 const mapEmbedSrc = `https://www.google.com/maps?q=${lat},${lng}&z=17&output=embed`;
@@ -29,6 +30,10 @@ if (SCHOOL.contact.email) {
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <div class="absolute -top-32 right-1/4 w-80 h-80 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
     <div class="absolute -bottom-24 left-1/3 w-64 h-64 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
+    <!-- 1 small communication/map pin doodle -->
+    <div class="absolute top-20 right-[5%] opacity-50 hidden sm:block">
+      <AcademicDoodles variant="pin" size="sm" color="slate" rotation={-10} opacity={0.4} />
+    </div>
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

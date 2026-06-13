@@ -18,6 +18,7 @@ import {
   Heart,
 } from "lucide-astro";
 import { SCHOOL } from "../data/school";
+import AcademicDoodles from "./AcademicDoodles.astro";
 
 const { academicHighlights: ah } = SCHOOL;
 
@@ -39,6 +40,16 @@ const iconMap: Record<string, any> = {
 
 {ah.enabled && (
   <section id="academic-highlights" class="relative py-16 lg:py-24 bg-white overflow-hidden">
+    <!-- 2 subject doodles: atom + book-check (language/science) -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute top-14 left-[5%] opacity-50 hidden sm:block">
+        <AcademicDoodles variant="atom" size="sm" color="green" rotation={-8} opacity={0.45} />
+      </div>
+      <div class="absolute bottom-24 right-[6%] opacity-50 hidden sm:block">
+        <AcademicDoodles variant="book-check" size="sm" color="slate" rotation={10} opacity={0.45} />
+      </div>
+    </div>
+
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div data-reveal="fade" class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
