@@ -3,6 +3,21 @@ import { MapPin, Mail, Phone, Facebook, Instagram, Youtube, MessageCircle } from
 import { SCHOOL } from "../data/school";
 
 const base = import.meta.env.BASE_URL;
+const phones = SCHOOL.contact.phones ?? [];
+const socialIcons = {
+  facebook: Facebook,
+  instagram: Instagram,
+  youtube: Youtube,
+  whatsapp: MessageCircle,
+} as const;
+const socialLinks = Object.entries(SCHOOL.footer.socialLinks)
+  .filter(([, href]) => Boolean(href && href !== "#"))
+  .map(([key, href]) => ({
+    key,
+    href,
+    Icon: socialIcons[key as keyof typeof socialIcons],
+    label: key[0].toUpperCase() + key.slice(1),
+  }));
 ---
 
 <footer class="relative bg-deep-green-dark text-white">
@@ -93,46 +108,29 @@ const base = import.meta.env.BASE_URL;
         </ul>
 
         <!-- Social links -->
-        <h4 class="text-[11px] font-bold text-white/90 uppercase tracking-[0.18em] mb-3">
-          Follow Us
-        </h4>
-        <div class="flex gap-2 mb-7">
-          <a
-            href={SCHOOL.footer.socialLinks.facebook}
-            class="w-9 h-9 rounded-lg bg-white/[0.08] hover:bg-white text-white/70 hover:text-deep-green flex items-center justify-center transition-all duration-300 focus-visible:outline-white cursor-pointer border border-white/10 hover:border-white"
-            aria-label="Facebook"
-          >
-            <Facebook class="w-4 h-4" />
-          </a>
-          <a
-            href={SCHOOL.footer.socialLinks.instagram}
-            class="w-9 h-9 rounded-lg bg-white/[0.08] hover:bg-white text-white/70 hover:text-deep-green flex items-center justify-center transition-all duration-300 focus-visible:outline-white cursor-pointer border border-white/10 hover:border-white"
-            aria-label="Instagram"
-          >
-            <Instagram class="w-4 h-4" />
-          </a>
-          <a
-            href={SCHOOL.footer.socialLinks.youtube}
-            class="w-9 h-9 rounded-lg bg-white/[0.08] hover:bg-white text-white/70 hover:text-deep-green flex items-center justify-center transition-all duration-300 focus-visible:outline-white cursor-pointer border border-white/10 hover:border-white"
-            aria-label="YouTube"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Youtube class="w-4 h-4" />
-          </a>
-          <a
-            href={SCHOOL.footer.socialLinks.whatsapp}
-            class="w-9 h-9 rounded-lg bg-white/[0.08] hover:bg-white text-white/70 hover:text-deep-green flex items-center justify-center transition-all duration-300 focus-visible:outline-white cursor-pointer border border-white/10 hover:border-white"
-            aria-label="WhatsApp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <MessageCircle class="w-4 h-4" />
-          </a>
-        </div>
+        {socialLinks.length > 0 && (
+          <>
+            <h4 class="text-[11px] font-bold text-white/90 uppercase tracking-[0.18em] mb-3">
+              Follow Us
+            </h4>
+            <div class="flex gap-2 mb-7">
+              {socialLinks.map(({ key, href, Icon, label }) => (
+                <a
+                  href={href}
+                  class="w-9 h-9 rounded-lg bg-white/[0.08] hover:bg-white text-white/70 hover:text-deep-green flex items-center justify-center transition-all duration-300 focus-visible:outline-white cursor-pointer border border-white/10 hover:border-white"
+                  aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Icon class="w-4 h-4" />
+                </a>
+              ))}
+            </div>
+          </>
+        )}
 
         <!-- Contact details (conditional, data-driven) -->
-        {(SCHOOL.contact.phone || SCHOOL.contact.email || SCHOOL.location.full) && (
+        {(phones.length > 0 || SCHOOL.contact.email || SCHOOL.location.full) && (
           <div class="space-y-2.5">
             {SCHOOL.location.full && (
               <div class="flex items-start gap-2 text-white/70 text-xs">
@@ -146,12 +144,12 @@ const base = import.meta.env.BASE_URL;
                 <span>{SCHOOL.contact.email}</span>
               </a>
             )}
-            {SCHOOL.contact.phone && (
-              <a href={`tel:${SCHOOL.contact.phone}`} class="flex items-center gap-2 text-white/70 hover:text-white text-xs no-underline transition-colors duration-200 focus-visible:outline-white">
+            {phones.map((phone) => (
+              <a href={`tel:${phone.href}`} class="flex items-center gap-2 text-white/70 hover:text-white text-xs no-underline transition-colors duration-200 focus-visible:outline-white">
                 <Phone class="w-3.5 h-3.5 shrink-0" />
-                <span>{SCHOOL.contact.phone}</span>
+                <span>{phone.display}</span>
               </a>
-            )}
+            ))}
           </div>
         )}
       </div>

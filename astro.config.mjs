@@ -1,4 +1,5 @@
 // @ts-check
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sanity from '@sanity/astro';
@@ -29,6 +30,15 @@ export default defineConfig({
   base: '/al-falah-school/',
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        // Work around a Windows/Node resolution issue where Rollup fails to
+        // resolve Astro's published entrypoint export during static builds.
+        'astro/entrypoints/prerender': fileURLToPath(
+          new URL('./src/shims/astro-prerender-entry.js', import.meta.url)
+        ),
+      },
+    },
   },
   integrations,
 });

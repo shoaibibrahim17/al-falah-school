@@ -16,11 +16,11 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
   </div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid md:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center">
+    <div class:list={["grid gap-10 sm:gap-12 lg:gap-16 items-center", hasImage ? "md:grid-cols-2" : "max-w-3xl mx-auto"]}>
       <!-- Left: CMS-ready image area -->
-      <div data-reveal="slide-left">
-        <div class="relative">
-          {hasImage ? (
+      {hasImage && (
+        <div data-reveal="slide-left">
+          <div class="relative">
             <figure class="relative aspect-[4/3] rounded-3xl overflow-hidden border border-deep-green/20 shadow-lg shadow-deep-green/10 bg-ivory">
               <img
                 src={about.image!.src!}
@@ -35,49 +35,51 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
                 </figcaption>
               )}
             </figure>
-          ) : (
-            <!-- CMS-ready placeholder — clean, intentional, no fake image -->
-            <div
-              class="relative aspect-[4/3] rounded-3xl border-2 border-dashed border-deep-green/25 bg-ivory/40 flex flex-col items-center justify-center p-8 text-center"
-              role="img"
-              aria-label={about.imagePlaceholder}
-            >
-              <div class="w-16 h-16 rounded-2xl bg-deep-green/10 flex items-center justify-center mb-4">
-                <ImageIcon class="w-8 h-8 text-deep-green" />
-              </div>
-              <p class="text-charcoal text-sm sm:text-base font-semibold">
-                {about.imagePlaceholder}
-              </p>
-              <p class="text-slate-light text-xs sm:text-sm mt-1.5 max-w-xs">
-                Campus imagery will be added through the CMS when available.
-              </p>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       <!-- Right: Text content -->
-      <div data-reveal="slide-right">
-        <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
-          <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-          Our Story
-        </div>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-5 sm:mb-6 tracking-tight">
-          About <span class="text-gradient-green">Al-Falah</span>
-        </h2>
-        <div class="space-y-4 sm:space-y-5">
-          {about.paragraphs.map((p) => (
-            <p class="text-slate leading-relaxed text-base sm:text-lg">{p}</p>
-          ))}
-        </div>
-        <div class="mt-8">
-          <a
-            href={about.linkHref}
-            class="group link-arrow text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-deep-green cursor-pointer"
-          >
-            <span>{about.linkText}</span>
-            <ArrowRight class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-          </a>
+      <div data-reveal={hasImage ? "slide-right" : "fade"}>
+        <div class="relative">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+            <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
+            Our Story
+          </div>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-5 sm:mb-6 tracking-tight">
+            About <span class="text-gradient-green">Al-Falah</span>
+          </h2>
+          <div class="space-y-4 sm:space-y-5">
+            {about.paragraphs.map((p) => (
+              <p class="text-slate leading-relaxed text-base sm:text-lg">{p}</p>
+            ))}
+          </div>
+          {!hasImage && (
+            <div
+              class="mt-6 inline-flex max-w-md items-start gap-3 rounded-2xl border border-dashed border-deep-green/25 bg-ivory/45 px-4 py-3 text-left"
+              role="note"
+              aria-label={about.imagePlaceholder}
+            >
+              <div class="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-deep-green/10">
+                <ImageIcon class="h-5 w-5 text-deep-green" />
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-charcoal">Campus photo will be added soon.</p>
+                <p class="mt-1 text-xs leading-relaxed text-slate-light">
+                  The school image area is intentionally hidden until an official campus photo is available.
+                </p>
+              </div>
+            </div>
+          )}
+          <div class="mt-8">
+            <a
+              href={about.linkHref}
+              class="group link-arrow text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-deep-green cursor-pointer"
+            >
+              <span>{about.linkText}</span>
+              <ArrowRight class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+            </a>
+          </div>
         </div>
       </div>
     </div>

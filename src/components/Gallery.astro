@@ -71,7 +71,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
               type="button"
               class="album-card"
               data-album-id={album.id}
-              aria-label={`Open ${album.name} album — ${album.images.length} photos`}
+              aria-label={`Open ${album.name} album - ${album.images.length} photos`}
             >
               <!-- Cover image -->
               <div class="album-cover">
@@ -187,155 +187,58 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 
 <script>
   (() => {
-    /* ── Album cards → open modal ── */
     const albumCards = document.querySelectorAll<HTMLButtonElement>("[data-album-id]");
     const modal = document.getElementById("album-modal");
     const modalTitle = document.getElementById("album-modal-title");
     const modalCount = document.getElementById("album-modal-count");
     const modalIcon = document.getElementById("album-modal-icon");
     const imageGrid = document.getElementById("album-image-grid");
-
-    const iconMap: Record<string, string> = {
-      activities: "★",
-      classrooms: "📘",
-      events: "🎓",
-    };
-
-    albumCards.forEach((card) => {
-      card.addEventListener("click", () => {
-        const albumId = card.dataset.albumId;
-        if (!albumId || !modal) return;
-
-        const albumData = (window as any).__ALBUM_DATA__?.[albumId];
-        if (!albumData) return;
-
-        /* Populate modal header */
-        if (modalTitle) modalTitle.textContent = albumData.name;
-        if (modalCount) modalCount.textContent = `${albumData.images.length} photos`;
-        if (modalIcon) modalIcon.textContent = iconMap[albumId] ?? "📷";
-
-        /* Build image grid — clean thumbnails, no per-image labels */
-        if (imageGrid) {
-          imageGrid.innerHTML = "";
-          albumData.images.forEach((img: { src: string; alt: string; caption: string; type: string }, idx: number) => {
-            const isVideo = img.type === "video";
-            const item = document.createElement("div");
-            item.className = `album-img-item${isVideo ? " is-video" : ""}`;
-            item.setAttribute("role", "listitem");
-            item.setAttribute("data-img-idx", String(idx));
-            item.setAttribute("data-img-caption", img.caption || "");
-            item.setAttribute("data-img-type", img.type || "image");
-
-            if (isVideo) {
-              /* Video thumbnail — show first frame of video as poster */
-              item.innerHTML = `
-                <button type="button" class="album-img-btn" aria-label="Play video ${idx + 1}">
-                  <video
-                    src="${img.src}"
-                    class="album-img-thumb"
-                    muted
-                    preload="metadata"
-                  ></video>
-                  <div class="album-video-play-btn" aria-hidden="true">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                  </div>
-                </button>
-              `;
-            } else {
-              item.innerHTML = `
-                <button type="button" class="album-img-btn" aria-label="View photo ${idx + 1}">
-                  <img
-                    src="${img.src}"
-                    alt="${img.alt}"
-                    class="album-img-thumb"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </button>
-              `;
-            }
-            imageGrid.appendChild(item);
-          });
-        }
-
-        /* Show modal */
-        modal.hidden = false;
-        modal.classList.add("is-open");
-        document.body.style.overflow = "hidden";
-        modal.querySelector<HTMLElement>(".album-close-btn")?.focus();
-      });
-    });
-
-    /* ── Close album modal ── */
-    const closeAlbumModal = () => {
-      if (!modal) return;
-      modal.hidden = true;
-      modal.classList.remove("is-open");
-      document.body.style.overflow = "";
-    };
-
-    modal?.querySelectorAll("[data-album-close]").forEach((el) => {
-      el.addEventListener("click", closeAlbumModal);
-    });
-
-    modal?.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeAlbumModal();
-    });
-
-    /* ── Image lightbox ── */
     const lightbox = document.getElementById("image-lightbox");
     const lightboxImg = document.getElementById("img-lightbox-img") as HTMLImageElement | null;
     const lightboxCaption = document.getElementById("img-lightbox-caption");
     const lightboxVideo = document.getElementById("img-lightbox-video") as HTMLVideoElement | null;
-    const prevBtn = document.querySelector<HTMLButtonElement>("[data-img-prev]");
-    const nextBtn = document.querySelector<HTMLButtonElement>("[data-img-next]");
+    const prevBtn = lightbox?.querySelector<HTMLButtonElement>("[data-img-prev]") ?? null;
+    const nextBtn = lightbox?.querySelector<HTMLButtonElement>("[data-img-next]") ?? null;
+    const modalPanel = modal?.querySelector<HTMLElement>(".album-panel") ?? null;
+    const lightboxPanel = lightbox?.querySelector<HTMLElement>(".img-lightbox-content") ?? null;
 
-    let currentImages: Array<{ src: string; alt: string; caption: string; type: string }> = [];
+    type AlbumItem = { src: string; alt: string; caption: string; type: string };
+
+    const iconMap: Record<string, string> = {
+      activities: "ACT",
+      classrooms: "CLS",
+      events: "EVT",
+    };
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"]), input, select, textarea';
+
+    let currentImages: AlbumItem[] = [];
     let currentIdx = 0;
+    let activeAlbumTrigger: HTMLButtonElement | null = null;
+    let activeLightboxTrigger: HTMLButtonElement | null = null;
 
-    const openLightbox = (idx: number) => {
-      if (!lightbox || !lightboxImg) return;
-      currentIdx = idx;
-      const item = currentImages[idx];
-      const isVideo = item.type === "video";
-
-      if (isVideo && lightboxVideo) {
-        /* Show video player */
-        lightboxVideo.src = item.src;
-        lightboxVideo.alt = item.alt;
-        lightboxVideo.classList.add("is-visible");
-        lightboxImg.classList.remove("is-visible");
-      } else if (lightboxImg) {
-        /* Show image */
-        lightboxImg.src = item.src;
-        lightboxImg.alt = item.alt;
-        lightboxImg.classList.add("is-visible");
-        if (lightboxVideo) lightboxVideo.classList.remove("is-visible");
-        if (lightboxVideo) lightboxVideo.pause();
-      }
-
-      /* Show caption only when meaningful */
-      const cap = item.caption;
-      if (lightboxCaption) {
-        lightboxCaption.textContent = cap && cap.trim().length > 0 ? cap : "";
-        lightboxCaption.style.display = cap && cap.trim().length > 0 ? "block" : "none";
-      }
-
-      lightbox.hidden = false;
-      lightbox.classList.add("is-open");
-      document.body.style.overflow = "hidden";
-      lightbox.querySelector<HTMLButtonElement>(".img-lightbox-close")?.focus();
-      /* Hide prev/next nav when on a video (simple approach) */
-      updateLightboxNav();
+    const syncBodyScroll = () => {
+      const lockScroll = (modal && !modal.hidden) || (lightbox && !lightbox.hidden);
+      document.body.style.overflow = lockScroll ? "hidden" : "";
     };
 
-    const closeLightbox = () => {
-      if (!lightbox) return;
-      lightbox.hidden = true;
-      lightbox.classList.remove("is-open");
-      document.body.style.overflow = "";
-      /* Pause video when closing */
-      if (lightboxVideo) lightboxVideo.pause();
+    const trapFocus = (panel: HTMLElement | null, event: KeyboardEvent) => {
+      if (!panel || event.key !== "Tab") return;
+      const focusables = Array.from(
+        panel.querySelectorAll<HTMLElement>(focusableSelector)
+      ).filter((el) => !el.hasAttribute("disabled") && !el.getAttribute("aria-hidden"));
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
     const updateLightboxNav = () => {
@@ -343,59 +246,190 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       if (nextBtn) nextBtn.style.display = currentIdx < currentImages.length - 1 ? "flex" : "none";
     };
 
-    /* Attach lightbox triggers to thumbnail buttons */
-    const attachLightboxTriggers = () => {
-      document.querySelectorAll<HTMLButtonElement>(".album-img-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const item = btn.closest<HTMLElement>("[data-img-idx]");
-          if (!item) return;
-          const idx = Number(item.dataset.imgIdx);
+    const renderLightboxItem = (idx: number) => {
+      const item = currentImages[idx];
+      if (!item || !lightboxImg) return;
 
-          /* Gather all images + captions + type from current album grid */
-          const grid = document.getElementById("album-image-grid");
-          if (!grid) return;
-          const items = Array.from(grid.querySelectorAll<HTMLElement>("[data-img-idx]"));
-          currentImages = items.map((el) => {
-            const img = el.querySelector("img, video");
-            const caption = el.dataset.imgCaption ?? "";
-            const type = el.dataset.imgType ?? "image";
-            return { src: img?.src ?? "", alt: img?.alt ?? "", caption, type };
-          });
+      currentIdx = idx;
+      const isVideo = item.type === "video";
 
-          openLightbox(idx);
-        });
-      });
+      if (isVideo && lightboxVideo) {
+        lightboxVideo.src = item.src;
+        lightboxVideo.setAttribute("aria-label", item.alt || "Gallery video");
+        lightboxVideo.classList.add("is-visible");
+        lightboxImg.classList.remove("is-visible");
+        lightboxImg.src = "";
+        lightboxImg.alt = "";
+      } else {
+        lightboxImg.src = item.src;
+        lightboxImg.alt = item.alt;
+        lightboxImg.classList.add("is-visible");
+        if (lightboxVideo) {
+          lightboxVideo.classList.remove("is-visible");
+          lightboxVideo.pause();
+          lightboxVideo.removeAttribute("src");
+          lightboxVideo.load();
+        }
+      }
+
+      if (lightboxCaption) {
+        const hasCaption = item.caption.trim().length > 0;
+        lightboxCaption.textContent = hasCaption ? item.caption : "";
+        lightboxCaption.style.display = hasCaption ? "block" : "none";
+      }
+
+      updateLightboxNav();
     };
 
-    /* Re-attach after modal opens (since grid is rebuilt each time) */
-    const observer = new MutationObserver(() => {
-      attachLightboxTriggers();
-    });
-    if (imageGrid && modal) {
-      observer.observe(imageGrid, { childList: true });
-    }
+    const openLightbox = (trigger: HTMLButtonElement, idx: number) => {
+      if (!lightbox || !lightboxImg || currentImages.length === 0) return;
+      activeLightboxTrigger = trigger;
+      renderLightboxItem(idx);
+      lightbox.hidden = false;
+      lightbox.classList.add("is-open");
+      syncBodyScroll();
+      lightbox.querySelector<HTMLButtonElement>(".img-lightbox-close")?.focus();
+    };
 
-    /* Close lightbox handlers */
-    lightbox?.querySelectorAll("[data-img-close]").forEach((el) => {
-      el.addEventListener("click", closeLightbox);
-    });
+    const closeLightbox = (restoreFocus = true) => {
+      if (!lightbox) return;
+      lightbox.hidden = true;
+      lightbox.classList.remove("is-open");
+      if (lightboxVideo) {
+        lightboxVideo.pause();
+        lightboxVideo.removeAttribute("src");
+        lightboxVideo.load();
+        lightboxVideo.classList.remove("is-visible");
+      }
+      lightboxImg?.classList.remove("is-visible");
+      syncBodyScroll();
+      if (restoreFocus) activeLightboxTrigger?.focus();
+    };
 
-    lightbox?.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeLightbox();
-      if (e.key === "ArrowRight") navigateLightbox(1);
-      if (e.key === "ArrowLeft") navigateLightbox(-1);
+    const closeAlbumModal = (restoreFocus = true) => {
+      if (!modal) return;
+      if (lightbox && !lightbox.hidden) closeLightbox(false);
+      modal.hidden = true;
+      modal.classList.remove("is-open");
+      currentImages = [];
+      if (imageGrid) imageGrid.innerHTML = "";
+      syncBodyScroll();
+      if (restoreFocus) activeAlbumTrigger?.focus();
+    };
+
+    const buildThumbnailButton = (img: AlbumItem, idx: number) => {
+      const isVideo = img.type === "video";
+      const item = document.createElement("div");
+      item.className = `album-img-item${isVideo ? " is-video" : ""}`;
+      item.setAttribute("role", "listitem");
+      item.setAttribute("data-img-idx", String(idx));
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "album-img-btn";
+      button.setAttribute("aria-label", `${isVideo ? "Play video" : "View photo"} ${idx + 1}`);
+      button.addEventListener("click", () => openLightbox(button, idx));
+
+      if (isVideo) {
+        const video = document.createElement("video");
+        video.src = img.src;
+        video.className = "album-img-thumb";
+        video.muted = true;
+        video.preload = "metadata";
+        video.setAttribute("aria-label", img.alt || `Video ${idx + 1}`);
+        button.appendChild(video);
+
+        const playButton = document.createElement("div");
+        playButton.className = "album-video-play-btn";
+        playButton.setAttribute("aria-hidden", "true");
+        playButton.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+        button.appendChild(playButton);
+      } else {
+        const image = document.createElement("img");
+        image.src = img.src;
+        image.alt = img.alt;
+        image.className = "album-img-thumb";
+        image.loading = "lazy";
+        image.decoding = "async";
+        button.appendChild(image);
+      }
+
+      item.appendChild(button);
+      return item;
+    };
+
+    const openAlbumModal = (card: HTMLButtonElement, albumId: string) => {
+      if (!modal) return;
+      const albumData = (window as typeof window & { __ALBUM_DATA__?: Record<string, { name: string; subtitle: string; coverImage: string; images: AlbumItem[] }> }).__ALBUM_DATA__?.[albumId];
+      if (!albumData) return;
+
+      activeAlbumTrigger = card;
+      currentImages = Array.isArray(albumData.images) ? albumData.images : [];
+
+      if (modalTitle) modalTitle.textContent = albumData.name;
+      if (modalCount) modalCount.textContent = `${currentImages.length} photos`;
+      if (modalIcon) modalIcon.textContent = iconMap[albumId] ?? "GAL";
+
+      if (imageGrid) {
+        imageGrid.innerHTML = "";
+        currentImages.forEach((img, idx) => {
+          imageGrid.appendChild(buildThumbnailButton(img, idx));
+        });
+      }
+
+      modal.hidden = false;
+      modal.classList.add("is-open");
+      syncBodyScroll();
+      modal.querySelector<HTMLElement>(".album-close-btn")?.focus();
+    };
+
+    albumCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const albumId = card.dataset.albumId;
+        if (!albumId) return;
+        openAlbumModal(card, albumId);
+      });
     });
 
     const navigateLightbox = (dir: 1 | -1) => {
       const next = currentIdx + dir;
       if (next < 0 || next >= currentImages.length) return;
-      currentIdx = next;
-      if (lightboxImg) {
-        lightboxImg.src = currentImages[currentIdx].src;
-        lightboxImg.alt = currentImages[currentIdx].alt;
-      }
-      updateLightboxNav();
+      renderLightboxItem(next);
     };
+
+    modal?.querySelectorAll("[data-album-close]").forEach((el) => {
+      el.addEventListener("click", () => closeAlbumModal());
+    });
+
+    lightbox?.querySelectorAll("[data-img-close]").forEach((el) => {
+      el.addEventListener("click", () => closeLightbox());
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const activeModal = lightbox && !lightbox.hidden ? "lightbox" : modal && !modal.hidden ? "album" : null;
+      if (!activeModal) return;
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        if (activeModal === "lightbox") closeLightbox();
+        else closeAlbumModal();
+        return;
+      }
+
+      if (event.key === "Tab") {
+        trapFocus(activeModal === "lightbox" ? lightboxPanel : modalPanel, event);
+      }
+
+      if (activeModal === "lightbox") {
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          navigateLightbox(1);
+        } else if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          navigateLightbox(-1);
+        }
+      }
+    });
 
     prevBtn?.addEventListener("click", () => navigateLightbox(-1));
     nextBtn?.addEventListener("click", () => navigateLightbox(1));

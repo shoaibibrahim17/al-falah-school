@@ -1,5 +1,5 @@
 ---
-import { Menu, Phone } from "lucide-astro";
+import { Menu, Phone, X } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 ---
 
@@ -42,7 +42,8 @@ import { SCHOOL } from "../data/school";
           aria-expanded="false"
           aria-controls="mobile-menu"
         >
-          <Menu class="w-5 h-5" id="menu-icon" />
+          <Menu class="w-5 h-5" id="menu-icon-open" />
+          <X class="w-5 h-5 hidden" id="menu-icon-close" />
           <span class="text-sm font-semibold">Menu</span>
         </button>
 
@@ -85,20 +86,16 @@ import { SCHOOL } from "../data/school";
   /* Mobile menu toggle */
   const toggle = document.getElementById("menu-toggle");
   const menu = document.getElementById("mobile-menu");
-  const icon = document.getElementById("menu-icon");
+  const openIcon = document.getElementById("menu-icon-open");
+  const closeIcon = document.getElementById("menu-icon-close");
 
   if (toggle && menu) {
     toggle.addEventListener("click", () => {
       const isOpen = !menu.classList.contains("hidden");
       menu.classList.toggle("hidden");
       toggle.setAttribute("aria-expanded", String(!isOpen));
-      if (icon) {
-        if (isOpen) {
-          icon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-5 h-5" id="menu-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>';
-        } else {
-          icon.outerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-5 h-5" id="menu-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
-        }
-      }
+      openIcon?.classList.toggle("hidden", !isOpen);
+      closeIcon?.classList.toggle("hidden", isOpen);
     });
   }
 </script>

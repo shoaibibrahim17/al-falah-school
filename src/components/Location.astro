@@ -18,8 +18,8 @@ type ContactItem = {
 const contactItems: ContactItem[] = [
   { Icon: MapPin, label: SCHOOL.locationSection.addressLabel, value: SCHOOL.location.full, href: mapDirectionsHref, external: true },
 ];
-if (SCHOOL.contact.phone) {
-  contactItems.push({ Icon: Phone, label: SCHOOL.locationSection.phoneLabel, value: SCHOOL.contact.phone, href: `tel:${SCHOOL.contact.phone}` });
+for (const phone of SCHOOL.contact.phones ?? []) {
+  contactItems.push({ Icon: Phone, label: SCHOOL.locationSection.phoneLabel, value: phone.display, href: `tel:${phone.href}` });
 }
 if (SCHOOL.contact.email) {
   contactItems.push({ Icon: Mail, label: SCHOOL.locationSection.emailLabel, value: SCHOOL.contact.email, href: `mailto:${SCHOOL.contact.email}` });

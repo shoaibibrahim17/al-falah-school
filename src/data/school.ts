@@ -3,13 +3,14 @@ export const SCHOOL = {
   name: "Al-Falah High School",
   shortName: "Al-Falah",
   initials: "AF",
+  // Confirm final official naming with the school before final delivery.
   tagline: "Strong Foundations for Lifelong Learning",
   description: "A learning community where students build strong academic foundations, develop good values, and grow with confidence.",
 
   /* ── SEO ── */
   seo: {
     canonicalUrl: "https://shoaibibrahim17.github.io/al-falah-school/",
-    ogImage: "og-image.jpg",
+    ogImage: "/images/hero/al-falah-building-card.png",
   },
 
   /* ── Location ── (verified from Google Maps + JustDial listings) */
@@ -434,7 +435,12 @@ export const SCHOOL = {
 
   /* ── Contact Details ── */
   contact: {
-    phone: "9030396250, 7981757850",
+    phones: [
+      { display: "9030396250", href: "+919030396250" },
+      { display: "7981757850", href: "+917981757850" },
+    ],
+    // Email uses "internationalschool" while the site name says "High School".
+    // Keep as provided for now and confirm the final official naming with the school.
     email: "alfalahinternationalschool@gmail.com",
   },
 
