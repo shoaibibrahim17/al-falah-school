@@ -26,6 +26,7 @@ if (SCHOOL.contact.email) {
 }
 ---
 
+{SCHOOL.locationSection.enabled && (
 <section id="contact" class="relative py-16 lg:py-28 bg-white overflow-hidden">
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
     <div class="absolute -top-32 right-1/4 w-80 h-80 rounded-full bg-deep-green/[0.04] blur-3xl"></div>
@@ -40,10 +41,10 @@ if (SCHOOL.contact.email) {
     <div class="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
       <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-        Visit Us
+        {SCHOOL.locationSection.eyebrow}
       </div>
       <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
-        <span class="text-gradient-green">Get in</span> Touch
+        <span class="text-gradient-green">{SCHOOL.locationSection.titleLead}</span> {SCHOOL.locationSection.titleAccent}
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.locationSection.subtitle}
@@ -53,7 +54,7 @@ if (SCHOOL.contact.email) {
     <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
       <!-- Contact list card -->
       <div data-reveal="slide-left" class="bg-white rounded-3xl border border-ivory-dark p-6 sm:p-8 lg:p-10 shadow-lg shadow-charcoal/[0.04]">
-        <h3 class="text-sm font-bold text-deep-green uppercase tracking-wider mb-6">Contact Information</h3>
+        <h3 class="text-sm font-bold text-deep-green uppercase tracking-wider mb-6">{SCHOOL.locationSection.cardHeading}</h3>
         <ul class="space-y-5 sm:space-y-6">
           {contactItems.map((item) => (
             <li class="flex gap-4 items-start group">
@@ -89,7 +90,7 @@ if (SCHOOL.contact.email) {
             data-cta
           >
             <MapPin class="w-5 h-5" />
-            Get Directions
+            {SCHOOL.locationSection.directionsLabel}
           </a>
         </div>
       </div>
@@ -111,3 +112,4 @@ if (SCHOOL.contact.email) {
     </div>
   </div>
 </section>
+)}

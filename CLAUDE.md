@@ -465,3 +465,240 @@ Schema name: **`schoolNotice`**
 | PDF file upload | File type icon (always FileText) |
 | Upload date display text | "Uploaded:" label prefix |
 | Whether to show a PDF at all | Border color, hover effect, button color |
+
+## Additional CMS Schema Shapes
+
+The current `src/data/school.ts` fallback now mirrors these future Sanity shapes so section visibility, labels, and media can move into CMS later without another component refactor.
+
+### `heroSection`
+
+- Purpose: Homepage hero copy, CTAs, building visual, and the attention-drawing admissions card.
+- Fields:
+  - `badge: string`
+  - `headline: string`
+  - `subtitle: text`
+  - `ctaLabel: string`
+  - `ctaHref: string`
+  - `secondaryCtaLabel: string`
+  - `secondaryCtaHref: string`
+  - `backgroundImage: image` with `alt`, `isActive`
+  - `visualImage: image` with `alt`, `caption`, `isActive`
+  - `admissionCard: object`
+  - `admissionCard.enabled: boolean`
+  - `admissionCard.style: string` (`"pulse"` | `"shine"` | `"both"`)
+  - `admissionCard.badge: string`
+  - `admissionCard.eyebrow: string`
+  - `admissionCard.headline: string`
+  - `admissionCard.ctaLabel: string`
+  - `admissionCard.ctaHref: string`
+- Renderer controls: layout, flashing/pulse treatment, breakpoints, decorative doodles, overlay placement.
+- Fallback behavior: hide images when inactive; hide the admission card when disabled or incomplete.
+
+### `aboutSection`
+
+- Purpose: About copy and optional campus image.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `titleLead: string`
+  - `titleAccent: string`
+  - `paragraphs: array<string>`
+  - `linkText: string`
+  - `linkHref: string`
+  - `image: image` with `src`, `alt`, `caption`, `isActive`
+  - `imagePlaceholder: string`
+  - `placeholderTitle: string`
+  - `placeholderDescription: text`
+- Renderer controls: split layout, image framing, placeholder styling.
+- Fallback behavior: if no active image exists, show the placeholder note only; if disabled, hide the section.
+
+### `parentExpectationSection`
+
+- Purpose: "What Parents Can Expect" cards.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `titleLead: string`
+  - `titleAccent: string`
+  - `subtitle: text`
+  - `items: array<object>`
+  - `items[].title: string`
+  - `items[].description: text`
+  - `items[].icon: string`
+- Renderer controls: grid, icons, hover treatment.
+- Fallback behavior: hide the section when disabled or when `items` is empty.
+
+### `academicLevelSection`
+
+- Purpose: Academic ladder / level cards.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `titleLead: string`
+  - `titleAccent: string`
+  - `subtitle: text`
+  - `levels: array<object>`
+  - `levels[].level: string`
+  - `levels[].ages: string optional`
+  - `levels[].grades: string optional`
+  - `levels[].description: text`
+  - `levels[].icon: string`
+- Renderer controls: timeline line, numbering, card motion.
+- Fallback behavior: hide when disabled or empty.
+
+### `facilitySection`
+
+- Purpose: Facilities grid.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `titleLead: string`
+  - `titleAccent: string`
+  - `subtitle: text`
+  - `items: array<object>`
+  - `items[].title: string`
+  - `items[].description: text`
+  - `items[].icon: string`
+- Renderer controls: icon box styling, spacing, hover states.
+- Fallback behavior: hide when disabled or empty.
+
+### `galleryCategory` and `galleryMedia`
+
+- Purpose: Homepage gallery categories, cover images, and album media.
+- Fields:
+  - `gallery.enabled: boolean`
+  - `gallery.eyebrow: string`
+  - `gallery.titleLead: string`
+  - `gallery.titleAccent: string`
+  - `gallery.subtitle: text`
+  - `gallery.emptyState: string`
+  - `categories: array<object>`
+  - `categories[].id: string`
+  - `categories[].name: string`
+  - `categories[].subtitle: string`
+  - `categories[].coverImage: image`
+  - `categories[].isActive: boolean`
+  - `categories[].order: number`
+  - `categories[].images: array<object>`
+  - `images[].src: image/file URL`
+  - `images[].alt: string`
+  - `images[].caption: string`
+  - `images[].type: string optional` (`"image"` | `"video"`)
+- Renderer controls: album card UI, modal, lightbox, focus trap, transitions.
+- Fetch/filter behavior: sort by `order`; render only active categories with at least one media item.
+- Fallback behavior: hide whole section if disabled; otherwise show the empty-state message when no active categories remain.
+
+### `principalMessage`
+
+- Purpose: Official principal/leadership message section.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `title: string`
+  - `subtitle: text`
+  - `animatedLine: string`
+  - `valuesHeading: string`
+  - `valuesDescription: text`
+  - `body: array<text>`
+  - `authorLabel: string`
+  - `authorLocation: string`
+  - `valueCards: array<object>`
+  - `valueCards[].label: string`
+  - `valueCards[].icon: string`
+  - `image: image optional`
+  - `imageAlt: string optional`
+- Renderer controls: typewriter effect, visual cards, quote styling, two-column layout.
+- Fallback behavior: hide when disabled; render no portrait when image is absent.
+
+### `academicHighlights`
+
+- Purpose: Official academic highlights / performance cards.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `title: string`
+  - `subtitle: text`
+  - `items: array<object>`
+  - `items[].id: string`
+  - `items[].title: string`
+  - `items[].description: text`
+  - `items[].icon: string`
+  - `items[].highlight: boolean optional`
+- Renderer controls: badge treatment, grid, accent bars, hover styling.
+- Fallback behavior: hide when disabled or empty.
+
+### `admissionsCta`
+
+- Purpose: Admission enquiry CTA block near the bottom of the page.
+- Fields:
+  - `enabled: boolean`
+  - `pillLabel: string`
+  - `heading: string`
+  - `subtitle: text`
+  - `primaryCta: string`
+  - `primaryCtaLink: string`
+  - `secondaryCta: string`
+  - `secondaryCtaLink: string`
+- Renderer controls: background pattern, spacing, button styling.
+- Fallback behavior: hide when disabled.
+
+### `parentHelpDesk`
+
+- Purpose: Parent form / enquiry CTA section.
+- Fields:
+  - `enabled: boolean`
+  - `label: string`
+  - `heading: string`
+  - `description: text`
+  - `requestTypesLabel: string`
+  - `requestTypes: array<string>`
+  - `panel.title: string`
+  - `panel.description: text`
+  - `panel.ctaLabel: string`
+  - `panel.note: text`
+  - `panel.urlPlaceholder: string`
+  - `url: string`
+- Renderer controls: panel layout, disabled state, external-link icon treatment.
+- Fallback behavior: render a disabled button when `url` is missing; hide the section when disabled.
+
+### `contactInfo`
+
+- Purpose: Contact/address/map section.
+- Fields:
+  - `enabled: boolean`
+  - `eyebrow: string`
+  - `titleLead: string`
+  - `titleAccent: string`
+  - `subtitle: text`
+  - `cardHeading: string`
+  - `directionsLabel: string`
+  - `addressLabel: string`
+  - `phoneLabel: string`
+  - `emailLabel: string`
+  - `location.coordinates: geopoint`
+  - `location.full: string`
+  - `contact.phones: array<object>`
+  - `contact.phones[].display: string`
+  - `contact.phones[].href: string`
+  - `contact.email: string`
+- Renderer controls: map embed, gradients, icon layout, button style.
+- Fallback behavior: hide the section when disabled; omit empty contact rows gracefully.
+
+### `footerSettings`
+
+- Purpose: Footer text, link groups, and social links.
+- Fields:
+  - `identityLine: string`
+  - `description: text`
+  - `quickLinksTitle: string`
+  - `quickLinks: array<link>`
+  - `parentSupportTitle: string`
+  - `parentSupportLinks: array<link>`
+  - `socialTitle: string`
+  - `socialLinks.facebook: string`
+  - `socialLinks.instagram: string`
+  - `socialLinks.youtube: string`
+  - `socialLinks.whatsapp: string`
+  - `copyright: string`
+- Renderer controls: logo treatment, columns, icon buttons, colors.
+- Fallback behavior: hide empty social links individually; keep footer layout stable.

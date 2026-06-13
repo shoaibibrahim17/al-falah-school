@@ -10,7 +10,9 @@ const categoryIcons: Record<string, typeof Star> = {
   events: GraduationCap,
 };
 
-const albums = SCHOOL.gallery.categories.filter((cat) => cat.images.length > 0);
+const albums = SCHOOL.gallery.categories
+  .filter((cat) => cat.isActive && cat.images.length > 0)
+  .sort((a, b) => a.order - b.order);
 
 /* Pre-compute base URL for client-side use */
 const BASE_URL = (import.meta.env?.BASE_URL ?? "/").replace(/\/$/, "");
@@ -37,6 +39,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 )};`;
 ---
 
+{SCHOOL.gallery.enabled && (
 <section id="gallery" class="relative py-16 lg:py-24 bg-white overflow-hidden">
   <!-- 1 camera/photo doodle in corner -->
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -51,10 +54,10 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
       <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-        Campus Life
+        {SCHOOL.gallery.eyebrow}
       </div>
       <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
-        Our <span class="text-gradient-green">Gallery</span>
+        {SCHOOL.gallery.titleLead} <span class="text-gradient-green">{SCHOOL.gallery.titleAccent}</span>
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.gallery.subtitle}
@@ -100,11 +103,12 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         })}
       </div>
     ) : (
-      <p class="text-center text-slate text-sm">Gallery photos will be added soon.</p>
+      <p class="text-center text-slate text-sm">{SCHOOL.gallery.emptyState}</p>
     )}
 
   </div>
 </section>
+)}
 
 <!-- ── Album Modal ── -->
 <div

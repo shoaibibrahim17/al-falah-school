@@ -7,6 +7,7 @@ const { about } = SCHOOL;
 const hasImage = about.image?.isActive && Boolean(about.image?.src);
 ---
 
+{about.enabled && (
 <section id="about" class="relative py-16 lg:py-24 bg-white overflow-hidden">
   <!-- Decorative background doodles — 1 subtle school/book doodle in corner -->
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -44,10 +45,10 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
         <div class="relative">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
             <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-            Our Story
+            {about.eyebrow}
           </div>
           <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-5 sm:mb-6 tracking-tight">
-            About <span class="text-gradient-green">Al-Falah</span>
+            {about.titleLead} <span class="text-gradient-green">{about.titleAccent}</span>
           </h2>
           <div class="space-y-4 sm:space-y-5">
             {about.paragraphs.map((p) => (
@@ -64,9 +65,9 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
                 <ImageIcon class="h-5 w-5 text-deep-green" />
               </div>
               <div>
-                <p class="text-sm font-semibold text-charcoal">Campus photo will be added soon.</p>
+                <p class="text-sm font-semibold text-charcoal">{about.placeholderTitle}</p>
                 <p class="mt-1 text-xs leading-relaxed text-slate-light">
-                  The school image area is intentionally hidden until an official campus photo is available.
+                  {about.placeholderDescription}
                 </p>
               </div>
             </div>
@@ -85,3 +86,4 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
     </div>
   </div>
 </section>
+)}

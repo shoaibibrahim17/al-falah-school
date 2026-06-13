@@ -10,7 +10,7 @@ const { noticeBoard: nb } = SCHOOL;
 
 const now = Date.now();
 
-const activeNotices = nb.notices
+const activeNotices = (nb.enabled ? nb.notices : [])
   .filter((n) => {
     if (!n.isActive) return false;
     if (n.startDate && Date.parse(n.startDate) > now) return false;
@@ -18,7 +18,7 @@ const activeNotices = nb.notices
     return true;
   })
   .sort((a, b) => a.order - b.order)
-  .slice(0, 4);
+  .slice(0, nb.maxItems);
 
 const hasUrgent = activeNotices.some((n) => n.priority === "urgent");
 const hasImportant = activeNotices.some((n) => n.priority === "important");

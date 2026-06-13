@@ -7,15 +7,16 @@ const iconMap: Record<string, typeof BookOpen> = {
 };
 ---
 
+{SCHOOL.whatParentsCanExpect.enabled && (
 <section id="what-parents-expect" class="relative py-16 lg:py-24 bg-white overflow-hidden">
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
       <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-        What to Expect
+        {SCHOOL.whatParentsCanExpect.eyebrow}
       </div>
       <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
-        What Parents <span class="text-gradient-green">Can Expect</span>
+        {SCHOOL.whatParentsCanExpect.titleLead} <span class="text-gradient-green">{SCHOOL.whatParentsCanExpect.titleAccent}</span>
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
         {SCHOOL.whatParentsCanExpect.subtitle}
@@ -45,3 +46,4 @@ const iconMap: Record<string, typeof BookOpen> = {
     </div>
   </div>
 </section>
+)}
