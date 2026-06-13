@@ -8,9 +8,9 @@ const iconMap: Record<string, typeof BookOpen> = {
 ---
 
 {SCHOOL.whatParentsCanExpect.enabled && (
-<section id="what-parents-expect" class="relative py-16 lg:py-24 bg-white overflow-hidden">
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+<section id="what-parents-expect" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-10">
       <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
         {SCHOOL.whatParentsCanExpect.eyebrow}
@@ -18,28 +18,29 @@ const iconMap: Record<string, typeof BookOpen> = {
       <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
         {SCHOOL.whatParentsCanExpect.titleLead} <span class="text-gradient-green">{SCHOOL.whatParentsCanExpect.titleAccent}</span>
       </h2>
-      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-[42rem] mx-auto">
         {SCHOOL.whatParentsCanExpect.subtitle}
       </p>
     </div>
 
-    <div data-reveal-group class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+    <div data-reveal-group class="grid md:grid-cols-2 gap-3.5 sm:gap-4">
       {SCHOOL.whatParentsCanExpect.items.map((item) => {
         const Icon = iconMap[item.icon] || BookOpen;
         return (
           <article
-            data-hover-card
-            class="card-highlight card-sweep relative p-6 lg:p-7 focus-visible:outline-deep-green overflow-hidden"
+            class="flex items-start gap-3 sm:gap-4 rounded-xl border border-ivory-dark bg-white px-4 py-4 sm:px-5"
           >
-            <div data-card-inner class="icon-box mb-5 card-highlight-icon transition-colors duration-300" style="--inner-delay: 0ms">
-              <Icon class="w-6 h-6 text-deep-green transition-colors duration-300" />
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-deep-green/10">
+              <Icon class="w-[1.125rem] h-[1.125rem] text-deep-green" />
             </div>
-            <h3 data-card-inner class="text-lg font-bold font-serif text-charcoal mb-2 transition-colors duration-300" style="--inner-delay: 80ms">
-              {item.title}
-            </h3>
-            <p data-card-inner class="text-slate text-sm leading-relaxed transition-colors duration-300" style="--inner-delay: 160ms">
-              {item.description}
-            </p>
+            <div class="min-w-0">
+              <h3 class="text-base sm:text-[1.05rem] font-bold font-serif text-charcoal mb-1.5">
+                {item.title}
+              </h3>
+              <p class="text-slate text-sm leading-relaxed">
+                {item.description}
+              </p>
+            </div>
           </article>
         );
       })}

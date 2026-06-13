@@ -15,7 +15,7 @@ const iconMap: Record<string, any> = {
 ---
 
 {pm.enabled && (
-  <section id="principal-message" class="relative py-16 lg:py-24 bg-deep-green/[0.025] overflow-hidden">
+  <section id="principal-message" class="relative py-14 sm:py-16 lg:py-20 bg-deep-green/[0.025] overflow-hidden">
     <!-- Subtle dot pattern backdrop -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
       <div class="absolute inset-0 bg-[radial-gradient(#0D5E3E_0.7px,transparent_0.7px)] [background-size:28px_28px] opacity-[0.04]"></div>
@@ -23,20 +23,14 @@ const iconMap: Record<string, any> = {
 
     <!-- Decorative doodles for this section (max 2 leadership/value doodles) -->
     <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-16 left-[6%] opacity-80 hidden sm:block">
+      <div class="absolute top-16 left-[6%] opacity-60 hidden lg:block">
         <AcademicDoodles variant="shield" size="sm" color="green" rotation={-8} opacity={0.55} />
-      </div>
-      <div class="absolute bottom-20 right-[5%] opacity-80 hidden sm:block">
-        <AcademicDoodles variant="compass" size="sm" color="slate" rotation={12} opacity={0.5} />
-      </div>
-      <div class="absolute top-1/3 right-[8%] opacity-60 hidden md:block">
-        <AcademicDoodles variant="star" size="sm" color="green" rotation={-12} opacity={0.4} />
       </div>
     </div>
 
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
-      <div data-reveal="fade" class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+      <div data-reveal="fade" class="text-center max-w-2xl mx-auto mb-8 lg:mb-10">
         <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
           <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
           {pm.eyebrow}
@@ -60,53 +54,43 @@ const iconMap: Record<string, any> = {
       <!-- Premium two-column card -->
       <article
         data-reveal="slide-up"
-        class="relative grid lg:grid-cols-12 gap-0 bg-white rounded-3xl border border-ivory-dark shadow-xl shadow-charcoal/[0.06] overflow-hidden"
+        class="relative grid lg:grid-cols-[minmax(18rem,0.82fr)_minmax(0,1.18fr)] gap-0 bg-white rounded-2xl border border-ivory-dark shadow-sm overflow-hidden"
       >
         <!-- Top accent bar (visible across both columns) -->
         <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark" aria-hidden="true"></div>
 
         <!-- LEFT: visual / value panel -->
-        <aside class="relative lg:col-span-5 bg-gradient-to-br from-deep-green/[0.06] via-deep-green/[0.03] to-ivory/30 p-7 sm:p-9 lg:p-10 flex flex-col">
+        <aside class="relative border-b border-ivory-dark lg:border-b-0 lg:border-r bg-ivory/55 p-5 sm:p-6 lg:p-7 flex flex-col">
           <!-- Decorative background icons -->
-          <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-            <!-- Top-left open book -->
-            <div class="absolute top-6 left-6 opacity-60">
+          <div class="absolute inset-0 pointer-events-none hidden lg:block" aria-hidden="true">
+            <div class="absolute top-6 left-6 opacity-45">
               <AcademicDoodles variant="book" size="sm" color="green" rotation={-6} opacity={0.55} />
-            </div>
-            <!-- Bottom-right cap -->
-            <div class="absolute bottom-6 right-6 opacity-60">
-              <AcademicDoodles variant="cap" size="sm" color="slate" rotation={10} opacity={0.5} />
-            </div>
-            <!-- Middle accent -->
-            <div class="absolute top-1/2 right-1/4 -translate-y-1/2 opacity-50">
-              <AcademicDoodles variant="users" size="sm" color="green" rotation={-10} opacity={0.4} />
             </div>
           </div>
 
           <div class="relative flex flex-col h-full">
-            <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-deep-green/10 mb-5">
-              <Quote class="w-6 h-6 text-deep-green" aria-hidden="true" />
+            <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-deep-green/10 mb-4">
+              <Quote class="w-5 h-5 text-deep-green" aria-hidden="true" />
             </div>
 
-            <h3 class="text-xl sm:text-2xl font-bold font-serif text-charcoal leading-snug mb-2">
+            <h3 class="text-lg sm:text-xl font-bold font-serif text-charcoal leading-snug mb-2">
               {pm.valuesHeading}
             </h3>
-            <p class="text-slate text-sm leading-relaxed mb-6 max-w-xs">
+            <p class="text-slate text-sm leading-relaxed mb-5 max-w-sm">
               {pm.valuesDescription}
             </p>
 
-            <!-- Premium value cards grid (2x2 on desktop, 1 column on mobile) -->
             {pm.valueCards && pm.valueCards.length > 0 && (
-              <ul class="grid grid-cols-2 gap-3" role="list">
+              <ul class="grid sm:grid-cols-2 lg:grid-cols-1 gap-2.5" role="list">
                 {pm.valueCards.map((card) => {
                   const Icon = iconMap[card.icon] || Sparkles;
                   return (
-                    <li class="value-card group relative bg-white rounded-xl p-3.5 border border-ivory-dark shadow-sm hover:shadow-md hover:border-deep-green/30 transition-all duration-300">
+                    <li class="value-card relative bg-white rounded-xl px-3.5 py-3 border border-ivory-dark">
                       <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0 group-hover:bg-deep-green/15 transition-colors duration-300">
+                        <div class="w-8 h-8 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0">
                           <Icon class="w-4 h-4 text-deep-green" aria-hidden="true" />
                         </div>
-                        <span class="text-sm font-bold text-charcoal leading-tight">
+                        <span class="text-sm font-semibold text-charcoal leading-tight">
                           {card.label}
                         </span>
                       </div>
@@ -119,24 +103,24 @@ const iconMap: Record<string, any> = {
         </aside>
 
         <!-- RIGHT: message panel -->
-        <div class="relative lg:col-span-7 p-7 sm:p-9 lg:p-12 bg-white">
+        <div class="relative p-5 sm:p-6 lg:p-8 bg-white">
           <!-- Large subtle quote watermark behind text -->
-          <div class="absolute top-2 right-4 sm:right-8 pointer-events-none opacity-[0.06]" aria-hidden="true">
-            <Quote class="w-32 h-32 sm:w-40 sm:h-40 text-deep-green" />
+          <div class="absolute top-3 right-4 sm:right-6 pointer-events-none opacity-[0.05]" aria-hidden="true">
+            <Quote class="w-24 h-24 sm:w-32 sm:h-32 text-deep-green" />
           </div>
 
           <div class="relative">
-            <div class="space-y-5 sm:space-y-6 max-w-2xl">
+            <div class="space-y-4 sm:space-y-5 max-w-2xl">
               {pm.body.map((paragraph, i) => (
-                <p class={`text-charcoal text-base sm:text-lg leading-relaxed ${i === 0 ? 'first-paragraph' : ''}`}>
+                <p class={`text-charcoal text-base sm:text-[1.02rem] leading-relaxed ${i === 0 ? 'first-paragraph' : ''}`}>
                   {paragraph}
                 </p>
               ))}
             </div>
 
             <!-- Author label — footer with thin divider -->
-            <footer class="mt-8 pt-6 border-t border-ivory-dark flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-deep-green/10 flex items-center justify-center shrink-0">
+            <footer class="mt-6 pt-5 border-t border-ivory-dark flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-deep-green/10 flex items-center justify-center shrink-0">
                 <span class="text-deep-green font-serif font-bold text-base">A</span>
               </div>
               <div>

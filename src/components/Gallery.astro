@@ -2,7 +2,6 @@
 import { Star, BookOpen, GraduationCap, X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 import { assetUrl } from "../utils/assetUrl";
-import AcademicDoodles from "./AcademicDoodles.astro";
 
 const categoryIcons: Record<string, typeof Star> = {
   activities: Star,
@@ -40,26 +39,19 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 ---
 
 {SCHOOL.gallery.enabled && (
-<section id="gallery" class="relative py-16 lg:py-24 bg-white overflow-hidden">
-  <!-- 1 camera/photo doodle in corner -->
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <div class="absolute top-12 right-[6%] opacity-50 hidden sm:block">
-      <AcademicDoodles variant="camera" size="sm" color="slate" rotation={-8} opacity={0.4} />
-    </div>
-  </div>
-
+<section id="gallery" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Section header -->
-    <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-10">
       <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
         <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
         {SCHOOL.gallery.eyebrow}
       </div>
-      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold text-charcoal mb-4 tracking-tight">
         {SCHOOL.gallery.titleLead} <span class="text-gradient-green">{SCHOOL.gallery.titleAccent}</span>
       </h2>
-      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-[42rem] mx-auto">
         {SCHOOL.gallery.subtitle}
       </p>
     </div>
@@ -457,7 +449,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   .album-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 1rem;
+    gap: 0.875rem;
   }
   @media (min-width: 480px) {
     .album-grid {
@@ -467,7 +459,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   @media (min-width: 768px) {
     .album-grid {
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+      gap: 1rem;
     }
   }
 
@@ -479,16 +471,16 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     padding: 0;
     cursor: pointer;
     text-align: left;
-    border-radius: 1rem;
+    border-radius: 0.9rem;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(30, 41, 59, 0.08);
+    box-shadow: 0 2px 10px rgba(30, 41, 59, 0.06);
     border: 1px solid var(--color-ivory-dark, #e8e0d0);
     transition: transform 300ms var(--ease-ios-out),
                 box-shadow 300ms var(--ease-ios-out);
   }
   .album-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(30, 41, 59, 0.14);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(30, 41, 59, 0.1);
   }
   .album-card:focus-visible {
     outline: 2px solid var(--color-deep-green, #1a5a3a);
@@ -539,7 +531,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 
   /* Album info */
   .album-info {
-    padding: 0.875rem 1rem 1rem;
+    padding: 0.8rem 0.9rem 0.9rem;
     background: var(--color-white, #fff);
   }
   .album-title {
@@ -669,9 +661,9 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   /* Modal image grid */
   .album-image-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
-    padding: 1rem 1.25rem 1.25rem;
+    padding: 0.9rem 1rem 1rem;
     overflow-y: auto;
     flex: 1;
   }
@@ -850,10 +842,36 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   }
 
   @media (max-width: 639px) {
+    .img-lightbox-content {
+      max-width: calc(100vw - 1rem);
+      max-height: calc(100vh - 1.5rem);
+      padding-top: 2.75rem;
+      padding-bottom: 2rem;
+      align-items: center;
+    }
+    .img-lightbox-close {
+      top: 0;
+      right: 0;
+    }
     .img-lightbox-prev,
     .img-lightbox-next {
       width: 2.25rem;
       height: 2.25rem;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+    .img-lightbox-prev {
+      left: 0.25rem;
+    }
+    .img-lightbox-next {
+      right: 0.25rem;
+    }
+    .img-lightbox-caption {
+      position: static;
+      margin-top: 0.75rem;
+      padding-inline: 2.75rem;
     }
   }
 </style>

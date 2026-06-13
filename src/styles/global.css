@@ -89,24 +89,24 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 2rem;
+  padding: 0.8rem 1.4rem;
   background-color: var(--color-deep-green);
   color: var(--color-white);
-  font-size: var(--text-body);
+  font-size: 0.95rem;
   font-weight: 600;
   border-radius: 0.75rem;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(13, 94, 62, 0.25);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+  box-shadow: 0 3px 10px rgba(13, 94, 62, 0.18);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-deep-green) 18%, transparent);
   transition: background-color 300ms var(--ease-ios-out),
               box-shadow 300ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
 }
 .btn-primary:hover {
   background-color: var(--color-deep-green-light);
-  box-shadow: 0 10px 28px rgba(13, 94, 62, 0.32);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-deep-green) 32%, transparent);
+  box-shadow: 0 8px 18px rgba(13, 94, 62, 0.24);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--color-deep-green) 24%, transparent);
 }
 .btn-primary:active {
   transform: scale(0.96);
@@ -117,22 +117,22 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 2rem;
+  padding: 0.8rem 1.4rem;
   background-color: var(--color-brand-red);
   color: var(--color-white);
-  font-size: var(--text-body);
+  font-size: 0.95rem;
   font-weight: 600;
   border-radius: 0.75rem;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-brand-red) 25%, transparent);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-brand-red) 18%, transparent);
   transition: background-color 300ms var(--ease-ios-out),
               box-shadow 300ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
 }
 .btn-secondary:hover {
   background-color: var(--color-brand-red-dark);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-brand-red) 32%, transparent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--color-brand-red) 24%, transparent);
 }
 .btn-secondary:active {
   transform: scale(0.96);
@@ -143,10 +143,10 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 2rem;
+  padding: 0.8rem 1.4rem;
   background-color: transparent;
   color: var(--color-charcoal);
-  font-size: var(--text-body);
+  font-size: 0.95rem;
   font-weight: 600;
   border: 2px solid var(--color-ivory-dark);
   border-radius: 0.75rem;
@@ -162,6 +162,15 @@
 }
 .btn-outline:active {
   transform: scale(0.96);
+}
+
+@media (min-width: 640px) {
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline {
+    padding: 0.875rem 1.75rem;
+    font-size: var(--text-body);
+  }
 }
 
 /* ── Component: Brand Header (large official logo strip) ──── */
@@ -236,18 +245,18 @@
 .admission-card {
   background: var(--color-white);
   border: 1px solid var(--color-ivory-dark);
-  border-radius: 1.25rem;
+  border-radius: 1rem;
   padding: 1.25rem;
   position: relative;
-  box-shadow: 0 8px 32px rgba(30, 41, 59, 0.06);
-  box-shadow: 0 8px 32px color-mix(in srgb, var(--color-charcoal) 6%, transparent);
+  box-shadow: 0 6px 20px rgba(30, 41, 59, 0.06);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--color-charcoal) 6%, transparent);
   transform-style: preserve-3d;
   transition: box-shadow 400ms var(--ease-ios-out);
   will-change: transform;
 }
 .admission-card:hover {
-  box-shadow: 0 20px 50px rgba(30, 41, 59, 0.12);
-  box-shadow: 0 20px 50px color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+  box-shadow: 0 12px 28px rgba(30, 41, 59, 0.1);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
 }
 @media (min-width: 640px) {
   .admission-card {
@@ -271,7 +280,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.375rem 1rem;
+  padding: 0.35rem 0.8rem;
   background: linear-gradient(135deg, var(--color-deep-green), var(--color-deep-green-light));
   color: var(--color-white);
   font-size: var(--text-caption);
@@ -286,21 +295,21 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.875rem 1.75rem;
+  padding: 0.8rem 1.25rem;
   background-color: var(--color-deep-green);
   color: var(--color-white);
   font-weight: 600;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 14px rgba(13, 94, 62, 0.25);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--color-deep-green) 25%, transparent);
+  box-shadow: 0 3px 10px rgba(13, 94, 62, 0.18);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--color-deep-green) 18%, transparent);
   transition: background-color 300ms var(--ease-ios-out),
               box-shadow 300ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
 }
 .admission-card-cta:hover {
   background-color: var(--color-deep-green-light);
-  box-shadow: 0 10px 28px rgba(13, 94, 62, 0.32);
-  box-shadow: 0 10px 28px color-mix(in srgb, var(--color-deep-green) 32%, transparent);
+  box-shadow: 0 8px 18px rgba(13, 94, 62, 0.24);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--color-deep-green) 24%, transparent);
 }
 .admission-card-cta:active {
   transform: scale(0.96);
@@ -407,7 +416,7 @@
   transition: background-color 400ms var(--ease-ios-out),
               box-shadow 400ms var(--ease-ios-out),
               transform 400ms var(--ease-ios-spring);
-  cursor: pointer;
+  cursor: default;
 }
 .card-highlight:hover {
   background-color: var(--color-deep-green);
@@ -436,7 +445,7 @@
   transition: background-color 400ms var(--ease-ios-out),
               box-shadow 400ms var(--ease-ios-out),
               transform 400ms var(--ease-ios-spring);
-  cursor: pointer;
+  cursor: default;
 }
 .card-facility:hover {
   background-color: color-mix(in srgb, var(--color-deep-green) 5%, transparent);
@@ -760,7 +769,7 @@
                 box-shadow 400ms var(--ease-ios-out);
   }
   [data-hover-card]:hover {
-    transform: translateY(-6px) scale(1.015);
+    transform: translateY(-2px);
   }
   [data-hover-card]:active {
     transform: translateY(-2px) scale(0.99);
@@ -942,6 +951,7 @@
     0 18px 40px -16px color-mix(in srgb, var(--color-charcoal) 18%, transparent);
   /* Premium centered frame for vertical posters */
   width: min(92vw, 520px);
+  max-width: 100%;
   margin: 0 auto;
 }
 @media (min-width: 640px) {
@@ -981,7 +991,7 @@
   background-size: 22px 22px;
   overflow: hidden;
   /* Premium sizing: large on mobile and desktop, scales with viewport */
-  height: clamp(22rem, 68vw, 36rem);
+  height: clamp(18rem, 82vw, 32rem);
 }
 
 .poster-slide {
@@ -1035,8 +1045,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
@@ -1048,8 +1058,8 @@
   justify-content: center;
   cursor: pointer;
   z-index: 4;
-  box-shadow: 0 8px 22px rgba(30, 41, 59, 0.12);
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+  box-shadow: 0 6px 16px rgba(30, 41, 59, 0.1);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
   transition: background-color 200ms var(--ease-ios-out),
               color 200ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
@@ -1062,8 +1072,8 @@
 .poster-nav:active {
   transform: translateY(-50%) scale(0.95);
 }
-.poster-nav-prev { left: 1rem; }
-.poster-nav-next { right: 1rem; }
+.poster-nav-prev { left: 0.75rem; }
+.poster-nav-next { right: 0.75rem; }
 @media (min-width: 768px) {
   .poster-nav { display: flex; }
 }

@@ -152,11 +152,17 @@ export interface AcademicHighlightItem extends IconFeatureItem {
   highlight?: boolean;
 }
 
+export interface AcademicHighlightGroup {
+  title: string;
+  itemIds: string[];
+}
+
 export interface AcademicHighlightsSection {
   enabled: boolean;
   eyebrow: string;
   title: string;
   subtitle: string;
+  groups: AcademicHighlightGroup[];
   items: AcademicHighlightItem[];
 }
 
@@ -800,6 +806,26 @@ export const SCHOOL: SchoolData = {
     title: "Academic Highlights",
     subtitle:
       "A quick look at how students are supported across classes and subjects.",
+    groups: [
+      {
+        title: "Academic Support",
+        itemIds: [
+          "spell-bee",
+          "fluency-pronunciation",
+          "primary-teachers",
+          "higher-class-teachers",
+        ],
+      },
+      {
+        title: "Student Performance & Foundation",
+        itemIds: [
+          "class-x-record",
+          "strong-performance",
+          "neet-iit-foundation",
+          "affordable-tuition",
+        ],
+      },
+    ],
     items: [
       {
         id: "spell-bee",
