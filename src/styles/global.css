@@ -306,6 +306,85 @@
   transform: scale(0.96);
 }
 
+/* ── Component: Admission Card attention animations ──────── */
+/* Subtle, CMS-managed attention animation. Admins can toggle via
+   SCHOOL.hero.admissionCard.{enabled, style}. Always respects
+   prefers-reduced-motion. */
+
+/* Soft pulse glow — slow, premium, calls attention without flashing. */
+.admission-card--pulse {
+  animation: admission-card-pulse 2.6s var(--ease-ios-out) infinite;
+}
+@keyframes admission-card-pulse {
+  0%, 100% {
+    box-shadow:
+      0 8px 32px color-mix(in srgb, var(--color-charcoal) 6%, transparent),
+      0 0 0 0 color-mix(in srgb, var(--color-deep-green) 0%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 12px 36px color-mix(in srgb, var(--color-charcoal) 8%, transparent),
+      0 0 0 6px color-mix(in srgb, var(--color-deep-green) 12%, transparent);
+  }
+}
+
+/* Shine sweep — a soft highlight that sweeps across the card once
+   on initial load to catch the eye. */
+.admission-card--shine {
+  position: relative;
+  overflow: hidden;
+}
+.admission-card--shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: admission-card-shine 2.4s var(--ease-ios-out) 0.6s 1;
+  pointer-events: none;
+}
+@keyframes admission-card-shine {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* When both styles are enabled, the pulse keeps cycling while the
+   shine plays once. */
+.admission-card--pulse.admission-card--shine {
+  animation: admission-card-pulse 2.6s var(--ease-ios-out) infinite;
+}
+
+/* CTA breathing — the "Enquire Now" button gets a subtle scale pulse
+   to draw the eye. The hero admission card is the only place this
+   is used; the pulse is gated by the same data-admission-anim flag. */
+[data-admission-anim="pulse"] .admission-card-cta,
+[data-admission-anim="both"] .admission-card-cta {
+  animation: admission-cta-breathing 2.6s var(--ease-ios-out) infinite;
+  animation-delay: 0.4s;
+}
+@keyframes admission-cta-breathing {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.025); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admission-card--pulse,
+  .admission-card--shine::after,
+  [data-admission-anim="pulse"] .admission-card-cta,
+  [data-admission-anim="both"] .admission-card-cta,
+  .admission-card--pulse.admission-card--shine {
+    animation: none;
+  }
+  .admission-card--shine::after {
+    display: none;
+  }
+}
+
 /* ── Component: Card Styles ────────────────────────────────── */
 .card {
   background-color: var(--color-white);

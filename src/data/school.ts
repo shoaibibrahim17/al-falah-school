@@ -44,6 +44,14 @@ export const SCHOOL = {
     ctaLink: "#parent-form",
     secondaryCta: "Learn More",
     secondaryLink: "#about",
+    /* Admission card attention animation (CMS-managed).
+       The fallback admission card in the hero can flash/pulse to draw
+       attention. Admins can disable this from the CMS dashboard if it
+       feels distracting. Respects prefers-reduced-motion automatically. */
+    admissionCard: {
+      enabled: true,    // Toggle the attention animation
+      style: "pulse",   // "pulse" | "shine" | "both"
+    },
     /* Background image — subtle blurred atmosphere behind hero content */
     backgroundImage: {
       src: "/images/hero/al-falah-hero-bg.png",
@@ -88,22 +96,22 @@ export const SCHOOL = {
   whatParentsCanExpect: {
     subtitle: "Here's what parents and students can expect at Al-Falah.",
     items: [
-      { title: "Academic Focus", description: "Clear, structured lessons in language, mathematics, science, and social studies following the state board curriculum.", icon: "BookOpen" },
-      { title: "Values & Discipline", description: "Daily habits and conduct are part of school life — punctuality, respect, and honest work are encouraged consistently.", icon: "Sparkles" },
-      { title: "Parent-Friendly Communication", description: "The school office is reachable for queries, visit requests, and regular updates. Parents are kept informed.", icon: "Shield" },
+      { title: "Academic Focus", description: "Lessons in language, mathematics, science, and social studies — following the state board curriculum.", icon: "BookOpen" },
+      { title: "Values & Discipline", description: "Punctuality, respect, and honest work are part of daily school life.", icon: "Sparkles" },
+      { title: "Parent-Friendly Communication", description: "The school office is reachable for queries, visit requests, and regular updates.", icon: "Shield" },
       { title: "Admission Guidance", description: "The admission process is straightforward. The school office helps parents with forms, documents, and enquiries.", icon: "Users" },
       { title: "School Office Support", description: "For fee queries, leave applications, exam schedules, and general concerns — the school office assists parents directly.", icon: "Monitor" },
-      { title: "Clean Learning Environment", description: "A simple, well-kept campus with adequate space for learning activities and basic amenities.", icon: "Heart" },
+      { title: "Clean Learning Environment", description: "A simple, well-kept campus with adequate space for learning and basic amenities.", icon: "Heart" },
     ],
   },
 
   /* ── Academic Levels Section ── */
   academicLevels: {
-    subtitle: "Classes offered from Pre-Primary through Secondary. The school follows the state board curriculum.",
+    subtitle: "Classes from Pre-Primary through Secondary. The school follows the state board curriculum.",
     levels: [
-      { level: "Pre-Primary", ages: "Ages 3–5", description: "A warm, play-based environment that builds early learning skills through curiosity, creativity, and guided play.", icon: "Baby" },
-      { level: "Primary", grades: "Grades 1–5", description: "Building strong fundamentals in language, mathematics, science, and social awareness through interactive lessons.", icon: "BookOpen" },
-      { level: "Middle School", grades: "Grades 6–8", description: "Developing analytical thinking and subject knowledge with a focus on conceptual understanding and collaboration.", icon: "Library" },
+      { level: "Pre-Primary", ages: "Ages 3–5", description: "A warm, play-based environment that builds early learning skills through curiosity and guided play.", icon: "Baby" },
+      { level: "Primary", grades: "Grades 1–5", description: "Building strong fundamentals in language, mathematics, science, and social awareness.", icon: "BookOpen" },
+      { level: "Middle School", grades: "Grades 6–8", description: "Developing analytical thinking and subject knowledge with a focus on conceptual understanding.", icon: "Library" },
       { level: "Secondary", grades: "Grades 9–10", description: "Preparing students for board examinations with structured guidance, regular practice, and individual support.", icon: "GraduationCap" },
       { level: "Higher Secondary", grades: "Grades 11–12", description: "Specialised streams for Science and Commerce with focused board preparation and career guidance.", icon: "BookOpen" },
     ],
@@ -220,8 +228,7 @@ export const SCHOOL = {
     enabled: true,
     eyebrow: "Academic Highlights",
     title: "Academic Highlights",
-    subtitle: "Key learning support and academic strengths shared by the school.",
-    // Each item is CMS-ready. Strong claims include 'as shared by the school'.
+    subtitle: "A quick look at how students are supported across classes and subjects.",
     items: [
       {
         id: "spell-bee",
@@ -238,14 +245,14 @@ export const SCHOOL = {
       {
         id: "class-x-record",
         title: "Class X Result Record",
-        description: "100% Class X result record for the past 5 years, as shared by the school.",
+        description: "100% Class X result record for the past 5 years.",
         icon: "Trophy",
         highlight: true,
       },
       {
         id: "strong-performance",
         title: "Strong Student Performance",
-        description: "In each batch, many students have scored between 85% and 98%, as shared by the school.",
+        description: "In each batch, many students have scored between 85% and 98%.",
         icon: "Award",
       },
       {
