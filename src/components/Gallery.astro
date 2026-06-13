@@ -220,6 +220,15 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     let activeAlbumTrigger: HTMLButtonElement | null = null;
     let activeLightboxTrigger: HTMLButtonElement | null = null;
 
+    // Move overlays to document.body so no section-level stacking context can
+    // place the sticky navbar above the modal or lightbox.
+    if (modal && modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
+    if (lightbox && lightbox.parentElement !== document.body) {
+      document.body.appendChild(lightbox);
+    }
+
     const syncBodyScroll = () => {
       const lockScroll = (modal && !modal.hidden) || (lightbox && !lightbox.hidden);
       document.body.style.overflow = lockScroll ? "hidden" : "";
@@ -549,9 +558,12 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   .album-modal {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 1200;
     display: flex;
     align-items: stretch;
+    isolation: isolate;
   }
   .album-modal[hidden] {
     display: none;
@@ -728,10 +740,13 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   .img-lightbox {
     position: fixed;
     inset: 0;
-    z-index: 200;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 1300;
     display: flex;
     align-items: center;
     justify-content: center;
+    isolation: isolate;
   }
   .img-lightbox[hidden] {
     display: none;
