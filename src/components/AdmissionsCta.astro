@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, ExternalLink } from "lucide-astro";
+import { ArrowRight } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 ---
 
@@ -24,22 +24,21 @@ import { SCHOOL } from "../data/school";
       </p>
       <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
         <a
-          href={SCHOOL.admissionsCta.ctaLink}
+          href={SCHOOL.admissionsCta.primaryCtaLink}
           class="btn-secondary no-underline shadow-xl shadow-brand-red/30"
           data-cta="pulse"
           data-magnetic="0.25"
           data-magnetic-radius="100"
         >
-          {SCHOOL.admissionsCta.cta}
+          {SCHOOL.admissionsCta.primaryCta}
           <ArrowRight class="w-5 h-5" />
         </a>
         <a
-          href="#contact"
+          href={SCHOOL.admissionsCta.secondaryCtaLink}
           class="inline-flex items-center justify-center gap-2 px-5 sm:px-8 py-4 border-2 border-white/30 hover:border-white/60 text-white text-sm sm:text-base font-semibold rounded-xl transition-colors duration-200 no-underline focus-visible:outline-white cursor-pointer backdrop-blur-sm"
           data-cta
         >
-          <ExternalLink class="w-5 h-5" />
-          Visit School Office
+          {SCHOOL.admissionsCta.secondaryCta}
         </a>
       </div>
     </div>
