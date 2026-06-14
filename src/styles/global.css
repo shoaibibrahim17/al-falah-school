@@ -271,6 +271,7 @@
   padding: 1px;
   background: linear-gradient(135deg, var(--color-deep-green-light), var(--color-deep-green), var(--color-deep-green-dark));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
@@ -974,6 +975,7 @@
     color-mix(in srgb, var(--color-deep-green-dark) 50%, transparent)
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
