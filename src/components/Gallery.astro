@@ -170,7 +170,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     </button>
     <div class="lightbox-media-container select-none">
       <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img select-none pointer-events-none" oncontextmenu="return false;" draggable="false" />
-      <video id="img-lightbox-video" class="img-lightbox-video select-none" controls playsinline controlslist="nodownload" oncontextmenu="return false;" draggable="false"></video>
+      <video id="img-lightbox-video" class="img-lightbox-video select-none" controls playsinline controlslist="nodownload" preload="auto" oncontextmenu="return false;" draggable="false"></video>
       <div class="lightbox-overlay" oncontextmenu="return false;" draggable="false"></div>
     </div>
     <p id="img-lightbox-caption" class="img-lightbox-caption"></p>
@@ -270,6 +270,12 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         lightboxImg.classList.remove("is-visible");
         lightboxImg.src = "";
         lightboxImg.alt = "";
+        
+        // Initialize smooth load and play on mobile/desktop
+        lightboxVideo.load();
+        lightboxVideo.play().catch((err) => {
+          console.warn("Video playback was deferred/blocked: ", err);
+        });
       } else {
         lightbox?.classList.remove("is-video-active");
         lightboxImg.src = item.src;
@@ -449,6 +455,28 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     prevBtn?.addEventListener("click", () => navigateLightbox(-1));
     nextBtn?.addEventListener("click", () => navigateLightbox(1));
 
+    // Touch gesture navigation (swiping left/right) for mobile devices
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    lightbox?.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightbox?.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      
+      const swipeThreshold = 50; // min swipe distance in px
+      const diffX = touchEndX - touchStartX;
+      if (Math.abs(diffX) > swipeThreshold) {
+        if (diffX > 0) {
+          navigateLightbox(-1); // swipe right -> show previous
+        } else {
+          navigateLightbox(1);  // swipe left -> show next
+        }
+      }
+    }, { passive: true });
+
     // Disable right click on gallery, modal, and lightbox to prevent downloading
     ["gallery", "album-modal", "image-lightbox"].forEach((id) => {
       const el = document.getElementById(id);
@@ -492,13 +520,19 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 
     // Blur content on window blur (to block printscreen/snipping tools)
     window.addEventListener("blur", () => {
-      if (lightbox && !lightbox.hidden) {
-        lightbox.classList.add("screenshot-protection");
-      }
+      document.body.classList.add("screenshot-protection");
     });
     window.addEventListener("focus", () => {
-      if (lightbox) {
-        lightbox.classList.remove("screenshot-protection");
+      document.body.classList.remove("screenshot-protection");
+    });
+
+    // Detect physical PrintScreen keyup event to trigger screenshot protection
+    document.addEventListener("keyup", (event) => {
+      if (event.key === "PrintScreen" || event.key === "Snapshot") {
+        document.body.classList.add("screenshot-protection");
+        setTimeout(() => {
+          document.body.classList.remove("screenshot-protection");
+        }, 2000);
       }
     });
   })();
@@ -531,14 +565,17 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     text-align: left;
     border-radius: 0.85rem;
     overflow: hidden;
-    box-shadow: 0 1px 8px rgba(30, 41, 59, 0.05);
-    border: 1px solid var(--color-ivory-dark, #e8e0d0);
-    transition: transform 300ms var(--ease-ios-out),
-                box-shadow 300ms var(--ease-ios-out);
+    box-shadow: 0 4px 15px rgba(26, 90, 58, 0.04);
+    border: 1px solid rgba(26, 90, 58, 0.08);
+    background: var(--color-white, #fff);
+    transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 350ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .album-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(30, 41, 59, 0.09);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 30px rgba(26, 90, 58, 0.12);
+    border-color: rgba(26, 90, 58, 0.25);
   }
   .album-card:focus-visible {
     outline: 2px solid var(--color-deep-green, #1a5a3a);
@@ -750,6 +787,14 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     border-radius: 0.625rem;
     overflow: hidden;
     background: var(--color-ivory, #faf8f4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .album-img-item:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 16px rgba(10, 30, 20, 0.1);
+    z-index: 10;
   }
   .album-img-btn {
     position: absolute;
@@ -765,7 +810,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 400ms var(--ease-ios-out);
+    transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
     display: block;
   }
   .album-img-btn:hover .album-img-thumb {
@@ -779,17 +824,21 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(10, 30, 20, 0.45);
+    background: rgba(10, 30, 20, 0.35);
     color: white;
-    transition: background 200ms;
+    transition: background 300ms ease;
   }
   .album-video-play-btn svg {
     width: 2rem;
     height: 2rem;
-    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .album-img-btn:hover .album-video-play-btn {
-    background: rgba(10, 30, 20, 0.55);
+    background: rgba(10, 30, 20, 0.5);
+  }
+  .album-img-btn:hover .album-video-play-btn svg {
+    transform: scale(1.15);
   }
 
   /* Video items in grid get a border accent */
@@ -882,11 +931,13 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
   .img-lightbox-video.is-visible { display: block; }
 
   /* Anti-screenshot blur protection */
-  .img-lightbox.screenshot-protection .img-lightbox-img,
-  .img-lightbox.screenshot-protection .img-lightbox-video {
-    filter: blur(40px) !important;
-    opacity: 0 !important;
-    transition: filter 100ms ease, opacity 100ms ease;
+  body.screenshot-protection #gallery,
+  body.screenshot-protection .album-modal,
+  body.screenshot-protection .img-lightbox {
+    filter: blur(60px) !important;
+    opacity: 0.1 !important;
+    pointer-events: none !important;
+    transition: filter 150ms cubic-bezier(0.16, 1, 0.3, 1), opacity 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   .img-lightbox-caption {
     position: absolute;
@@ -922,19 +973,23 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     width: 2.75rem;
     height: 2.75rem;
     border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: background 200ms;
+    z-index: 30;
+    transition: background 250ms ease, border-color 250ms ease, transform 250ms ease;
   }
   .img-lightbox-prev:hover,
   .img-lightbox-next:hover {
     background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
   }
   .img-lightbox-prev {
     display: none;
@@ -957,18 +1012,20 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     }
     .img-lightbox-prev,
     .img-lightbox-next {
-      width: 2.25rem;
-      height: 2.25rem;
+      width: 2.5rem;
+      height: 2.5rem;
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      z-index: 2;
+      z-index: 30;
+      background: rgba(10, 30, 20, 0.6);
+      border-color: rgba(255, 255, 255, 0.25);
     }
     .img-lightbox-prev {
-      left: 0.25rem;
+      left: 0.5rem;
     }
     .img-lightbox-next {
-      right: 0.25rem;
+      right: 0.5rem;
     }
     .img-lightbox-caption {
       position: static;
