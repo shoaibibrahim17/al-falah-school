@@ -17,12 +17,12 @@ const iconMap: Record<string, typeof LayoutGrid> = { LayoutGrid, FlaskConical, L
       </p>
     </div>
 
-    <div data-reveal-group class="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-4 rounded-2xl sm:rounded-none border sm:border-none border-ivory-dark bg-white sm:bg-transparent divide-y sm:divide-y-0 divide-ivory-dark overflow-hidden shadow-sm shadow-deep-green/5 sm:shadow-none">
+    <div data-reveal-group class="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-4 divide-y sm:divide-y-0 divide-ivory-dark mt-2 sm:mt-0">
       {SCHOOL.facilities.items.map((item) => {
         const Icon = iconMap[item.icon] || LayoutGrid;
         return (
           <article
-            class="flex items-start gap-3 sm:gap-4 sm:rounded-2xl sm:border border-ivory-dark sm:bg-white px-4 py-4 sm:px-5 sm:py-5"
+            class="flex items-start gap-3 sm:gap-4 sm:rounded-2xl sm:border border-ivory-dark sm:bg-white py-4 sm:px-5 sm:py-5"
           >
             <div class="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-md bg-deep-green/10 mt-0.5">
               <Icon class="w-4 h-4 sm:w-5 sm:h-5 text-deep-green" />

@@ -35,7 +35,7 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
 
       <aside data-reveal="slide-right" class="w-full min-w-0 justify-self-end">
         {hasImage ? (
-          <figure class="relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden border border-deep-green/15 bg-ivory shadow-sm">
+          <figure class="relative aspect-[4/3] -mx-4 sm:mx-0 w-[calc(100%+2rem)] sm:w-full rounded-none sm:rounded-2xl overflow-hidden border-y sm:border border-deep-green/15 bg-ivory shadow-none sm:shadow-sm">
             <img
               src={about.image!.src!}
               alt={about.image!.alt || "School campus photo"}
