@@ -526,6 +526,16 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       document.body.classList.remove("screenshot-protection");
     });
 
+    // Also blur when the tab/app is hidden (covers app-switch screenshot flows
+    // that don't always fire a window "blur" event)
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        document.body.classList.add("screenshot-protection");
+      } else {
+        document.body.classList.remove("screenshot-protection");
+      }
+    });
+
     // Detect physical PrintScreen keyup event to trigger screenshot protection
     document.addEventListener("keyup", (event) => {
       if (event.key === "PrintScreen" || event.key === "Snapshot") {
@@ -929,6 +939,16 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     display: none;
   }
   .img-lightbox-video.is-visible { display: block; }
+
+  /* Privacy: block iOS long-press "Save Image" + selection on all gallery imagery
+     (the lightbox already has this; here we extend it to the always-visible
+     album cover and grid thumbnails to close the mobile long-press gap) */
+  .album-cover-img,
+  .album-img-thumb {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
 
   /* Anti-screenshot blur protection */
   body.screenshot-protection #gallery,
