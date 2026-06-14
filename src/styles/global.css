@@ -55,6 +55,8 @@
     scroll-padding-top: 6rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -62,6 +64,8 @@
     color: var(--color-charcoal);
     background-color: var(--color-white);
     line-height: 1.6;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4 {
