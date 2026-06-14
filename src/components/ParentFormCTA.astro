@@ -1,7 +1,6 @@
 ---
 /* Parent Help Desk — practical, grounded section. Not a SaaS card.
-   Two-column on desktop: request types on the left, action panel on the right.
-   Stacks cleanly on mobile. Green identity, red only for the label. */
+   A minimal, professional single-column layout centered on the call to action. */
 import { ExternalLink } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 
@@ -11,66 +10,40 @@ const hasValidUrl = parentForm.url && !parentForm.url.includes("_example");
 ---
 
 {parentForm.enabled && (
-  <section id="parent-form" class="relative py-10 sm:py-16 lg:py-20 bg-white">
-    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-[2.75rem] font-bold font-serif text-charcoal leading-[1.1] tracking-tight mb-4">
+  <section id="parent-form" class="relative py-12 sm:py-16 bg-white">
+    <div class="relative max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 data-reveal class="text-3xl sm:text-4xl font-bold font-serif text-charcoal mb-4 tracking-tight leading-tight">
         {parentForm.heading}
       </h2>
 
-      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-2xl mb-8 lg:mb-10">
+      <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-6 sm:mb-8">
         {parentForm.description}
       </p>
 
-      <div data-reveal-group class="flex flex-col sm:grid sm:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-4 sm:gap-5 lg:gap-8 items-start">
-        <div class="rounded-2xl border border-ivory-dark bg-white px-4 py-4 sm:px-5 sm:py-4 min-w-0 w-full">
-          <p class="text-xs font-semibold text-slate-light uppercase tracking-wider mb-3">
-            {parentForm.requestTypesLabel}
-          </p>
-          <ul class="flex flex-wrap sm:flex-col gap-2 sm:space-y-2 sm:gap-0" role="list">
-            {parentForm.requestTypes.map((label) => (
-              <li class="flex items-center gap-1.5 sm:gap-2 rounded-full sm:rounded-lg border border-ivory-dark bg-ivory/30 px-3 py-1.5 sm:px-3 sm:py-2 text-[0.8rem] sm:text-sm text-charcoal leading-snug">
-                <span class="w-1.5 h-1.5 rounded-full bg-deep-green shrink-0" aria-hidden="true"></span>
-                <span class="min-w-0">{label}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div data-reveal="slide-right" class="relative rounded-2xl border border-deep-green/15 bg-ivory/45 p-5 sm:p-6 min-w-0 w-full shadow-sm shadow-deep-green/5">
-          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark rounded-t-2xl" aria-hidden="true"></div>
-          <h3 class="text-xl sm:text-2xl font-bold font-serif text-charcoal mb-2 sm:mb-2.5 leading-snug">
-            {parentForm.panel.title}
-          </h3>
-          <p class="text-slate text-[0.95rem] sm:text-base leading-relaxed mb-4 sm:mb-5">
-            {parentForm.panel.description}
-          </p>
-          {hasValidUrl ? (
-            <a
-              href={parentForm.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-primary no-underline w-full inline-flex"
-              data-cta
-            >
-              {parentForm.panel.ctaLabel}
-              <ExternalLink class="w-4 h-4" />
-            </a>
-          ) : (
-            <button
-              type="button"
-              disabled
-              class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-charcoal/50 text-white/70 text-sm font-semibold rounded-xl cursor-not-allowed w-full"
-            >
-              {parentForm.panel.ctaLabel}
-              <span class="text-[10px] uppercase tracking-wider">
-                {parentForm.panel.urlPlaceholder}
-              </span>
-            </button>
-          )}
-          <p class="mt-4 text-xs text-slate-light leading-relaxed max-w-sm">
-            {parentForm.panel.note}
-          </p>
-        </div>
+      <div data-reveal="slide-up" class="flex flex-col items-center justify-center gap-3">
+        {hasValidUrl ? (
+          <a
+            href={parentForm.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary no-underline inline-flex items-center gap-2 px-8 py-3"
+            data-cta
+          >
+            {parentForm.panel.ctaLabel}
+            <ExternalLink class="w-4 h-4" />
+          </a>
+        ) : (
+          <button
+            type="button"
+            disabled
+            class="inline-flex items-center justify-center gap-2 px-8 py-3 bg-charcoal/50 text-white/70 text-sm font-semibold rounded-xl cursor-not-allowed"
+          >
+            {parentForm.panel.ctaLabel}
+          </button>
+        )}
+        <p class="text-xs text-slate-light max-w-md mt-2 leading-relaxed">
+          {parentForm.panel.note}
+        </p>
       </div>
     </div>
   </section>

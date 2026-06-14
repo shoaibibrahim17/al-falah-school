@@ -168,8 +168,11 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     >
       <ChevronLeft class="w-6 h-6" />
     </button>
-    <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img select-none pointer-events-none" oncontextmenu="return false;" draggable="false" />
-    <video id="img-lightbox-video" class="img-lightbox-video" controls playsinline controlslist="nodownload" oncontextmenu="return false;"></video>
+    <div class="lightbox-media-container select-none">
+      <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img select-none pointer-events-none" oncontextmenu="return false;" draggable="false" />
+      <video id="img-lightbox-video" class="img-lightbox-video select-none" controls playsinline controlslist="nodownload" oncontextmenu="return false;" draggable="false"></video>
+      <div class="lightbox-overlay" oncontextmenu="return false;" draggable="false"></div>
+    </div>
     <p id="img-lightbox-caption" class="img-lightbox-caption"></p>
     <button
       type="button"
@@ -260,6 +263,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       const isVideo = item.type === "video";
 
       if (isVideo && lightboxVideo) {
+        lightbox?.classList.add("is-video-active");
         lightboxVideo.src = item.src;
         lightboxVideo.setAttribute("aria-label", item.alt || "Gallery video");
         lightboxVideo.classList.add("is-visible");
@@ -267,6 +271,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         lightboxImg.src = "";
         lightboxImg.alt = "";
       } else {
+        lightbox?.classList.remove("is-video-active");
         lightboxImg.src = item.src;
         lightboxImg.alt = item.alt;
         lightboxImg.classList.add("is-visible");
@@ -443,6 +448,59 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 
     prevBtn?.addEventListener("click", () => navigateLightbox(-1));
     nextBtn?.addEventListener("click", () => navigateLightbox(1));
+
+    // Disable right click on gallery, modal, and lightbox to prevent downloading
+    ["gallery", "album-modal", "image-lightbox"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener("contextmenu", (e) => e.preventDefault());
+      }
+    });
+
+    // Block keyboard shortcuts for save, print, copy, inspect
+    document.addEventListener("keydown", (event) => {
+      const isLightboxOpen = lightbox && !lightbox.hidden;
+      const isModalOpen = modal && !modal.hidden;
+      
+      if (isLightboxOpen || isModalOpen) {
+        // Prevent Ctrl+S / Cmd+S
+        if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+          event.preventDefault();
+          return;
+        }
+        // Prevent Ctrl+P / Cmd+P
+        if ((event.ctrlKey || event.metaKey) && event.key === "p") {
+          event.preventDefault();
+          return;
+        }
+        // Prevent Ctrl+C / Cmd+C (Copy)
+        if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+          event.preventDefault();
+          return;
+        }
+        // Prevent Ctrl+Shift+I / F12 / Ctrl+Shift+J / Ctrl+U
+        if (
+          event.key === "F12" ||
+          ((event.ctrlKey || event.metaKey) && event.shiftKey && (event.key === "I" || event.key === "i" || event.key === "J" || event.key === "j")) ||
+          ((event.ctrlKey || event.metaKey) && (event.key === "u" || event.key === "U"))
+        ) {
+          event.preventDefault();
+          return;
+        }
+      }
+    });
+
+    // Blur content on window blur (to block printscreen/snipping tools)
+    window.addEventListener("blur", () => {
+      if (lightbox && !lightbox.hidden) {
+        lightbox.classList.add("screenshot-protection");
+      }
+    });
+    window.addEventListener("focus", () => {
+      if (lightbox) {
+        lightbox.classList.remove("screenshot-protection");
+      }
+    });
   })();
 </script>
 
@@ -779,24 +837,57 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     max-height: 90vh;
     z-index: 1;
   }
+  .lightbox-media-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .lightbox-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    z-index: 10;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .img-lightbox.is-video-active .lightbox-overlay {
+    display: none;
+  }
   .img-lightbox-img {
     max-width: 100%;
     max-height: 85vh;
     object-fit: contain;
     border-radius: 0.5rem;
-    flex: 1;
+    display: block;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
   }
-  .img-lightbox-img { display: block; }
   .img-lightbox-img:not(.is-visible) { display: none; }
   .img-lightbox-video {
     max-width: 100%;
     max-height: 80vh;
     object-fit: contain;
     border-radius: 0.5rem;
-    flex: 1;
     display: none;
   }
   .img-lightbox-video.is-visible { display: block; }
+
+  /* Anti-screenshot blur protection */
+  .img-lightbox.screenshot-protection .img-lightbox-img,
+  .img-lightbox.screenshot-protection .img-lightbox-video {
+    filter: blur(40px) !important;
+    opacity: 0 !important;
+    transition: filter 100ms ease, opacity 100ms ease;
+  }
   .img-lightbox-caption {
     position: absolute;
     bottom: -2rem;
@@ -883,6 +974,18 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
       position: static;
       margin-top: 0.75rem;
       padding-inline: 2.75rem;
+    }
+  }
+
+  /* Print Styles - block download via print screen/PDF */
+  @media print {
+    body {
+      display: none !important;
+      visibility: hidden !important;
+    }
+    img, video, iframe, .album-modal, .img-lightbox {
+      display: none !important;
+      visibility: hidden !important;
     }
   }
 </style>
