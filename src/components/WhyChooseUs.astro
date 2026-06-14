@@ -10,12 +10,8 @@ const iconMap: Record<string, typeof BookOpen> = {
 {SCHOOL.whatParentsCanExpect.enabled && (
 <section id="what-parents-expect" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-10">
-      <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
-        <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-        {SCHOOL.whatParentsCanExpect.eyebrow}
-      </div>
-      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-12">
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal mb-4 tracking-tight">
         {SCHOOL.whatParentsCanExpect.titleLead} <span class="text-gradient-green">{SCHOOL.whatParentsCanExpect.titleAccent}</span>
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-[42rem] mx-auto">
@@ -23,21 +19,21 @@ const iconMap: Record<string, typeof BookOpen> = {
       </p>
     </div>
 
-    <div data-reveal-group class="grid grid-cols-2 gap-3 sm:gap-4">
+    <div data-reveal-group class="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-4 rounded-2xl sm:rounded-none border sm:border-none border-ivory-dark bg-white sm:bg-transparent divide-y sm:divide-y-0 divide-ivory-dark overflow-hidden shadow-sm shadow-deep-green/5 sm:shadow-none">
       {SCHOOL.whatParentsCanExpect.items.map((item) => {
         const Icon = iconMap[item.icon] || BookOpen;
         return (
           <article
-            class="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 rounded-xl border border-ivory-dark bg-white px-3 py-3 sm:px-5 sm:py-4"
+            class="flex items-start gap-3 sm:gap-4 sm:rounded-2xl sm:border border-ivory-dark sm:bg-white px-4 py-4 sm:px-5 sm:py-5"
           >
-            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-deep-green/10">
-              <Icon class="w-4 h-4 sm:w-[1.125rem] sm:h-[1.125rem] text-deep-green" />
+            <div class="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-deep-green/10 mt-0.5">
+              <Icon class="w-[1.1rem] h-[1.1rem] sm:w-[1.125rem] sm:h-[1.125rem] text-deep-green" />
             </div>
-            <div class="min-w-0">
-              <h3 class="text-[0.82rem] sm:text-[1.05rem] font-bold font-serif text-charcoal mb-1 sm:mb-1.5 leading-snug">
+            <div class="min-w-0 flex-1">
+              <h3 class="text-[0.95rem] sm:text-[1.05rem] font-bold font-serif text-charcoal mb-1.5 leading-snug">
                 {item.title}
               </h3>
-              <p class="text-slate text-[0.72rem] sm:text-sm leading-snug sm:leading-relaxed">
+              <p class="text-slate text-[0.8rem] sm:text-sm leading-relaxed">
                 {item.description}
               </p>
             </div>

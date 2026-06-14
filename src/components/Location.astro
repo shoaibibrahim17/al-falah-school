@@ -28,12 +28,8 @@ if (SCHOOL.contact.email) {
 {SCHOOL.locationSection.enabled && (
 <section id="contact" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-10">
-      <div data-reveal="fade" class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
-        <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
-        {SCHOOL.locationSection.eyebrow}
-      </div>
-      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal mb-4 tracking-tight">
+    <div class="text-center max-w-2xl mx-auto mb-8 lg:mb-12">
+      <h2 data-reveal class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal mb-4 tracking-tight">
         <span class="text-gradient-green">{SCHOOL.locationSection.titleLead}</span> {SCHOOL.locationSection.titleAccent}
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed">
@@ -41,9 +37,9 @@ if (SCHOOL.contact.email) {
       </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:gap-6 items-stretch">
+    <div class="flex flex-col-reverse sm:grid sm:grid-cols-2 gap-0 sm:gap-5 lg:gap-6 items-stretch relative">
       <!-- Contact list card -->
-      <div data-reveal="slide-left" class="bg-white rounded-2xl border border-ivory-dark p-3.5 sm:p-6 min-w-0">
+      <div data-reveal="slide-left" class="bg-white rounded-2xl border border-ivory-dark p-5 sm:p-6 min-w-0 relative z-10 w-[92%] mx-auto -mt-12 sm:mt-0 shadow-xl shadow-deep-green/10 sm:shadow-none sm:w-auto">
         <h3 class="text-[11px] sm:text-sm font-bold text-deep-green uppercase tracking-wider mb-3 sm:mb-5">{SCHOOL.locationSection.cardHeading}</h3>
         <ul class="space-y-3 sm:space-y-5">
           {contactItems.map((item) => (
@@ -86,8 +82,8 @@ if (SCHOOL.contact.email) {
       </div>
 
       <!-- Map frame -->
-      <div data-reveal="slide-right" class="relative">
-        <div class="relative rounded-2xl overflow-hidden border border-ivory-dark h-full min-h-[220px] sm:min-h-[340px] bg-deep-green/5">
+      <div data-reveal="slide-right" class="relative w-full h-[280px] sm:h-auto">
+        <div class="relative rounded-2xl overflow-hidden border border-ivory-dark h-full min-h-[280px] sm:min-h-[340px] bg-deep-green/5">
           <iframe
             src={mapEmbedSrc}
             title={`Map showing ${SCHOOL.location.full}`}
