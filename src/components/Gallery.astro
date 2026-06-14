@@ -39,7 +39,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
 ---
 
 {SCHOOL.gallery.enabled && (
-<section id="gallery" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
+<section id="gallery" class="relative py-10 sm:py-16 lg:py-20 bg-white overflow-hidden">
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
     <!-- Section header -->
@@ -49,7 +49,7 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         {SCHOOL.gallery.eyebrow}
       </div>
       <h2 data-reveal class="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold text-charcoal mb-4 tracking-tight">
-        {SCHOOL.gallery.titleLead} <span class="text-gradient-green">{SCHOOL.gallery.titleAccent}</span>
+        {SCHOOL.gallery.titleLead}&nbsp;<span class="text-gradient-green">{SCHOOL.gallery.titleAccent}</span>
       </h2>
       <p data-reveal class="text-slate text-base sm:text-lg leading-relaxed max-w-[42rem] mx-auto">
         {SCHOOL.gallery.subtitle}

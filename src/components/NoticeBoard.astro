@@ -35,13 +35,13 @@ const activeNotices = (nb.enabled ? nb.notices : [])
         {activeNotices.map((notice) => (
           <article
             data-reveal
-            class="group flex flex-col bg-ivory/40 rounded-xl border border-ivory-dark hover:border-deep-green/30 hover:bg-ivory/80 transition-all duration-300 p-5 sm:p-6"
+            class="group flex flex-col bg-ivory/40 rounded-xl border border-ivory-dark hover:border-deep-green/30 hover:bg-ivory/80 transition-all duration-300 p-4 sm:p-6"
             role="listitem"
           >
-            <div class="flex-1 mb-6">
-              <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0">
-                  <FileText class="w-5 h-5 text-deep-green" />
+            <div class="flex-1 mb-4 sm:mb-6">
+              <div class="flex items-center gap-3 mb-3 sm:mb-4">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0">
+                  <FileText class="w-4 h-4 sm:w-5 sm:h-5 text-deep-green" />
                 </div>
                 {notice.pdf?.uploadedDate && (
                   <span class="text-[11px] font-semibold tracking-wider text-slate-light uppercase">
@@ -67,7 +67,7 @@ const activeNotices = (nb.enabled ? nb.notices : [])
               <a
                 href={notice.pdf.file}
                 download
-                class="inline-flex items-center justify-center gap-2 w-full py-2.5 bg-deep-green text-white text-[13px] font-bold tracking-wide rounded-lg hover:bg-deep-green-light transition-colors duration-200 focus-visible:outline-deep-green shadow-sm"
+                class="inline-flex items-center justify-center gap-2 w-full py-2 sm:py-2.5 bg-deep-green text-white text-[13px] font-bold tracking-wide rounded-lg hover:bg-deep-green-light transition-colors duration-200 focus-visible:outline-deep-green shadow-sm"
                 aria-label={`Download ${notice.pdf.label || 'PDF'}`}
               >
                 <Download class="w-4 h-4" />
