@@ -24,7 +24,8 @@ const { principalMessage: pm } = SCHOOL;
         <blockquote class="space-y-5 sm:space-y-6 mb-6 sm:mb-8 relative z-10">
           {pm.body.map((quote, i) => (
             <p
-              class="pm-typewriter-line text-charcoal text-base sm:text-xl font-serif italic leading-relaxed opacity-0"
+              class="pm-typewriter-line break-words hyphens-auto text-charcoal text-base sm:text-xl font-serif italic leading-relaxed opacity-0"
+              data-cms="principal-quote"
               data-pm-quote={quote}
               data-pm-index={i}
             >

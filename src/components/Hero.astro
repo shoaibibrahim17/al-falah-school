@@ -38,13 +38,14 @@ const admissionCardStyle = hero.admissionCard?.style ?? "pulse";
         <div class="hero-badge flex justify-start" style="animation-delay: 0s">
           <div class="hero-admission-flash inline-flex items-center gap-1.5 px-2 py-0.5 sm:gap-2 sm:px-3 sm:py-[0.3125rem] bg-brand-red/10 text-brand-red rounded-full text-[10px] sm:text-sm font-semibold mb-3 sm:mb-6 ring-1 ring-brand-red/20">
             <span class="w-1.5 h-1.5 rounded-full bg-brand-red"></span>
-            <span>{hero.badge}</span>
+            <span data-cms="global-announcement-text">{hero.badge}</span>
           </div>
         </div>
 
         {/* H1 — school name only, clean */}
         <h1
-          class="hero-reveal text-[1.85rem] leading-[1.05] min-[390px]:text-[2.1rem] sm:text-[2.85rem] lg:text-[4.15rem] xl:text-[4.8rem] font-bold font-serif text-charcoal tracking-tight max-w-none mx-0 mb-2 sm:mb-4"
+          class="hero-reveal break-words hyphens-auto text-[1.85rem] leading-[1.05] min-[390px]:text-[2.1rem] sm:text-[2.85rem] lg:text-[4.15rem] xl:text-[4.8rem] font-bold font-serif text-charcoal tracking-tight max-w-none mx-0 mb-2 sm:mb-4"
+          data-cms="hero-title"
           style="animation-delay: 0.08s"
         >
           {hero.headline}
@@ -57,7 +58,7 @@ const admissionCardStyle = hero.admissionCard?.style ?? "pulse";
         </div>
 
         {/* Subtitle */}
-        <p class="hero-reveal text-[0.8rem] min-[390px]:text-[0.85rem] sm:text-lg lg:text-xl text-slate leading-snug sm:leading-relaxed max-w-xl mx-0 mb-4 sm:mb-7" style="animation-delay: 0.24s">
+        <p class="hero-reveal break-words hyphens-auto text-[0.8rem] min-[390px]:text-[0.85rem] sm:text-lg lg:text-xl text-slate leading-snug sm:leading-relaxed max-w-xl mx-0 mb-4 sm:mb-7" data-cms="hero-description" style="animation-delay: 0.24s">
           {hero.subtitle}
         </p>
 
