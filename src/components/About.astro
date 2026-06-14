@@ -11,7 +11,7 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class:list={[
       "grid gap-8 lg:gap-10 items-start max-w-6xl mx-auto",
-      hasImage ? "md:grid-cols-[minmax(0,1.12fr)_minmax(16rem,0.88fr)]" : "md:grid-cols-[minmax(0,1fr)]",
+      hasImage ? "grid-cols-[minmax(0,1.12fr)_minmax(14rem,0.88fr)]" : "grid-cols-[minmax(0,1fr)]",
     ]}>
       <div data-reveal="fade" class="relative max-w-[42rem]">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-3">

@@ -8,7 +8,7 @@ import { SCHOOL } from "../data/school";
   <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" aria-hidden="true"></div>
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
     <div data-reveal class="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-5 sm:px-5 sm:py-6 lg:px-6 backdrop-blur-sm">
-      <div class="grid lg:grid-cols-[minmax(0,1.5fr)_auto] gap-4 lg:gap-6 items-center">
+      <div class="grid grid-cols-[minmax(0,1.5fr)_auto] gap-4 lg:gap-6 items-center">
         <div class="text-center lg:text-left">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/12 text-white rounded-full text-[11px] font-semibold uppercase tracking-wider mb-3 border border-white/15">
             {SCHOOL.admissionsCta.pillLabel}
@@ -20,12 +20,12 @@ import { SCHOOL } from "../data/school";
             {SCHOOL.admissionsCta.subtitle}
           </p>
         </div>
-        <div class="flex flex-col sm:flex-row lg:flex-col gap-3 lg:min-w-[12rem]">
-          <a href={SCHOOL.admissionsCta.primaryCtaLink} class="btn-secondary no-underline justify-center w-full" data-cta="pulse">
+        <div class="flex flex-row flex-nowrap gap-2 min-w-[12rem]">
+          <a href={SCHOOL.admissionsCta.primaryCtaLink} class="btn-secondary no-underline justify-center flex-1 min-w-0" data-cta="pulse">
             {SCHOOL.admissionsCta.primaryCta}
             <ArrowRight class="w-5 h-5" />
           </a>
-          <a href={SCHOOL.admissionsCta.secondaryCtaLink} class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/18 text-sm font-semibold text-white/85 hover:text-white transition-colors duration-200 no-underline focus-visible:outline-white w-full">
+          <a href={SCHOOL.admissionsCta.secondaryCtaLink} class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/18 text-sm font-semibold text-white/85 hover:text-white transition-colors duration-200 no-underline focus-visible:outline-white flex-1 min-w-0">
             {SCHOOL.admissionsCta.secondaryCta}
             <ArrowRight class="w-4 h-4" />
           </a>

@@ -1114,7 +1114,7 @@
   }
 }
 
-/* ── Page-level content sits above doodle layer ─ */
+/* ── Page-level content sits above background layers ─ */
 main, header, footer, section, nav {
   position: relative;
   z-index: 1;

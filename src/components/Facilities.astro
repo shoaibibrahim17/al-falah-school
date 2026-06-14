@@ -21,7 +21,7 @@ const iconMap: Record<string, typeof LayoutGrid> = { LayoutGrid, FlaskConical, L
       </p>
     </div>
 
-    <div data-reveal-group class="grid md:grid-cols-2 gap-3.5 sm:gap-4">
+    <div data-reveal-group class="grid grid-cols-2 gap-3 sm:gap-4">
       {SCHOOL.facilities.items.map((item) => {
         const Icon = iconMap[item.icon] || LayoutGrid;
         return (
