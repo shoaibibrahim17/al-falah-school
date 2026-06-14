@@ -526,22 +526,22 @@
 /* Hero on-load animations */
 .hero-reveal {
   opacity: 0;
-  transform: translateY(28px);
-  filter: blur(8px);
+  transform: translateY(16px);
+  filter: blur(4px);
   animation: reveal-up 0.85s var(--ease-ios-out) both;
 }
 
 .hero-scale {
   opacity: 0;
-  transform: scale(0.92);
-  filter: blur(6px);
+  transform: scale(0.97);
+  filter: blur(4px);
   animation: reveal-scale 0.9s var(--ease-ios-spring) both;
 }
 
 .hero-badge {
   opacity: 0;
-  transform: translateY(12px);
-  filter: blur(4px);
+  transform: translateY(8px);
+  filter: blur(2px);
   animation: reveal-up 0.7s var(--ease-ios-out) both;
 }
 
@@ -596,8 +596,8 @@
 @keyframes reveal-up {
   from {
     opacity: 0;
-    transform: translateY(32px);
-    filter: blur(8px);
+    transform: translateY(16px);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
@@ -609,8 +609,8 @@
 @keyframes reveal-scale {
   from {
     opacity: 0;
-    transform: scale(0.92);
-    filter: blur(6px);
+    transform: scale(0.97);
+    filter: blur(4px);
   }
   to {
     opacity: 1;
@@ -941,23 +941,23 @@
   position: relative;
   background: var(--color-white);
   border: 1px solid var(--color-ivory-dark);
-  border-radius: 1.5rem;
-  padding: 0.5rem;
+  border-radius: 1.25rem;
+  padding: 0.35rem;
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--color-deep-green) 8%, transparent) inset,
-    0 18px 40px -16px rgba(30, 41, 59, 0.18);
+    0 14px 30px -16px rgba(30, 41, 59, 0.16);
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--color-deep-green) 8%, transparent) inset,
-    0 18px 40px -16px color-mix(in srgb, var(--color-charcoal) 18%, transparent);
+    0 14px 30px -16px color-mix(in srgb, var(--color-charcoal) 16%, transparent);
   /* Premium centered frame for vertical posters */
-  width: min(92vw, 520px);
+  width: min(90vw, 480px);
   max-width: 100%;
   margin: 0 auto;
 }
 @media (min-width: 640px) {
   .poster-frame {
-    padding: 0.75rem;
-    border-radius: 1.75rem;
+    padding: 0.6rem;
+    border-radius: 1.4rem;
   }
 }
 /* Soft gold/green corner gradient ring */
@@ -991,7 +991,7 @@
   background-size: 22px 22px;
   overflow: hidden;
   /* Premium sizing: large on mobile and desktop, scales with viewport */
-  height: clamp(18rem, 82vw, 32rem);
+  height: clamp(16rem, 74vw, 28rem);
 }
 
 .poster-slide {
@@ -1045,8 +1045,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
@@ -1058,8 +1058,8 @@
   justify-content: center;
   cursor: pointer;
   z-index: 4;
-  box-shadow: 0 6px 16px rgba(30, 41, 59, 0.1);
-  box-shadow: 0 6px 16px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
+  box-shadow: 0 6px 14px rgba(30, 41, 59, 0.1);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--color-charcoal) 10%, transparent);
   transition: background-color 200ms var(--ease-ios-out),
               color 200ms var(--ease-ios-out),
               transform 200ms var(--ease-ios-spring);
@@ -1080,8 +1080,8 @@
 
 /* Dot navigation — clean simple dots, no progress bar */
 .poster-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 9999px;
   background: color-mix(in srgb, var(--color-charcoal) 18%, transparent);
   border: 0;

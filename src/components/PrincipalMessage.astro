@@ -1,11 +1,10 @@
 ---
-/* Principal's Message — premium two-column leadership section.
-   Left: visual panel with subtle icon ornaments + value cards.
+/* Principal's Message — editorial school leadership section.
+   Left: compact values rail.
    Right: message text + author label.
-   No fake portrait or signature. Typewriter animation on one line. */
-import { Quote, Sparkles, Shield, Heart, Users, BookOpen, GraduationCap, Compass } from "lucide-astro";
+   No fake portrait or signature. */
+import { Sparkles, Shield, Heart, Users, BookOpen, GraduationCap, Compass } from "lucide-astro";
 import { SCHOOL } from "../data/school";
-import AcademicDoodles from "./AcademicDoodles.astro";
 
 const { principalMessage: pm } = SCHOOL;
 
@@ -15,35 +14,21 @@ const iconMap: Record<string, any> = {
 ---
 
 {pm.enabled && (
-  <section id="principal-message" class="relative py-14 sm:py-16 lg:py-20 bg-deep-green/[0.025] overflow-hidden">
-    <!-- Subtle dot pattern backdrop -->
-    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute inset-0 bg-[radial-gradient(#0D5E3E_0.7px,transparent_0.7px)] [background-size:28px_28px] opacity-[0.04]"></div>
-    </div>
-
-    <!-- Decorative doodles for this section (max 2 leadership/value doodles) -->
-    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-      <div class="absolute top-16 left-[6%] opacity-60 hidden lg:block">
-        <AcademicDoodles variant="shield" size="sm" color="green" rotation={-8} opacity={0.55} />
-      </div>
-    </div>
-
+  <section id="principal-message" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
     <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Section header -->
       <div data-reveal="fade" class="text-center max-w-2xl mx-auto mb-8 lg:mb-10">
         <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
           <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
           {pm.eyebrow}
         </div>
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-charcoal leading-tight tracking-tight mb-3">
+        <h2 class="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold font-serif text-charcoal leading-tight tracking-tight mb-3">
           {pm.title}
         </h2>
         {pm.subtitle && (
-          <p class="text-slate text-base sm:text-lg leading-relaxed mb-3">
+          <p class="text-slate text-base sm:text-lg leading-relaxed mb-3 max-w-[42rem] mx-auto">
             {pm.subtitle}
           </p>
         )}
-        <!-- Subtle typewriter line -->
         {pm.animatedLine && (
           <p class="typewriter-line text-deep-green text-sm sm:text-base font-semibold tracking-wide" aria-label={pm.animatedLine}>
             <span class="typewriter-text" data-text={pm.animatedLine}></span><span class="typewriter-cursor" aria-hidden="true">|</span>
@@ -51,66 +36,38 @@ const iconMap: Record<string, any> = {
         )}
       </div>
 
-      <!-- Premium two-column card -->
-      <article
-        data-reveal="slide-up"
-        class="relative grid lg:grid-cols-[minmax(18rem,0.82fr)_minmax(0,1.18fr)] gap-0 bg-white rounded-2xl border border-ivory-dark shadow-sm overflow-hidden"
-      >
-        <!-- Top accent bar (visible across both columns) -->
+      <article data-reveal="slide-up" class="relative grid lg:grid-cols-[minmax(12rem,0.72fr)_minmax(0,1.28fr)] gap-0 bg-white border border-ivory-dark rounded-2xl overflow-hidden">
         <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-deep-green-light via-deep-green to-deep-green-dark" aria-hidden="true"></div>
 
-        <!-- LEFT: visual / value panel -->
-        <aside class="relative border-b border-ivory-dark lg:border-b-0 lg:border-r bg-ivory/55 p-5 sm:p-6 lg:p-7 flex flex-col">
-          <!-- Decorative background icons -->
-          <div class="absolute inset-0 pointer-events-none hidden lg:block" aria-hidden="true">
-            <div class="absolute top-6 left-6 opacity-45">
-              <AcademicDoodles variant="book" size="sm" color="green" rotation={-6} opacity={0.55} />
-            </div>
-          </div>
-
-          <div class="relative flex flex-col h-full">
-            <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-deep-green/10 mb-4">
-              <Quote class="w-5 h-5 text-deep-green" aria-hidden="true" />
-            </div>
-
+        <aside class="border-b border-ivory-dark lg:border-b-0 lg:border-r bg-ivory/50 px-5 py-5 sm:px-6 lg:px-6 lg:py-6">
+          <div class="max-w-sm">
             <h3 class="text-lg sm:text-xl font-bold font-serif text-charcoal leading-snug mb-2">
               {pm.valuesHeading}
             </h3>
-            <p class="text-slate text-sm leading-relaxed mb-5 max-w-sm">
+            <p class="text-slate text-sm leading-relaxed mb-4">
               {pm.valuesDescription}
             </p>
-
-            {pm.valueCards && pm.valueCards.length > 0 && (
-              <ul class="grid sm:grid-cols-2 lg:grid-cols-1 gap-2.5" role="list">
-                {pm.valueCards.map((card) => {
-                  const Icon = iconMap[card.icon] || Sparkles;
-                  return (
-                    <li class="value-card relative bg-white rounded-xl px-3.5 py-3 border border-ivory-dark">
-                      <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-deep-green/10 flex items-center justify-center shrink-0">
-                          <Icon class="w-4 h-4 text-deep-green" aria-hidden="true" />
-                        </div>
-                        <span class="text-sm font-semibold text-charcoal leading-tight">
-                          {card.label}
-                        </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+            <ul class="space-y-2" role="list">
+              {pm.valueCards.map((card) => {
+                const Icon = iconMap[card.icon] || Sparkles;
+                return (
+                  <li class="flex items-center gap-2.5 rounded-lg border border-ivory-dark bg-white px-3 py-2">
+                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-deep-green/10">
+                      <Icon class="w-4 h-4 text-deep-green" aria-hidden="true" />
+                    </div>
+                    <span class="text-sm font-semibold text-charcoal leading-tight">
+                      {card.label}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </aside>
 
-        <!-- RIGHT: message panel -->
         <div class="relative p-5 sm:p-6 lg:p-8 bg-white">
-          <!-- Large subtle quote watermark behind text -->
-          <div class="absolute top-3 right-4 sm:right-6 pointer-events-none opacity-[0.05]" aria-hidden="true">
-            <Quote class="w-24 h-24 sm:w-32 sm:h-32 text-deep-green" />
-          </div>
-
-          <div class="relative">
-            <div class="space-y-4 sm:space-y-5 max-w-2xl">
+          <div class="relative max-w-2xl">
+            <div class="space-y-4 sm:space-y-5">
               {pm.body.map((paragraph, i) => (
                 <p class={`text-charcoal text-base sm:text-[1.02rem] leading-relaxed ${i === 0 ? 'first-paragraph' : ''}`}>
                   {paragraph}
@@ -118,18 +75,13 @@ const iconMap: Record<string, any> = {
               ))}
             </div>
 
-            <!-- Author label — footer with thin divider -->
-            <footer class="mt-6 pt-5 border-t border-ivory-dark flex items-center gap-3">
+            <footer class="mt-6 pt-4 border-t border-ivory-dark flex items-center gap-3">
               <div class="w-9 h-9 rounded-full bg-deep-green/10 flex items-center justify-center shrink-0">
                 <span class="text-deep-green font-serif font-bold text-base">A</span>
               </div>
               <div>
-                <p class="text-sm font-bold text-charcoal">
-                  {pm.authorLabel}
-                </p>
-                <p class="text-xs text-slate-light mt-0.5">
-                  {pm.authorLocation}
-                </p>
+                <p class="text-sm font-bold text-charcoal">{pm.authorLabel}</p>
+                <p class="text-xs text-slate-light mt-0.5">{pm.authorLocation}</p>
               </div>
             </footer>
           </div>
@@ -221,27 +173,6 @@ const iconMap: Record<string, any> = {
       animation: none;
       display: none;
     }
-  }
-
-  /* Value card hover polish */
-  .value-card {
-    position: relative;
-    overflow: hidden;
-  }
-  .value-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(to right, transparent, var(--color-deep-green), transparent);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 400ms var(--ease-ios-out, ease);
-  }
-  .value-card:hover::before {
-    transform: scaleX(1);
   }
 
   /* First paragraph gets subtle emphasis on the opening words */

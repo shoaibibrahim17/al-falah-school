@@ -4,38 +4,28 @@ import { SCHOOL } from "../data/school";
 ---
 
 {SCHOOL.admissionsCta.enabled && (
-<section class="relative py-12 sm:py-14 lg:py-16 bg-deep-green overflow-hidden">
-  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" aria-hidden="true"></div>
-
+<section class="relative py-10 sm:py-12 lg:py-14 bg-deep-green overflow-hidden">
+  <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" aria-hidden="true"></div>
   <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div data-reveal class="rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8 backdrop-blur-sm">
-      <div class="grid lg:grid-cols-[minmax(0,1.3fr)_auto] gap-6 items-center">
+    <div data-reveal class="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-5 sm:px-5 sm:py-6 lg:px-6 backdrop-blur-sm">
+      <div class="grid lg:grid-cols-[minmax(0,1.5fr)_auto] gap-4 lg:gap-6 items-center">
         <div class="text-center lg:text-left">
-          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/15 text-white rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border border-white/20">
-        {SCHOOL.admissionsCta.pillLabel}
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/12 text-white rounded-full text-[11px] font-semibold uppercase tracking-wider mb-3 border border-white/15">
+            {SCHOOL.admissionsCta.pillLabel}
           </div>
-          <h2 class="text-2xl sm:text-3xl lg:text-[2.5rem] font-bold text-white mb-3 leading-[1.1] tracking-tight">
+          <h2 class="text-2xl sm:text-3xl lg:text-[2.25rem] font-bold text-white mb-2.5 leading-[1.1] tracking-tight">
             {SCHOOL.admissionsCta.heading}
           </h2>
-          <p class="text-white/85 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto lg:mx-0">
+          <p class="text-white/82 text-base sm:text-[1.02rem] leading-relaxed max-w-2xl mx-auto lg:mx-0">
             {SCHOOL.admissionsCta.subtitle}
           </p>
         </div>
-
-        <div class="flex flex-col sm:flex-row lg:flex-col gap-3 lg:min-w-[14rem]">
-          <a
-            href={SCHOOL.admissionsCta.primaryCtaLink}
-            class="btn-secondary no-underline justify-center"
-            data-cta="pulse"
-          >
+        <div class="flex flex-col sm:flex-row lg:flex-col gap-3 lg:min-w-[12rem]">
+          <a href={SCHOOL.admissionsCta.primaryCtaLink} class="btn-secondary no-underline justify-center w-full" data-cta="pulse">
             {SCHOOL.admissionsCta.primaryCta}
             <ArrowRight class="w-5 h-5" />
           </a>
-          <a
-            href={SCHOOL.admissionsCta.secondaryCtaLink}
-            class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/20 text-sm sm:text-base font-semibold text-white/85 hover:text-white hover:border-white/40 transition-colors duration-200 no-underline focus-visible:outline-white"
-            data-cta
-          >
+          <a href={SCHOOL.admissionsCta.secondaryCtaLink} class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-white/18 text-sm font-semibold text-white/85 hover:text-white transition-colors duration-200 no-underline focus-visible:outline-white w-full">
             {SCHOOL.admissionsCta.secondaryCta}
             <ArrowRight class="w-4 h-4" />
           </a>

@@ -1,12 +1,10 @@
 ---
-import { MapPin, Mail, Phone, Facebook, Instagram, Youtube, MessageCircle } from "lucide-astro";
+import { MapPin, Mail, Phone, MessageCircle, Youtube } from "lucide-astro";
 import { SCHOOL } from "../data/school";
 
 const base = import.meta.env.BASE_URL;
 const phones = SCHOOL.contact.phones ?? [];
 const socialIcons = {
-  facebook: Facebook,
-  instagram: Instagram,
   youtube: Youtube,
   whatsapp: MessageCircle,
 } as const;
