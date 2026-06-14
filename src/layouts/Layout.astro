@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { SCHOOL } from "../data/school";
+import { assetUrl } from "../utils/assetUrl";
 
 const { title } = Astro.props;
 const pageTitle = title ? `${title} | ${SCHOOL.shortName}` : `${SCHOOL.name} | ${SCHOOL.tagline}`;
@@ -56,8 +57,8 @@ const structuredData = JSON.stringify({
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={SCHOOL.description} />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href={assetUrl("/favicon.svg")} />
+    <link rel="icon" href={assetUrl("/favicon.ico")} />
     <link rel="canonical" href={canonicalUrl} />
     <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

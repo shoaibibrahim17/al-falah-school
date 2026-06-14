@@ -2,6 +2,7 @@
 /* School Notice Board — simple max 3 PDF grid */
 import { SCHOOL } from "../data/school";
 import { FileText, Download } from "lucide-astro";
+import { assetUrl } from "../utils/assetUrl";
 
 const { noticeBoard: nb } = SCHOOL;
 
@@ -66,7 +67,7 @@ const activeNotices = (nb.enabled ? nb.notices : [])
 
             {notice.pdf && (
               <a
-                href={notice.pdf.file}
+                href={assetUrl(notice.pdf.file)}
                 download
                 class="inline-flex items-center justify-center gap-2 w-full py-2 sm:py-2.5 bg-deep-green text-white text-[13px] font-bold tracking-wide rounded-lg hover:bg-deep-green-light transition-colors duration-200 focus-visible:outline-deep-green shadow-sm"
                 aria-label={`Download ${notice.pdf.label || 'PDF'}`}
