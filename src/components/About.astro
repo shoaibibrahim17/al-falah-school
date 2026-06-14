@@ -10,26 +10,26 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
 <section id="about" class="relative py-14 sm:py-16 lg:py-20 bg-white overflow-hidden">
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class:list={[
-      "grid gap-8 lg:gap-10 items-start max-w-6xl mx-auto",
-      hasImage ? "grid-cols-[minmax(0,1.12fr)_minmax(14rem,0.88fr)]" : "grid-cols-[minmax(0,1fr)]",
+      "grid gap-4 sm:gap-8 lg:gap-10 items-start max-w-6xl mx-auto",
+      hasImage ? "grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)]" : "grid-cols-[minmax(0,1fr)]",
     ]}>
-      <div data-reveal="fade" class="relative max-w-[42rem]">
+      <div data-reveal="fade" class="relative max-w-[42rem] min-w-0">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-deep-green/10 text-deep-green rounded-full text-xs font-semibold uppercase tracking-wider mb-3">
             <span class="w-1.5 h-1.5 rounded-full bg-deep-green"></span>
             {about.eyebrow}
           </div>
-          <h2 class="text-3xl sm:text-4xl lg:text-[2.85rem] font-bold text-charcoal leading-tight mb-4 sm:mb-5 tracking-tight">
+          <h2 class="text-[1.5rem] sm:text-4xl lg:text-[2.85rem] font-bold text-charcoal leading-[1.12] sm:leading-tight mb-3 sm:mb-5 tracking-tight">
             {about.titleLead} <span class="text-gradient-green">{about.titleAccent}</span>
           </h2>
-          <div class="space-y-4 sm:space-y-[1.125rem]">
+          <div class="space-y-2.5 sm:space-y-[1.125rem]">
             {about.paragraphs.map((p) => (
-              <p class="text-slate leading-relaxed text-base sm:text-[1.02rem]">{p}</p>
+              <p class="text-slate leading-relaxed text-[0.86rem] sm:text-[1.02rem]">{p}</p>
             ))}
           </div>
-          <div class="mt-8">
+          <div class="mt-5 sm:mt-8">
             <a
               href={about.linkHref}
-              class="group link-arrow text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-deep-green cursor-pointer"
+              class="group link-arrow text-deep-green font-semibold hover:text-deep-green-light transition-colors duration-200 no-underline focus-visible:outline-deep-green cursor-pointer text-sm"
             >
               <span>{about.linkText}</span>
               <ArrowRight class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
@@ -37,9 +37,9 @@ const hasImage = about.image?.isActive && Boolean(about.image?.src);
           </div>
       </div>
 
-      <aside data-reveal="slide-right" class="w-full max-w-sm justify-self-start md:justify-self-end">
+      <aside data-reveal="slide-right" class="w-full min-w-0 justify-self-end">
         {hasImage ? (
-          <figure class="relative aspect-[4/3] rounded-2xl overflow-hidden border border-deep-green/15 bg-ivory shadow-sm">
+          <figure class="relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden border border-deep-green/15 bg-ivory shadow-sm">
             <img
               src={about.image!.src!}
               alt={about.image!.alt || "School campus photo"}
