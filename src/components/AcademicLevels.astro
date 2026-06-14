@@ -22,38 +22,51 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
     </div>
 
     <div data-reveal-group class="relative max-w-4xl mx-auto">
-      <div class="absolute left-[1.15rem] sm:left-[1.35rem] top-2 bottom-2 w-px bg-deep-green/10" aria-hidden="true"></div>
+      {/* Desktop timeline line (hidden on mobile, mobile uses 2-col grid) */}
+      <div class="hidden sm:block absolute left-[1.35rem] top-2 bottom-2 w-px bg-deep-green/10" aria-hidden="true"></div>
+      <div class="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-1">
         {SCHOOL.academicLevels.levels.map((level, i) => {
           const Icon = iconMap[level.icon] || BookOpen;
           const stepNo = String(i + 1).padStart(2, "0");
           return (
             <article
-              class="relative pl-10 sm:pl-12 pb-4 sm:pb-5"
+              class="relative pl-0 pb-0 sm:pl-12 sm:pb-4 sm:pb-5"
             >
-              <div class="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-white ring-1 ring-deep-green/15">
+              {/* Mobile: numbered icon top-left. Desktop: icon on the timeline line */}
+              <div class="sm:hidden mb-2 flex items-center gap-2">
+                <div class="flex h-7 w-7 items-center justify-center rounded-md bg-white ring-1 ring-deep-green/15">
+                  <Icon class="w-3.5 h-3.5 text-deep-green" />
+                </div>
+                <span class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-ivory text-[10px] font-semibold text-deep-green px-1.5">
+                  {stepNo}
+                </span>
+              </div>
+              <div class="hidden sm:flex absolute left-0 top-0 h-8 w-8 items-center justify-center rounded-full bg-white ring-1 ring-deep-green/15">
                 <Icon class="w-4 h-4 text-deep-green" />
               </div>
-              <div class="rounded-xl border border-ivory-dark bg-white px-4 py-4 sm:px-5">
+              <div class="rounded-xl border border-ivory-dark bg-white px-3 py-3 sm:px-5 sm:py-4">
                 <div class="flex items-start gap-3">
                   <div class="min-w-0 flex-1">
-                    <div class="flex items-center gap-2 mb-2">
+                    <div class="hidden sm:flex items-center gap-2 mb-2">
                       <span class="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-ivory text-[11px] font-semibold text-deep-green px-1.5">
                         {stepNo}
                       </span>
                       <h3 class="text-lg font-bold font-serif text-charcoal leading-snug">{level.level}</h3>
                     </div>
+                    <h3 class="sm:hidden text-[0.92rem] font-bold font-serif text-charcoal leading-snug mb-1.5">{level.level}</h3>
                     {(level.ages || level.grades) && (
-                      <span class="inline-flex items-center px-2.5 py-0.5 bg-deep-green/10 text-deep-green text-xs font-semibold rounded-full mb-2.5 tracking-wide">
+                      <span class="inline-flex items-center px-2 py-0.5 bg-deep-green/10 text-deep-green text-[10px] sm:text-xs font-semibold rounded-full mb-2 sm:mb-2.5 tracking-wide">
                         {level.ages ?? level.grades}
                       </span>
                     )}
-                    <p class="text-slate text-sm leading-relaxed">{level.description}</p>
+                    <p class="text-slate text-[0.72rem] sm:text-sm leading-snug sm:leading-relaxed">{level.description}</p>
                   </div>
                 </div>
               </div>
             </article>
           );
         })}
+      </div>
     </div>
   </div>
 </section>
