@@ -73,9 +73,11 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
                 <img
                   src={assetUrl(album.coverImage)}
                   alt={`${album.name} cover`}
-                  class="album-cover-img"
+                  class="album-cover-img select-none pointer-events-none"
                   loading="lazy"
                   decoding="async"
+                  oncontextmenu="return false;"
+                  draggable="false"
                 />
                 <!-- Gradient overlay -->
                 <div class="album-cover-overlay" aria-hidden="true"></div>
@@ -166,8 +168,8 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
     >
       <ChevronLeft class="w-6 h-6" />
     </button>
-    <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img" />
-    <video id="img-lightbox-video" class="img-lightbox-video" controls playsinline></video>
+    <img id="img-lightbox-img" src="" alt="" class="img-lightbox-img select-none pointer-events-none" oncontextmenu="return false;" draggable="false" />
+    <video id="img-lightbox-video" class="img-lightbox-video" controls playsinline controlslist="nodownload" oncontextmenu="return false;"></video>
     <p id="img-lightbox-caption" class="img-lightbox-caption"></p>
     <button
       type="button"
@@ -341,6 +343,8 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         video.muted = true;
         video.preload = "metadata";
         video.setAttribute("aria-label", img.alt || `Video ${idx + 1}`);
+        video.setAttribute("oncontextmenu", "return false;");
+        video.setAttribute("controlslist", "nodownload");
         button.appendChild(video);
 
         const playButton = document.createElement("div");
@@ -352,9 +356,11 @@ const albumDataScript = `window.__ALBUM_DATA__ = ${JSON.stringify(
         const image = document.createElement("img");
         image.src = img.src;
         image.alt = img.alt;
-        image.className = "album-img-thumb";
+        image.className = "album-img-thumb select-none pointer-events-none";
         image.loading = "lazy";
         image.decoding = "async";
+        image.setAttribute("oncontextmenu", "return false;");
+        image.setAttribute("draggable", "false");
         button.appendChild(image);
       }
 

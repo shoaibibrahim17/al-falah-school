@@ -51,9 +51,9 @@ const groupedHighlights = ah.groups.map((group) => ({
         </p>
       </div>
 
-      <div data-reveal-group class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 sm:pb-0 sm:grid sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 w-screen sm:w-full">
+      <div data-reveal-group class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
         {groupedHighlights.map((group) => (
-          <section class="rounded-2xl border border-ivory-dark bg-white overflow-hidden min-w-[85vw] sm:min-w-0 snap-center sm:snap-align-none shrink-0 sm:shrink">
+          <section class="rounded-2xl border border-ivory-dark bg-white overflow-hidden w-full">
             <div class="px-4 sm:px-5 py-3 border-b border-ivory-dark bg-ivory/55">
               <h3 class="text-lg font-bold font-serif text-charcoal">{group.title}</h3>
             </div>
@@ -95,11 +95,4 @@ const groupedHighlights = ah.groups.map((group) => ({
 )}
 
 <style>
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
 </style>

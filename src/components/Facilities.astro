@@ -17,19 +17,19 @@ const iconMap: Record<string, typeof LayoutGrid> = { LayoutGrid, FlaskConical, L
       </p>
     </div>
 
-    <div data-reveal-group class="grid grid-cols-1 sm:grid-cols-2 gap-0 sm:gap-4 divide-y sm:divide-y-0 divide-ivory-dark mt-2 sm:mt-0">
+    <div data-reveal-group class="grid grid-cols-1 min-[390px]:grid-cols-2 sm:grid-cols-2 gap-0 min-[390px]:gap-3 sm:gap-4 divide-y min-[390px]:divide-y-0 divide-ivory-dark mt-2 sm:mt-0">
       {SCHOOL.facilities.items.map((item) => {
         const Icon = iconMap[item.icon] || LayoutGrid;
         return (
           <article
-            class="flex items-start gap-3 sm:gap-4 sm:rounded-2xl sm:border border-ivory-dark sm:bg-white py-4 sm:px-5 sm:py-5"
+            class="flex flex-row min-[390px]:flex-col sm:flex-row items-start gap-3 min-[390px]:gap-2 sm:gap-4 min-[390px]:rounded-xl sm:rounded-2xl min-[390px]:border border-ivory-dark min-[390px]:bg-white py-4 min-[390px]:p-3 sm:px-5 sm:py-5"
           >
-            <div class="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-md bg-deep-green/10 mt-0.5">
+            <div class="flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-md bg-deep-green/10 mt-0.5 min-[390px]:mt-0">
               <Icon class="w-4 h-4 sm:w-5 sm:h-5 text-deep-green" />
             </div>
             <div class="flex-1 min-w-0">
-              <h3 class="font-bold font-serif text-charcoal text-[0.95rem] sm:text-base mb-1.5">{item.title}</h3>
-              <p class="text-slate text-[0.8rem] sm:text-sm leading-relaxed">{item.description}</p>
+              <h3 class="font-bold font-serif text-charcoal text-[0.95rem] min-[390px]:text-[0.85rem] sm:text-base mb-1.5 min-[390px]:mb-0.5 sm:mb-1.5 leading-snug">{item.title}</h3>
+              <p class="text-slate text-[0.8rem] min-[390px]:text-[0.75rem] sm:text-sm leading-relaxed">{item.description}</p>
             </div>
           </article>
         );
