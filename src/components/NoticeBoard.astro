@@ -31,10 +31,10 @@ const activeNotices = (nb.enabled ? nb.notices : [])
       </div>
 
       <!-- Notice PDF Grid — Max 3 items -->
-      <div data-reveal-group class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8" role="list">
+      <div data-reveal-group class="flex flex-col sm:grid sm:grid-cols-3 gap-0 sm:gap-6 lg:gap-8" role="list">
         {activeNotices.map((notice, i) => (
           <article
-            class="card-sweep group flex flex-col bg-ivory/40 rounded-xl border border-ivory-dark hover:border-deep-green/30 hover:bg-ivory/80 transition-all duration-300 hover:shadow-lg hover:shadow-deep-green/5 hover:-translate-y-1 p-4 sm:p-6"
+            class="group flex flex-col sm:card-sweep sm:bg-ivory/40 sm:rounded-xl sm:border border-transparent sm:border-ivory-dark transition-all duration-300 sm:hover:border-deep-green/30 sm:hover:bg-ivory/80 sm:hover:shadow-lg sm:hover:shadow-deep-green/5 sm:hover:-translate-y-1 py-5 sm:p-6 border-b border-ivory-dark/60 sm:border-b-0 last:border-b-0"
             role="listitem"
             style={`--order: ${i}`}
           >

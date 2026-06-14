@@ -20,13 +20,13 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
     <div data-reveal-group class="relative max-w-4xl mx-auto">
       {/* Desktop timeline line (hidden on mobile, mobile uses 2-col grid) */}
       <div class="hidden sm:block absolute left-[1.35rem] top-2 bottom-2 w-px bg-deep-green/10" aria-hidden="true"></div>
-      <div class="grid grid-cols-1 gap-3 sm:gap-4">
+      <div class="grid grid-cols-1 gap-8 sm:gap-4">
         {SCHOOL.academicLevels.levels.map((level, i) => {
           const Icon = iconMap[level.icon] || BookOpen;
           const stepNo = String(i + 1).padStart(2, "0");
           return (
             <article
-              class="relative pl-0 pb-0 sm:pl-12 sm:pb-4 sm:pb-5 transition-transform duration-300 hover:-translate-y-0.5"
+              class="group relative pl-0 pb-0 sm:pl-12 sm:pb-4 sm:pb-5 transition-transform duration-300 sm:hover:-translate-y-0.5"
               style={`--order: ${i}`}
             >
               {/* Mobile: compact inline step indicator */}
@@ -41,7 +41,7 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
               <div class="hidden sm:flex absolute left-0 top-0 h-8 w-8 items-center justify-center rounded-full bg-white ring-1 ring-deep-green/15">
                 <Icon class="w-4 h-4 text-deep-green" />
               </div>
-              <div class="rounded-none sm:rounded-xl border-y sm:border border-x-0 border-ivory-dark sm:bg-white py-3.5 sm:px-5 sm:py-4 -mx-4 px-4 sm:mx-0">
+              <div class="sm:rounded-xl border-transparent sm:border sm:border-ivory-dark sm:bg-white pt-2 pb-1 sm:px-5 sm:py-4 transition-all duration-300 sm:hover:shadow-lg sm:hover:shadow-deep-green/5">
                 <div class="flex items-start gap-3">
                   <div class="min-w-0 flex-1">
                     <div class="hidden sm:flex items-center gap-2 mb-2">
