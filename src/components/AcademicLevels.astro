@@ -26,7 +26,8 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
           const stepNo = String(i + 1).padStart(2, "0");
           return (
             <article
-              class="relative pl-0 pb-0 sm:pl-12 sm:pb-4 sm:pb-5"
+              class="relative pl-0 pb-0 sm:pl-12 sm:pb-4 sm:pb-5 transition-transform duration-300 hover:-translate-y-0.5"
+              style={`--order: ${i}`}
             >
               {/* Mobile: compact inline step indicator */}
               <div class="sm:hidden mb-2 flex items-center gap-2">

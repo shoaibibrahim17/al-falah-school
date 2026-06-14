@@ -1,36 +1,46 @@
 ---
-/* Principal's Message — minimal and focused on words under quotation. */
+/* Principal's Message — minimal editorial with typewriter animation. */
 import { SCHOOL } from "../data/school";
 
 const { principalMessage: pm } = SCHOOL;
 ---
 
 {pm.enabled && (
-  <section id="principal-message" class="relative py-16 sm:py-20 bg-ivory/30 overflow-hidden">
+  <section id="principal-message" class="relative py-12 sm:py-20 bg-ivory/30 overflow-hidden">
     <div class="relative max-w-3xl mx-auto px-4 sm:px-6">
       
-      <div data-reveal="fade" class="text-center mb-10">
+      <div data-reveal="fade" class="text-center mb-8 sm:mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold font-serif text-charcoal tracking-tight">
           {pm.title}
         </h2>
       </div>
 
       <div data-reveal="slide-up" class="relative max-w-2xl mx-auto text-center">
-        <!-- Minimal decorative quotes -->
-        <div class="text-deep-green/20 font-serif text-8xl leading-none h-12 flex justify-center mb-4" aria-hidden="true">
-          “
+        <!-- Large decorative open-quote -->
+        <div class="pm-quote-mark text-deep-green/15 font-serif text-[7rem] sm:text-[9rem] leading-none h-10 sm:h-14 flex justify-center mb-2 sm:mb-4 select-none" aria-hidden="true">
+          &ldquo;
         </div>
 
-        <blockquote class="space-y-6 mb-8 relative z-10">
-          {pm.body.map((quote) => (
-            <p class="text-charcoal text-lg sm:text-xl font-serif italic leading-relaxed">
+        <blockquote class="space-y-5 sm:space-y-6 mb-6 sm:mb-8 relative z-10">
+          {pm.body.map((quote, i) => (
+            <p
+              class="pm-typewriter-line text-charcoal text-base sm:text-xl font-serif italic leading-relaxed opacity-0"
+              data-pm-quote={quote}
+              data-pm-index={i}
+            >
               {quote}
             </p>
           ))}
         </blockquote>
+
+        <!-- Closing quote mark -->
+        <div class="pm-quote-mark text-deep-green/15 font-serif text-[7rem] sm:text-[9rem] leading-none h-6 sm:h-8 flex justify-center mb-4 sm:mb-6 select-none rotate-180" aria-hidden="true">
+          &ldquo;
+        </div>
         
-        <div class="flex items-center justify-center gap-3 mt-6 pt-6 border-t border-ivory-dark w-max mx-auto px-8">
-          <div class="w-8 h-8 rounded-full bg-deep-green text-white flex items-center justify-center font-serif text-sm font-bold">
+        <!-- Author -->
+        <div class="pm-author flex items-center justify-center gap-3 pt-5 sm:pt-6 border-t border-deep-green/10 w-max mx-auto px-6 sm:px-8 opacity-0">
+          <div class="w-8 h-8 rounded-full bg-deep-green text-white flex items-center justify-center font-serif text-sm font-bold shadow-sm">
             P
           </div>
           <div class="text-left">
@@ -42,3 +52,134 @@ const { principalMessage: pm } = SCHOOL;
     </div>
   </section>
 )}
+
+<script>
+  (() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const section = document.getElementById("principal-message");
+    if (!section) return;
+
+    const lines = section.querySelectorAll<HTMLElement>(".pm-typewriter-line");
+    const author = section.querySelector<HTMLElement>(".pm-author");
+    const quoteMarks = section.querySelectorAll<HTMLElement>(".pm-quote-mark");
+
+    if (prefersReduced) {
+      /* Show everything immediately */
+      lines.forEach(el => { el.style.opacity = "1"; });
+      if (author) author.style.opacity = "1";
+      quoteMarks.forEach(el => { el.style.opacity = "1"; });
+      return;
+    }
+
+    let hasRun = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasRun) {
+            hasRun = true;
+            observer.unobserve(entry.target);
+            runTypewriter();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(section);
+
+    function runTypewriter() {
+      /* Fade in quote marks first */
+      quoteMarks.forEach((mark, i) => {
+        setTimeout(() => {
+          mark.style.transition = "opacity 0.6s ease";
+          mark.style.opacity = "1";
+        }, i * 200);
+      });
+
+      let totalDelay = 400; /* ms after quote marks */
+      const charSpeed = 28; /* ms per character */
+      const lineGap = 350; /* ms pause between lines */
+
+      lines.forEach((el, lineIndex) => {
+        const text = el.dataset.pmQuote || el.textContent || "";
+        el.textContent = "";
+        el.style.opacity = "1";
+        el.style.minHeight = "1.8em";
+
+        /* Create a blinking cursor for the active line */
+        const cursor = document.createElement("span");
+        cursor.className = "pm-cursor";
+        cursor.textContent = "|";
+
+        const startAt = totalDelay;
+
+        setTimeout(() => {
+          el.appendChild(cursor);
+          let charIndex = 0;
+
+          const tick = () => {
+            if (charIndex <= text.length) {
+              el.textContent = text.slice(0, charIndex);
+              el.appendChild(cursor);
+              charIndex++;
+              setTimeout(tick, charSpeed);
+            } else {
+              /* Done with this line — remove cursor */
+              setTimeout(() => {
+                cursor.style.opacity = "0";
+                setTimeout(() => cursor.remove(), 300);
+              }, 400);
+            }
+          };
+          tick();
+        }, startAt);
+
+        totalDelay += text.length * charSpeed + lineGap;
+      });
+
+      /* Fade in author after all lines are typed */
+      if (author) {
+        setTimeout(() => {
+          author.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+          author.style.transform = "translateY(0)";
+          author.style.opacity = "1";
+        }, totalDelay + 200);
+      }
+    }
+  })();
+</script>
+
+<style>
+  /* Cursor blink */
+  .pm-cursor {
+    display: inline;
+    font-weight: 300;
+    font-style: normal;
+    color: var(--color-deep-green);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    animation: pm-blink 0.9s step-end infinite;
+  }
+  @keyframes pm-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Author starts shifted down */
+  .pm-author {
+    transform: translateY(8px);
+  }
+
+  /* Quote marks start invisible */
+  .pm-quote-mark {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pm-cursor { animation: none; display: none; }
+    .pm-typewriter-line { opacity: 1 !important; }
+    .pm-author { opacity: 1 !important; transform: none !important; }
+    .pm-quote-mark { opacity: 1 !important; }
+  }
+</style>
