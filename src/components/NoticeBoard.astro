@@ -32,6 +32,7 @@ const activeNotices = (nb.enabled ? nb.notices : [])
 
       <!-- Notice PDF Grid — Max 3 items -->
       <div data-reveal-group class="flex flex-col sm:grid sm:grid-cols-3 gap-0 sm:gap-6 lg:gap-8" role="list">
+        <!-- CMS_LOOP_START:NOTICES -->
         {activeNotices.map((notice, i) => (
           <article
             class="group flex flex-col sm:card-sweep sm:bg-ivory/40 sm:rounded-xl sm:border border-transparent sm:border-ivory-dark transition-all duration-300 sm:hover:border-deep-green/30 sm:hover:bg-ivory/80 sm:hover:shadow-lg sm:hover:shadow-deep-green/5 sm:hover:-translate-y-1 py-5 sm:p-6 border-b border-ivory-dark/60 sm:border-b-0 last:border-b-0"
@@ -76,6 +77,7 @@ const activeNotices = (nb.enabled ? nb.notices : [])
             )}
           </article>
         ))}
+        <!-- CMS_LOOP_END:NOTICES -->
       </div>
     </div>
   </section>

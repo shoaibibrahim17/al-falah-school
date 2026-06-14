@@ -21,6 +21,7 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
       {/* Desktop timeline line (hidden on mobile, mobile uses 2-col grid) */}
       <div class="hidden sm:block absolute left-[1.35rem] top-2 bottom-2 w-px bg-deep-green/10" aria-hidden="true"></div>
       <div class="grid grid-cols-1 gap-8 sm:gap-4">
+        <!-- CMS_LOOP_START:ACADEMIC_LEVELS -->
         {SCHOOL.academicLevels.levels.map((level, i) => {
           const Icon = iconMap[level.icon] || BookOpen;
           const stepNo = String(i + 1).padStart(2, "0");
@@ -63,6 +64,7 @@ const iconMap: Record<string, typeof Baby> = { Baby, BookOpen, Library, Graduati
             </article>
           );
         })}
+        <!-- CMS_LOOP_END:ACADEMIC_LEVELS -->
       </div>
     </div>
   </div>
